@@ -1,0 +1,49 @@
+/**** Samples page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent p {
+    margin:0 auto 10px;
+    width:725px;
+}
+#mainContent h1 {
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:28px;
+    font-weight:bold;
+    margin:0 auto;
+    padding:10px 0;
+    width:800px;
+}
+#samplesArea {
+    border:3px double #000;
+    margin:0 auto;
+    padding:15px 0;
+    width:725px;
+}
+.sampleRow {
+    text-align:center;
+}
+.sampleRow li {
+    display:inline-block;
+    margin:8px 5px 0;
+    padding:5px 5px 0;
+}
+.sampleRow li ul li {
+    display:block;
+    width:300px;
+}
+.sampleRow li ul li + li { /* Selects only the text li underneth the sample img */
+    margin:0 5px 8px;
+}
+.sampleRow a:link, .sampleRow a:visited, .sampleRow a:hover {
+    color:#000;
+    font-weight:bold;
+}
+.sample {
+    border:1px solid #000;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    -moz-box-shadow:3px 3px 6px #777;
+    -webkit-box-shadow:3px 3px 6px #777;
+    box-shadow:3px 3px 6px #777;
+}

@@ -1,0 +1,8 @@
+/**** User panel page CSS ****/
+#dbResults td {
+    border:solid thin black;
+    padding:10px;
+}
+.columnTitle {
+    font-weight:bold;
+}

@@ -1,0 +1,146 @@
+/**** Contact page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent h1 {
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:1.75em;
+    font-weight:bold;
+    margin:0 auto 5px;
+    padding:5px 0;
+    width:800px;
+}
+#mainContent p {
+    margin:0 auto 10px;
+    width:745px; /* Same width as #contactArea plus any padding it has */
+}
+#contactArea {
+    border:3px double #000;
+    margin:0 auto;
+    overflow:auto;
+    padding:10px;
+    width:725px;
+}
+/**** Left column style rules ****/
+#leftCol {
+    float:left;
+    margin-left:5px;
+}
+input {
+    margin-bottom:8px;
+}
+label {
+    display:block;
+}
+label .required {
+    font-size:.75em;
+}
+label .reqError {
+    color:red;
+    font-size:.75em;
+}
+input[type="text"] {
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    height:1.5em;
+    outline:none;
+    width:16em;
+}
+input[type="submit"], [type="button"] {
+    margin-top:10px;
+}
+textarea {
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    resize:none;
+    overflow:auto;
+    outline:none;
+}
+.defaultText {
+    color:#888;
+}
+.errLabel {
+    color:red;
+    display:inline;
+}
+
+/**** Right column style rules ****/
+#rightCol {
+    border:1px solid #000;
+    float:right;
+    margin:5px 0 0 60px;
+}
+#rightCol h2 {
+    border-bottom:1px solid #000;
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:1.25em;
+    font-weight:bold;
+    padding:5px 0;
+    text-align:center;
+}
+#rightCol > p {
+    margin:2px 0 0 5px;
+    width:300px;
+}
+#rightCol h2 + p {
+    font-size:1.25em;
+    margin-top:5px;
+}
+#rightCol img {
+    display:block;
+    margin:0 auto;
+    padding:30px 0 75px;
+}
+p a:link, p a:visited, p a:hover {
+    color:#00F;
+}
+
+/**** Left column style rules used during the Ajax form submission for the processing graphic ***/
+#leftCol.leftColSending {
+    height:400px;
+    width:325px;	
+}
+#sendingDiv {
+    margin-top:150px;
+    text-align:center;
+}
+#sendingDiv p {
+    width:inherit;
+}
+/**** Left column style rules used after the Ajax form submission for the thank you msg html in contactForm.php ***/
+#outterMsg {
+    height:inherit;
+    position: relative;
+}
+#innerMsg {
+    position:absolute;
+    top:35%;
+}
+#innerMsg p {
+    display:table-cell;
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:1.25em;
+    line-height:1.5em;
+    text-align:center; 
+}
+
+/**** Error message box style rules. Shows only if the time error box comes back from the server ****/
+#alertMsg {
+    background:white;
+    border:1px solid red;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    margin:0 auto 20px;
+    padding:6px;
+    width:350px;
+}
+#alertMsg p {
+    font-size:.93em;
+    margin-left:37px;
+    width:330px;
+}
+#alertGraphic {
+    float:left;
+}

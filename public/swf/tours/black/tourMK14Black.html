@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Spiffy Home Tours</title> <!-- ***Remember to make the address of the property the title of the page*** -->
+        <meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
+        <meta name="keywords" content="Home Tours, Virtual Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
+        <link href="../tourStyles.css" rel="stylesheet" type="text/css" media="screen" />
+
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <!--[if lt IE 7]>
+        <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div>
+        <![endif]--> 
+    </head>
+
+    <body>
+        <header> <!-- Header and footer elements are used to vertically center the SWF file -->
+        </header>
+            <section id="tourArea">
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="HomeTour" title="tourMK14">
+                    <param name="movie" value="Pic_Tour.swf" />
+                    <param name="quality" value="high" />
+                    <param name="swfversion" value="10.0" /> <!-- This param tag prompts users with Flash Player 10.0 and older to download the latest version of Flash Player -->
+                    <param name="wmode" value="gpu" /> <!-- Using value="gpu" allows the scroll bars to work in the swf -->
+                    <!-- Next object tag is for non-IE browsers. So hides it from IE using IECC. -->
+                    <!--[if !IE]>-->
+                    <object type="application/x-shockwave-flash" data="Pic_Tour.swf" width="100%" height="100%">
+                        <!--<![endif]-->
+                        <param name="quality" value="high" />
+                        <param name="swfversion" value="10.0" />
+                        <param name="wmode" value="gpu" /> <!-- Using value="gpu" allows the scroll bars to work in the swf -->
+                        <!-- The browser displays the following alternative content for users with Flash Player 10.0 and older -->
+                        <div>
+                            <h4>Content on this page requires a newer version of Adobe Flash Player.</h4>
+                            <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" width="112" height="33" /></a></p>
+                        </div>
+                        <!--[if !IE]>-->
+                    </object>
+                    <!--<![endif]-->
+                </object>
+
+                <input id="blackBtn" type="button" onClick="window.location.href='../black/tourMK14Black.html'" value="Black Theme">
+                <input id="blueBtn" type="button" onClick="window.location.href='../blue/tourMK14Blue.html'" value="Blue Theme">
+                <input id="greenBtn" type="button" onClick="window.location.href='../green/tourMK14Green.html'" value="Green Theme">
+                <input id="redBtn" type="button" onClick="window.location.href='../red/tourMK14Red.html'" value="Red Theme"> Buttons for demo purposes only
+            </section>
+        <footer>
+        </footer>
+    </body>
+</html>

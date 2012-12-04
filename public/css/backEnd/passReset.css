@@ -1,0 +1,122 @@
+/**** Password Reset page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent {
+    padding:80px 0;
+}
+#resetBox {
+    background:url("../../img/loginBg.png") no-repeat center;
+    height:325px;
+    margin:0 auto;
+    width:515px;
+}
+#passResetForm {
+    margin:0 auto;
+    padding-top:100px;
+    position:relative;
+    width:410px;
+}
+#passResetForm label {
+    float:left;
+    width:140px;
+}
+input {
+    margin-bottom:8px;
+    outline:none;
+}
+input[type="text"], [type="password"] {
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    height:1.5em;
+    outline:none;
+    width:11em;
+}
+button {
+    cursor:pointer;
+    display:block;
+    font-size:1.10em;
+    margin:10px auto;
+    outline:none;
+}
+#txtOldPass {
+    display:none;
+}
+#txtNewPass { /* By default, in case JS is off, hide the duplicate password inputs, and un-hide them in JS */
+    display:none;
+}
+#txtNewPassConf {
+    display:none;
+}
+.defaultText {
+    color:#888;
+}
+.required {
+    font-size:.75em;
+}
+.reqError {
+    color:red;
+    font-size:.75em;
+}
+.errLabel { /* Note: this is the class of the <p> tag echoed out of the Validator object when there is an error */
+    color:red;
+    display:inline;
+    font-size:.85em;
+}
+
+/**** Alert message style rules. The alerts are seperate views loaded in if there was an error or to confirm an event ****/
+
+/**** Style rules used for the alerts in the reset password page ****/
+img + p { /* Text in the alert boxes */
+    font-size:.93em;
+    margin-left:37px;
+    width:340px;
+}
+img + p a:link, img + p a:visited {
+    color:#00F;
+}
+img + p a:hover {
+    color:#00F;
+    text-decoration:underline;
+}
+.alertTextBg {
+    background:#8AB0BF;
+    border:1px solid black;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    padding:4px;
+}
+.alertGraphic {
+    float:left;
+}
+#alertPassConfirm {
+    margin:0 auto 20px;
+    position:relative;
+    top:130px;
+    width:370px;
+}
+
+/**** Style rules for old password doesn't match alert ****/
+#passNoMatch {
+    background:white;
+    border:1px solid red;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    margin:0 auto 20px;
+    padding:6px;
+    width:360px;
+}
+#passNoMatch p {
+    font-size:.93em;
+    margin-left:37px;
+    width:340px;
+}
+#passNoMatch a:link, #passNoMatch a:visited {
+    color:#00F;
+}
+#passNoMatch a:hover {
+    color:#00F;
+    text-decoration:underline;
+}

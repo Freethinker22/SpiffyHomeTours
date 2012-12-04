@@ -1,0 +1,30 @@
+/**** CSS styles for the tour pages ****/
+article, aside, footer, header, hgroup, nav, section, figure, figcaption { /* Sets HTML5 tags to block level elements for browsers that don't support them */
+    display: block;
+}
+html, body {
+    height:100%; 
+    background-color: #444; /* Has to be the same as the tour background color in Flash */
+    margin:0;
+    padding-left:10px;
+    padding-right:10px;
+    outline:none;
+}
+#tourArea {
+    width:100%;
+    height:86%;
+    max-width:1150px; /* Max values based on stage size in Flash */
+    max-height:800px;
+    margin:0 auto;
+    outline:none;
+}
+header {
+    width:100%; /* Header and footer elements provide centering for tour. tourArea, header, and footer heights must equal 100% */
+    height:7%;
+    outline:none;
+}
+footer.form {
+    width:100%;
+    height:7%;
+    outline:none;
+}

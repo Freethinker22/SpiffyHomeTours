@@ -1,0 +1,45 @@
+.codeExamples {
+    font-family:monospace;
+}
+.resume {
+    font-family:Calibri, serif;
+    line-height:1.25em;
+    margin-left:2em;
+}
+p {
+    width:750px;
+}
+strong {
+    font-weight:bold;
+}
+h1 {
+    font-size: 1.35em;
+    font-weight:bold;
+}
+h2 {
+    font-size: 1.15em;
+    font-weight:bold;
+}
+hr {
+    border:1px solid black;
+    margin-bottom:10px;
+    width:800px;
+}
+ul {
+    list-style:inside;
+}
+.oneTab {
+    margin-left:1.5em;
+}
+.twoTab {
+    margin-left:3em;
+}
+.threeTab {
+    margin-left:4.5em;
+}
+.fourTab {
+    margin-left:6em;
+}
+#description p {
+    font-size:1.10em;
+}

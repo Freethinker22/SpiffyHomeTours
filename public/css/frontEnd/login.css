@@ -1,0 +1,118 @@
+/**** Login and Forgot Password page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent {
+    padding:80px 0;
+}
+#loginBox {
+    background:url("../../img/loginBg.png") no-repeat center;
+    height:325px;
+    margin:0 auto;
+    width:515px;
+}
+#loginForm, #forgotPassForm {
+    margin:0 auto;
+    padding-top:75px;
+    width:225px;
+}
+#forgotPassForm + p {
+    margin:15px auto 0;
+    text-align:center;
+    width:300px;
+}
+label {
+    width:120px;
+}
+input {
+    margin-bottom:5px;
+    outline:none;
+}
+input[type="text"], [type="password"] {
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    height:1.5em;
+    outline:none;
+    width:17em; /* Revise later: Password input field not as wide as email field in IE8? */
+}
+input[type="checkbox"] {
+    cursor:pointer;
+}
+button {
+    cursor:pointer;
+    font-size:18px;
+    margin:3px 0;
+    outline:none;
+}
+li.centered {
+    text-align:center;
+}
+li a:link, li a:visited, li a:hover {
+    color:#FFF;
+}
+.errLabel { /* Note: This is the class of the <p> tag echoed out of the Validator object when there is an error */
+    color:red;
+    display:inline;
+    font-size:.85em;
+}
+
+/**** Alert message style rules. The alerts are seperate views loaded in if there was an error or to confirm an event ****/
+
+/**** Style rules used for the alerts in the forgot password page ****/
+img + p { /* Text in the alert boxes */
+    font-size:.93em;
+    margin-left:37px;
+    width:330px;
+}
+img + p a:link, img + p a:visited {
+    color:#00F;
+}
+img + p a:hover {
+    color:#00F;
+    text-decoration:underline;
+}
+.alertTextBg {
+    background:#8AB0BF;
+    border:1px solid black;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    padding:4px;
+}
+.alertGraphic { /* Also used in the deny access alert */
+    float:left;
+}
+#alertPassConfirm {
+    margin:0 auto 20px;
+    position:relative;
+    top:130px;
+    width:360px;
+}
+#alertEmailNotInDb {
+    margin:4px auto 20px;
+    width:360px;
+}
+
+/**** Style rules used for the deny access alert in the login page ****/
+#alertDenyAccess {
+    background:white;
+    border:1px solid red;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    margin:0 auto 20px;
+    padding:6px;
+    width:350px;
+}
+#alertDenyAccess p {
+    font-size:.93em;
+    margin-left:37px;
+    width:330px;
+}
+#alertDenyAccess a:link, #alertDenyAccess a:visited {
+    color:#00F;
+}
+#alertDenyAccess a:hover {
+    color:#00F;
+    text-decoration:underline;
+}

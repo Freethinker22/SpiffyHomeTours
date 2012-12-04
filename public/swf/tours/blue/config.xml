@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<settings>
+<!----------------------------------------- Input for Picture Tour ------------------------------------------------->
+
+<!-- Vars are divided by what class they are mainly used in or for -->
+
+<!--------------------*** Vars for the classes package ***-------------------->
+
+<!---------- Input vars for Main class ---------->
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<neighborhoodPage>
+		<url>http://p01.bestplaces.net/p/nhood1.aspx?partner=mlsli&qryzip=66047</url> <!-- ***** PHP will need to phrase url using correct zip code ***** -->
+	</neighborhoodPage>
+	
+	<schoolsPage>
+		<url>http://nces.ed.gov/globallocator/index.asp?search=1&School=1&PrivSchool=1&zipcode=66047</url>
+	</schoolsPage>
+	
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+  	<isPlaying>yes</isPlaying>
+	<bgWidth>1147</bgWidth> <!-- ll50 with drop shadow -->
+	<bgHeight>797</bgHeight>  <!-- 800 with drop shadow -->
+	<navBarWidth>800</navBarWidth>
+	<navBarHeight>28</navBarHeight>
+	<navBarX>79</navBarX>
+	<navBarY>623</navBarY>
+	<imgDisplayX>79</imgDisplayX>
+	<imgDisplayY>101</imgDisplayY>
+	<slideMenuX>875</slideMenuX>
+	<slideMenuY>106</slideMenuY>
+	<tabMenuX>79</tabMenuX>
+	<tabMenuY>70</tabMenuY>
+	
+<!---------- Input vars for Theme class ---------->
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<theme>blue</theme>
+	
+<!---------- Input vars for Preloader class ---------->
+	<orbitSpeed>0.15</orbitSpeed>
+	<leftOverlayWidth>575</leftOverlayWidth>
+	<leftOverlayHeight>800</leftOverlayHeight>
+	<rightOverlayWidth>575</rightOverlayWidth>
+	<rightOverlayHeight>800</rightOverlayHeight>
+	
+<!---------- Input vars for ImgDisplay class ---------->
+	<maskWidth>800</maskWidth>
+	<maskHeight>550</maskHeight>
+	
+<!---------- Input vars for ImgPreload class ---------->
+	<minNumOfImages>5</minNumOfImages>
+
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<images>
+		<image>
+			<imgPath>images/Livingroom.jpg</imgPath>
+			<imgName>Livingroom</imgName>
+			<interactivity>yes</interactivity>
+			<interactive>
+				<iaObj>
+					<type>text</type> <!-- text, pic, or nav -->
+					<Xpos>200</Xpos>
+					<Ypos>250</Ypos>
+					<data>This is text that would display in a pop up text box.  These can be used to give information on a special feature or history of the house.  Click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms.</data>  <!-- This has to be a string of text to display -->
+				</iaObj>
+				<iaObj>
+					<type>pic</type>
+					<Xpos>200</Xpos>
+					<Ypos>300</Ypos>
+					<data>images/LivingroomDetail.jpg</data>  <!-- This has to be the URL of the image to display -->
+				</iaObj>
+				<iaObj>
+					<type>nav</type>
+					<Xpos>665</Xpos>
+					<Ypos>200</Ypos>
+					<data>13</data> <!-- This has to be the slideNum of the image to nav to --> <!-- ***** Remember an algorithm will be needed in the website for updating the xml if imgs are moved around or added *****-->
+				</iaObj>
+			</interactive>
+		</image>
+		
+		<image>
+			<imgPath>images/BigFlower.jpg</imgPath>
+			<imgName>Flower 2000 X 1333</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/Kitchen.jpg</imgPath>
+			<imgName>Kitchen</imgName>
+			<interactivity>yes</interactivity>
+			<interactive>
+				<iaObj>
+					<type>text</type>
+					<Xpos>200</Xpos>
+					<Ypos>200</Ypos>
+					<data>This is the kitchen, click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms.</data> 
+				</iaObj>
+				<iaObj>
+					<type>nav</type>
+					<Xpos>300</Xpos>
+					<Ypos>200</Ypos>
+					<data>8</data>
+				</iaObj>
+				<iaObj>
+					<type>pic</type>
+					<Xpos>400</Xpos>
+					<Ypos>200</Ypos>
+					<data>images/VerticalKitchen.jpg</data>
+				</iaObj>
+			</interactive>
+		</image>
+		<image>
+			<imgPath>images/MSBedroom.jpg</imgPath>
+			<imgName>Master Bedroom</imgName>
+			<interactivity>off</interactivity>
+		</image>
+		<image>
+			<imgPath>images/MSBedroom2.jpg</imgPath>
+			<imgName>Master Bedroom Alt</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/MSBath.jpg</imgPath>
+			<imgName>Master Bath</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/Bedroom.jpg</imgPath>
+			<imgName>Bedroom</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/Bathroom.jpg</imgPath>
+			<imgName>Bathroom</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/Bathroom2.jpg</imgPath>
+			<imgName>Bathroom Alt</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/Stairwell.jpg</imgPath>
+			<imgName>Stairwell</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/VerticalKitchen.jpg</imgPath>
+			<imgName>Vertical Kitchen</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/BathroomPano.jpg</imgPath>
+			<imgName>Bathroom Pano</imgName>
+			<interactivity>yes</interactivity>
+			<interactive>
+				<iaObj>
+					<type>nav</type>
+					<Xpos>800</Xpos>
+					<Ypos>200</Ypos>
+					<data>7</data>
+				</iaObj>
+			</interactive>
+		</image>
+		<image>
+			<imgPath>images/KitchenPano.jpg</imgPath>
+			<imgName>Kitchen Pano</imgName>
+			<interactivity>yes</interactivity>
+			<interactive>
+				<iaObj>
+					<type>nav</type>
+					<Xpos>400</Xpos>
+					<Ypos>200</Ypos>
+					<data>6</data>
+				</iaObj>
+			</interactive>
+		</image>
+		<image>
+			<imgPath>images/Livingroom2.jpg</imgPath>
+			<imgName>Livingroom Two</imgName>
+			<interactivity>no</interactivity>
+		</image>
+		<image>
+			<imgPath>images/BiggerFlower.jpg</imgPath>
+			<imgName>Flower 4000 X 2667</imgName>
+			<interactivity>yes</interactivity>
+			<interactive>
+				<iaObj>
+					<type>nav</type>
+					<Xpos>500</Xpos>
+					<Ypos>200</Ypos>
+					<data>7</data>
+				</iaObj>
+			</interactive>
+		</image>
+	<!--<image>
+			<imgPath></imgPath>
+			<name></name>
+			<interactivity></interactivity>
+		</image> -->
+  	</images>
+  
+<!---------- Input vars for TextBoxes class ---------->
+	<agentInfoX>868</agentInfoX>
+	<agentInfoY>674</agentInfoY>
+	<agentInfoBgX>603</agentInfoBgX>
+	<agentInfoBgY>667</agentInfoBgY>
+	<agentPicX>611</agentPicX>
+	<agentPicY>674</agentPicY>
+	<agentPicWidth>60</agentPicWidth>
+	<agentPicHeight>88</agentPicHeight>
+	<logoX>945</logoX>
+	<logoY>685</logoY>
+	<propInfoX>90</propInfoX>
+	<propInfoY>673</propInfoY>
+	<propInfoBgX>78</propInfoBgX>
+	<propInfoBgY>666</propInfoBgY>
+	<roomLabelX>865</roomLabelX>
+	<roomLabelY>160</roomLabelY>
+	
+<!---------- Input vars for Transitions class ---------->
+	<pixelsPerSec>25</pixelsPerSec>
+	<fadeDelay>.50</fadeDelay>
+	<horiRatioLimit>.60</horiRatioLimit>
+	<vertRatioLimit>1</vertRatioLimit>
+	<maxTransTime>30</maxTransTime>
+	<minTransTime>10</minTransTime>
+	
+<!---------- Input vars for Image class ---------->
+	<maxImgWidth>1100</maxImgWidth>
+	
+<!---------- Input var for HelpButton class ---------->
+	<scale>0.125</scale>
+	<helpPanelWidth>275</helpPanelWidth>
+		
+<!---------- Input vars for Music class ---------->
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<musicAutoPlay>yes</musicAutoPlay>
+	<song>song.mp3</song>
+	<musicBtnsX>90</musicBtnsX>
+	<musicBtnsY>626</musicBtnsY>
+	
+<!--------------------*** Vars for the tabMenu package ***-------------------->
+
+<!---------- Input vars for TabMenuConstruct class ---------->
+	<menuPgBgWidth>799</menuPgBgWidth>
+	<menuPgBgHeight>550</menuPgBgHeight>
+	<menuPgBgX>1</menuPgBgX>
+	<menuPgBgY>31</menuPgBgY>
+	
+<!---------- Input vars for PropertyInfoConstruct class ---------->
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<stAddress>5000 Clinton Parkway</stAddress> <!-- Also used in TextBoxes, and PropertyMapConstruct classes, remember street suffix... St, Rd, Ct, etc.-->
+	<city>Lawrence</city> <!-- Also used in TextBoxes, and PropertyMapConstruct classes -->
+	<state>KS</state> <!-- Also used in TextBoxes, and PropertyMapConstruct classes -->
+	<zipCode>66047</zipCode> <!-- Also used in TextBoxes Class -->
+	<mlsNumber>123456</mlsNumber> <!-- Also used in TextBoxes Class -->
+
+	<mainLabel>Property Information</mainLabel>
+	<leftColLabel>Details</leftColLabel>
+	<rightColLabel>Features</rightColLabel>
+	
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<features>The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.  Second part: The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.  Third part: The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.  Forth part: The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.</features>
+		
+	<propTextSpacing>30</propTextSpacing>
+	<propDataLabelsX>450</propDataLabelsX>
+	<propDataLabelsY>110</propDataLabelsY>
+	<propDataX>600</propDataX>
+	<propDataY>110</propDataY>
+	<neighborhoodLinkX>452</neighborhoodLinkX>
+	<neighborhoodLinkY>471</neighborhoodLinkY>
+	<schoolLinkX>452</schoolLinkX>
+	<schoolLinkY>499</schoolLinkY>
+	<detailsLabelX>442</detailsLabelX>
+	<detailsLabelY>70</detailsLabelY>
+	<featuresLabelX>27</featuresLabelX>
+	<featuresLabelY>70</featuresLabelY>
+	<featuresTextX>45</featuresTextX>
+	<featuresTextY>118</featuresTextY>
+	<featuresTextWidth>325</featuresTextWidth>
+	<featuresTextHeight>405</featuresTextHeight>
+	<featuresTrackWidth>1</featuresTrackWidth>
+	
+	<!-- ***** Use HTML form when the agent builds a tour to get this data ***** -->
+	<propertyDetails>
+		<details>
+			<detail>
+				<label>Price</label> <!-- < 15 Characters use HTML form or JavaScript to limit string length-->
+				<data>$250,000</data> <!--***15 Chars Max*** -->
+			</detail>
+			<detail>
+				<label>Bedrooms</label>
+				<data>Two</data>
+			</detail>
+			<detail>
+				<label>Bathrooms</label>
+				<data>Two</data>
+			</detail>
+			<detail>
+				<label>Garage</label>
+				<data>No</data>
+			</detail>
+			<detail>
+				<label>FirePlace</label>
+				<data>Yes - Wood</data>
+			</detail>
+			<detail>
+				<label>Basement</label>
+				<data>No</data>
+			</detail>
+			<detail>
+				<label>Square Feet</label>
+				<data>1050 Sq ft</data>
+			</detail>
+			<detail>
+				<label>Lot Size</label>
+				<data>1/2 acre</data>
+			</detail>
+			<detail>
+				<label>Year Built</label>
+				<data>1996</data>
+			</detail>
+			<detail>
+				<label></label>
+				<data></data>
+			</detail>
+			<detail>
+				<label></label>
+				<data></data>
+			</detail>
+			<detail>
+				<label></label>
+				<data></data>
+			</detail>
+		</details>
+	</propertyDetails>
+	
+<!---------- Input vars for PropertyInfoConstruct class ---------->
+	<propInfoBgLinesX>30</propInfoBgLinesX>
+	<propInfoBgLinesY>105</propInfoBgLinesY>
+	
+<!---------- Input vars for PropertyMapConstruct class ---------->
+	<mapKey>ABQIAAAAZBRYlvSndz26_w_GgZsylhSBTKRV44pIfx9uTSmH-WuC4drMwRS7sWs4My_HxeedssUeToxuI9fTzQ</mapKey> <!-- www.spiffyhometours.com key -->
+	<mapZoomLevel>15</mapZoomLevel>
+	<mapWidth>700</mapWidth>
+	<mapHeight>500</mapHeight>
+	
+<!---------- Input vars for PropertyMap class ---------->
+	<mapX>50</mapX>
+	<mapY>55</mapY>
+	
+<!---------- Input vars for AgentInfoConstruct class ---------->
+ 	<!-- ***** Use HTML form when the agent signs up to get this data ***** -->
+	<agentName>Matthew Whitehead</agentName> <!-- Also used in TextBoxes Class ***22 Chars Max*** -->
+	<agentPhone>785-979-1492</agentPhone> <!-- Also used in TextBoxes Class -->
+	<agencyName>Realty Executives</agencyName> <!-- Also used in TextBoxes Class ***22 Chars Max*** -->
+	<agentWebsiteURL>http://www.spiffyhometours.com</agentWebsiteURL> <!-- Also used in TextBoxes Class -->
+	<agentPicUrl>images/AgentPic.jpg</agentPicUrl> <!-- Also used in TextBoxes Class ***Max width = 150px*** Note max height and ratio too -->
+	<agentLogoUrl>images/LogoTemp.jpg</agentLogoUrl> <!-- ***Max width = 200px*** Note max height and ratio too --> 
+	
+	<agentInfoPicX>175</agentInfoPicX>
+	<agentInfoPicY>245</agentInfoPicY>
+	<agentLogoX>175</agentLogoX>
+	<agentLogoY>460</agentLogoY>
+	<dataLabelX>145</dataLabelX>
+	<dataLabelY>88</dataLabelY>
+	<dataX>275</dataX>
+	<agentDetailsHolderX>130</agentDetailsHolderX>
+	<agentDetailsHolderY>30</agentDetailsHolderY>
+	<agentNameTextFieldX>78</agentNameTextFieldX>
+	<agentNameTextFieldY>80</agentNameTextFieldY>
+	<agentTextSpacing>30</agentTextSpacing>
+	<maxPicWidth>150</maxPicWidth>
+	<maxPicHeight>225</maxPicHeight>
+	<maxLogoWidth>210</maxLogoWidth>
+	<maxLogoHeight>150</maxLogoHeight>
+	
+	 <!-- ***** Use HTML form when the agent signs up to get this data ***** -->
+	<agentDetails>
+		<details>
+			<detail> <!-- Use HTML form or JavaScript to limit character input length -->
+				<label>Cell Phone:</label> <!--***11 Chars Max*** -->
+				<data>785-979-1492</data> <!--***25 Chars Max*** -->
+			</detail>
+			<detail>
+				<label>Work Phone:</label>
+				<data>785-842-1212</data>
+			</detail>
+			<detail>
+				<label>E-mail:</label>
+				<data>mattwhitehead22@yahoo.com</data>
+			</detail>
+			<detail>
+				<label>Website:</label>
+				<data>http://www.spiffyhometours.com</data>
+			</detail>
+			<detail>
+				<label></label>
+				<data></data>
+			</detail>
+		</details>
+	</agentDetails>
+	
+<!---------- Input vars for AgentInfo class ---------->
+	<agentInfoBgLinesX>80</agentInfoBgLinesX>
+	<agentInfoBgLinesY>115</agentInfoBgLinesY>
+	
+<!---------- Input vars for CalculatorConstruct class ---------->
+	<calcLabelX>73</calcLabelX>
+	<calcLabelY>70</calcLabelY>
+	<inputWidth>150</inputWidth>
+	<inputHeight>25</inputHeight>
+	<smInputWidth>60</smInputWidth>
+	<smInputHeight>25</smInputHeight>
+	<leftColX>100</leftColX>
+	<leftColY>113</leftColY>
+	<rightColX>355</rightColX>
+	<percentYearsX>420</percentYearsX>
+	<calcTextSpacing>40</calcTextSpacing>
+	<calculateX>540</calculateX>
+	<calculateY>390</calculateY>
+	<amortizeX>540</amortizeX>
+	<amortizeY>430</amortizeY>
+	<clearCalcX>540</clearCalcX>
+	<clearCalcY>470</clearCalcY>
+
+	<pmiHelpButtonText>PMI, private mortgage insurance, is extra insurance that lenders require from most homebuyers who obtain loans that are more than 80% of their new home's value.  In other words, buyers with less than a 20% down payment are normally required to pay PMI.  PMI charges vary depending on the size of the down payment and the loan, but the typical cost is about 0.5% to 1% of the loan.
+</pmiHelpButtonText>
+	<loanHelpButtonText>The loan payment consisits of only the principal and the interest owed and does not include property insurance, taxes, or PMI.</loanHelpButtonText>
+	<loanAmtHelpButtonText>The loan amount is the purchase price minus the down payment.</loanAmtHelpButtonText>
+	<mortgageHelpButtonText>The total mortgage payment includes the monthly loan payment plus property insurance, taxes, and PMI if applied.  Some lenders might calculate this differently, but this approach is fairly standard.</mortgageHelpButtonText>
+	
+<!---------- Input vars for Calculator class ---------->
+	<calcBgLinesX>75</calcBgLinesX>
+	<calcBgLinesY>105</calcBgLinesY>
+	<amortizationX>65</amortizationX>
+	<amortizationY>65</amortizationY>
+	
+<!---------- Input vars for AmortizationConstruct class ---------->
+	<amorConBackBtnX>655</amorConBackBtnX>
+	<amorConBackBtnY>2</amorConBackBtnY>
+	<colHeight>30</colHeight>
+	
+<!---------- Input vars for Amortization class ---------->
+	<amorTrackWidth>1</amorTrackWidth>
+	<amorTrackHeight>460</amorTrackHeight>
+	<amorDownwardOffset>25</amorDownwardOffset>
+	<amorMoveAmt>15</amorMoveAmt>
+	<amorMaskX>0</amorMaskX>
+	<amorMaskY>30</amorMaskY>
+
+<!--------------------*** Vars for the slideMenu package ***-------------------->
+	
+<!---------- Input vars for ButtonManager class ---------->
+	<nextButtonXPosition>77</nextButtonXPosition>
+  	<nextButtonYPosition>541</nextButtonYPosition>
+  	<prevButtonXPosition>77</prevButtonXPosition>
+  	<prevButtonYPosition>-30</prevButtonYPosition>
+ 	<playPauseX>-600</playPauseX>
+ 	<playPauseY>520</playPauseY>
+  
+<!---------- Input vars for Scrollbar class ---------->
+  	<scrollbarWidth>1</scrollbarWidth>
+  	<scrollbarHeight>538</scrollbarHeight> <!-- This should usually be the same or less than slideMenuHeight -->
+  	<scrollbarXPosition>40</scrollbarXPosition>
+  	<scrollbarYPosition>0</scrollbarYPosition>
+
+<!---------- Input vars for Thumb class ---------->
+	<imageWidth>145</imageWidth>
+  	<imageHeight>100</imageHeight>
+	<borderSize>5</borderSize>
+
+<!---------- Input vars for ThumbManager class ---------->
+  	<slideMenuWidth>265</slideMenuWidth>
+  	<slideMenuHeight>538</slideMenuHeight>
+  	<spaceBetweenImages>75</spaceBetweenImages>
+  	<imageZPosition>90</imageZPosition>
+  	<centerGap>-25</centerGap>
+  	<turnAngle>15</turnAngle>
+  	<offsetImagesXPosition>0</offsetImagesXPosition>
+  	<transitionLength>0.8</transitionLength>
+  	<useZSpacing>yes</useZSpacing>
+</settings>

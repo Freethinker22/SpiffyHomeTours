@@ -1,0 +1,2 @@
+#Keep cron jobs from being accessed through a browser
+deny from all

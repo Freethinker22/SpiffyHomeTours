@@ -1,0 +1,102 @@
+/**** Sign Up page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent h1 {
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:1.75em;
+    font-weight:bold;
+    margin:0 auto 5px;
+    padding:5px 0;
+    width:800px;
+}
+#mainContent p {
+    margin:0 auto;
+    width:725px; /* Same width as #signUpArea plus any padding it has */
+}
+#signUpArea {
+    margin:0 auto;
+    width:725px;
+}
+#tosDiv {
+    display:inline-block; /* When set to just inline, this creates a weird box shape in IE9? */
+}
+fieldset {
+    border:3px double #000;
+    margin:10px 0;
+    padding:10px;
+}
+legend {
+    font-size:1.25em;
+}
+input {
+    margin-bottom:8px;
+    outline:none;
+}
+input[type="text"], [type="password"] {
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    height:1.5em;
+    outline:none;
+    width:13em;
+}
+input[type="checkbox"] {
+    cursor:pointer;
+}
+#txtPassword { /* By default, in case JS is off, hide the duplicate password inputs, and un-hide them in JS */
+    display:none;
+}
+#txtPasswordConf {
+    display:none;
+}
+label a:link, label a:visited, label a:hover {
+    color:#00F;
+}
+.inputText label {
+    float:left;
+    width:250px;
+}
+.defaultText {
+    color:#888;
+}
+.required {
+    font-size:.75em;
+}
+.reqError {
+    color:red;
+    font-size:.75em;
+}
+.errLabel {
+    color:red;
+    display:inline;
+}
+.tosErr {
+    background-color:red;
+}
+
+/**** Error message box style rules. Shows only if the user's email is already in the DB ****/
+#alertMsg {
+    background:white;
+    border:1px solid red;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    margin:0 auto 20px;
+    padding:6px;
+    width:350px;
+}
+#alertMsg p {
+    font-size:.93em;
+    margin-left:37px;
+    width:330px;
+}
+#alertMsg a:link, #alertMsg a:visited {
+    color:#00F;
+}
+#alertMsg a:hover {
+    color:#00F;
+    text-decoration:underline;
+}
+#alertGraphic {
+    float:left;
+}

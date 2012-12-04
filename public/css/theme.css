@@ -1,0 +1,93 @@
+/**** Main theme CSS. This file sets up the main header, footer, nav bar, and background.  Pages have individual stylesheets to customize their content ****/
+@font-face {
+    font-family:Junction;
+    src:url("../fonts/Junction.eot");
+    src:local('☺'), url("../fonts/Junction.woff") format("woff"), url("../fonts/Junction.ttf") format("truetype");
+}
+body {
+    background:#FFF url("../img/bgImg.jpg");
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:16px;
+    line-height:1.25em;
+}
+#jsWarning {
+    background-color:red;
+    font-size:1.25em;
+    font-weight:bold;
+    line-height:1.5em;
+    text-align:center;
+}
+
+/**** Header style rules ****/
+header {
+    background:url("../img/headerBg.png") repeat-x;
+    height:205px;
+    position:relative;
+}
+header > a { /* This is for the login graphic, it doesn't show if the user is logged in already */
+    float:left;
+}
+header section p {
+    color:#FFF;
+    float:left;
+}
+header section p a:link, header section p a:visited, header section p a:hover { /* Best order of link tag pseudo selectors is link, visited, hover, focus, active, pg 104 in web standards book */
+    color:#FFF;
+}
+header section {
+    width:900px;
+    margin:0 auto;
+}
+header section img {
+    float:right;
+    margin-top:6px;
+}
+
+/**** Nav style rules ****/
+nav {
+    background:url("../img/menuBanner.png") no-repeat center;
+    clear:both; /* Must clear floats or it messes with nav ul centering */
+    height:100px;
+    margin:-55px auto 0;
+    position:relative;
+    width:900px;
+}
+nav ul {
+    text-align:center;
+}
+nav ul li {
+    display:inline;
+}
+nav ul li img{
+    margin-top:20px;
+}
+
+/**** Main content style rules ****/
+#mainContent {
+    background:#F7F5E9 url("../img/mainContentBg.png") repeat;
+    clear:both;
+    margin:-60px auto 20px;
+    overflow:auto; /* Used to keep floating left and right columns inside parent element */
+    padding:55px 10px 30px;
+    width:900px;
+    -moz-box-shadow:5px 5px 3px #777;
+    -webkit-box-shadow:5px 5px 3px #777;
+    box-shadow:5px 5px 3px #777;
+}
+
+/**** Footer style rules ****/
+footer {
+    background:url("../img/footer.png") repeat-x;
+    border-bottom:2px solid #3C748C;
+    clear:both;
+    height:165px;
+}
+footer p {
+    font-family:Verdana, Geneva, sans-serif;
+    font-size:12px;
+    line-height:14px;
+    margin-top:7px;
+    position:relative; /* Sets the position so the footer text can be moved below the footer background img */
+    text-align:center;
+    top:170px;
+}

@@ -1,0 +1,24 @@
+/**** About page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent p {
+    margin:0 auto;
+    text-indent:1.5em;
+    width:725px;
+}
+#mainContent h1 {
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:28px;
+    font-weight:bold;
+    margin:0 auto;
+    padding:10px 0;
+    width:800px;
+}
+#mainContent p img {
+    border:1px solid #000;
+    float:left;
+    margin:5px 10px 5px 0;
+}
+#mainContent p a:link, #mainContent p a:visited, #mainContent p a:hover {
+    color:#00F;
+}

@@ -1,0 +1,26 @@
+/**** Home page CSS ****/
+
+/**** Main content style rules ****/
+#leftCol {
+    float:left;
+    width:460px;
+    padding-left:5px;
+}
+#leftCol img {
+    float:left;
+    padding-right:10px;
+}
+#leftCol article ul {
+    margin-top:10px;
+    text-indent:20px;
+    list-style:url("../../img/bulletMarker.png") inside;
+}
+#rightCol {
+    float:right;
+    width:400px;
+    padding:0 5px 5px;
+    border-bottom:2px solid #3C748C;
+}
+#rightCol img {
+    float:right;
+}

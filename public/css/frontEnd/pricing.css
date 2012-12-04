@@ -1,0 +1,68 @@
+/**** Pricing page CSS ****/
+
+/**** Main content style rules ****/
+#mainContent {
+    padding:48px 10px 30px;
+}
+#mainContent h1 {
+    font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size:28px;
+    font-weight:bold;
+    margin:0 auto 5px;
+    padding:5px 0;
+    width:800px;
+}
+#mainContent p {
+    margin:0 auto 10px;
+    width:725px; /* Same width as #pricePlans plus any padding it has */
+}
+#pricePlans {
+    border:3px double #000;
+    margin:0 auto;
+    padding:20px 0;
+    width:725px;
+}
+#subscribe {
+    width:207px; /* Equal to .planRow li ul li width + .planRow li margin and padding + .badge border width. Keeps items on top and bottom rows aligned */
+}
+#subscribe span {
+    visibility:hidden;
+}
+.planRow {
+    text-align:center;
+}
+.planRow li {
+    display:inline-block;
+    margin:3px 10px 0;
+    padding:5px;
+}
+.planRow li ul li {
+    display:block;
+    width:175px;
+}
+.badge {
+    border:1px solid #006;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    -moz-box-shadow:3px 3px 6px #777;
+    -webkit-box-shadow:3px 3px 6px #777;
+    box-shadow:3px 3px 6px #777;
+}
+.signUp a:link {
+    background:url("../../img/signUpBtn.png") no-repeat center;
+    color:#FFF;
+    display:block;
+    font-weight:bold;
+    height:40px;
+    margin:0 auto;
+    width:153px;
+}
+.signUp a:visited, .signUp a:hover {
+    color:#FFF;
+}
+.signUp a span {
+    display:block;
+    outline:none;
+    padding:3px 0; /* Centers text on button background, might be a better way to do this? */
+}

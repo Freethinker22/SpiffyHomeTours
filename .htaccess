@@ -1,0 +1,17 @@
+#Redirect to https
+RewriteEngine On
+#RewriteCond %{SERVER_PORT} 80
+#RewriteRule ^(.*)$ https://www.spiffyhometours.com/$1 [R=301,L]
+
+# Use PHP 5.3
+#AddType application/x-httpd-php53 .php
+
+# Disable directory browsing
+#Options -Indexes
+
+#Rewrite rules *** Revise later: need to handle trailing slash issue to be able to use / instead of - in the urls for controllers and actions ***
+<IfModule mod_rewrite.c>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_\-]+)/?$ index.php?url=$1 [QSA,NC,L]
+</IfModule>

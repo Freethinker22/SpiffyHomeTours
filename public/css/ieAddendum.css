@@ -1,0 +1,53 @@
+/**** Main theme CSS addendum for IE 7 and 8. ****/
+
+/**** Header style rules ****/
+* + html header section img {
+    padding-right:75px; /* Keeps logo from floating too far right in IE7 */
+}
+
+/**** Main content style rules ****/
+#mainContent {
+    margin:-65px auto 20px; /* Moves mainContent section up more to hide the top border */
+    border:1px solid #000; /* Replaces drop shadow in good browsers */
+}
+a img {
+    border:none; /* Removes borders on image links in IE */
+}
+
+/**** Contact page CSS addendum for IE 7 and 8. ****/
+* + html input[type="text"], input[type="password"] { /* Chained attribute selectors in IE7 don't work unless the tag name is put in front of both selectors */
+}
+* + html #leftCol { /* This is here keep the sending div from screwing up the page TOO much.  IE7 doesn't support setAttribute */
+    width:325px;
+}
+
+/**** Login page CSS addendum for IE 7 and 8. ****/
+/** + html input[type="text"], input[type="password"] {  Chained attribute selectors in IE7 don't work unless the tag name is put in front of both selectors 
+    display:block;
+    width:225px;
+}*/
+
+/**** Pricing page CSS addendum for IE 7 and 8. ****/
+#mainContent h1 {
+    padding:6px 0 4px; /* Fixes text clipping */
+}
+* + html .planRow li {
+    display:inline; /* Makes inline-block work in IE7 */
+}
+
+/**** Pricing page CSS addendum for IE 7 and 8. ****/
+* + html .sampleRow li {
+    display:inline; /* Makes inline-block work in IE7 */
+}
+
+/**** Sign Up page CSS addendum for IE 7 and 8. ****/
+* + html input[type="text"], input[type="password"] { /* Chained attribute selectors in IE7 don't work unless the tag name is put in front of both selectors */
+    height:1.5em;
+    width:13em;
+}
+#password { /* These two rules keep the size of the password inputs in IE8 the same length as their text based counterparts */
+    width:13em;
+}
+#passwordConf {
+    width:13em;
+}
