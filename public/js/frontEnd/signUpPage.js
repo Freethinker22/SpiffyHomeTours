@@ -1,6 +1,6 @@
 // Functions for the sign up page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
 
-addEvent(window, 'load', init, false);
+addEvent(window, 'load', init, false); // *** Change experiment using Git branches ***
 
 function init()
 {
