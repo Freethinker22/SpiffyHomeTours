@@ -26,7 +26,7 @@ class SuperCon
         }
         else
         {
-            $this->controller->displayPage();
+            $this->controller->displayPage(); // Load the page w/o the default header and footer, used for under construction page
         }
     }
     

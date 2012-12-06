@@ -15,3 +15,14 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z0-9_\-]+)/?$ index.php?url=$1 [QSA,NC,L]
 </IfModule>
+
+#Disable hotlinking
+#RewriteCond %{HTTP_REFERER} !^http://spiffyhometours.com/.*$      [NC]
+#RewriteCond %{HTTP_REFERER} !^http://spiffyhometours.com$      [NC]
+#RewriteCond %{HTTP_REFERER} !^http://www.spiffyhometours.com/.*$      [NC]
+#RewriteCond %{HTTP_REFERER} !^http://www.spiffyhometours.com$      [NC]
+#RewriteCond %{HTTP_REFERER} !^https://spiffyhometours.com/.*$      [NC]
+#RewriteCond %{HTTP_REFERER} !^https://spiffyhometours.com$      [NC]
+#RewriteCond %{HTTP_REFERER} !^https://www.spiffyhometours.com/.*$      [NC]
+#RewriteCond %{HTTP_REFERER} !^https://www.spiffyhometours.com$      [NC]
+#RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]

@@ -5,6 +5,7 @@
         <meta name="author" content="Spiffy Home Tours" />
         <meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
         <meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
+        <link rel="icon" href="public/img/favicon.ico" />
         <title><?php echo $this->controller->title; ?></title>
         
         <?php
