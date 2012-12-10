@@ -1,14 +1,31 @@
 // Functions for the sign up page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
 
-addEvent(window, 'load', init, false); // *** Change experiment using Git branches ***
+addEvent(window, 'load', init, false);
+
+// Object to access the input fields to keep from repeating document.getElementById('inputId')
+function InputsObj()
+{
+    this.firstName = document.getElementById('firstName');
+    this.lastName = document.getElementById('lastName');
+    this.phone = document.getElementById('phone');
+    this.compName = document.getElementById('compName');
+    this.website = document.getElementById('website');
+    this.email = document.getElementById('email');
+    this.emailConf = document.getElementById('emailConf');
+    this.password = document.getElementById('password');
+    this.txtPassword = document.getElementById('txtPassword');
+    this.passwordConf = document.getElementById('passwordConf');
+    this.txtPasswordConf = document.getElementById('txtPasswordConf');
+    this.subType = document.getElementById('subType');
+    this.subTypeAr = document.getElementById('subType').getElementsByTagName('input');
+    this.findType = document.getElementById('findType');
+    this.findTypeAr = document.getElementById('findType').getElementsByTagName('input');
+    this.tos = document.getElementById('tos');
+    this.foundByOther = document.getElementById('foundByOther');
+}
 
 function init()
 {
-    globalObj = {}; // Global object container
-    globalObj.firstRadGrp = document.getElementById('subType').getElementsByTagName('input'); // Radio btn group in 'Subscription type' section
-    globalObj.secRadGrp = document.getElementById('findType').getElementsByTagName('input'); // Radio btn group in 'How did you find us' section
-    globalObj.otherField = document.getElementById('foundByOther'); // Reference to the 'other' field in the 'How did you find us' section
-	
     changePassFields('init');
     addEvents();
 }
@@ -16,39 +33,36 @@ function init()
 // Swap the password input fields to their readable counterparts, this is so if JS is disabled, the password fields are still of type password
 function changePassFields(action)
 {
-    var txtPassword = document.getElementById('txtPassword');
-    var txtPasswordConf = document.getElementById('txtPasswordConf');
-    var password = document.getElementById('password');
-    var passwordConf = document.getElementById('passwordConf');
+    var inputs = new InputsObj();
 	
     switch(action) // *** Note: All of this code will be unnecessary whenever IE8 goes away. Once that happens, remove the duplicate input tag in the HTML and use: evtTarget.type = 'text' ***
     {
         case 'init':
-            if(password.value == '' || passwordConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
+            if(inputs.password.value == '' || inputs.passwordConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
             {
-                txtPassword.style.display = 'inline';
-                txtPasswordConf.style.display = 'inline';
-                password.style.display = 'none';
-                passwordConf.style.display = 'none';
+                inputs.txtPassword.style.display = 'inline';
+                inputs.txtPasswordConf.style.display = 'inline';
+                inputs.password.style.display = 'none';
+                inputs.passwordConf.style.display = 'none';
             }
             break;
         case 'txtPassToPass':
-            txtPassword.style.display = 'none';
-            password.style.display = 'inline';
-            password.focus();
+            inputs.txtPassword.style.display = 'none';
+            inputs.password.style.display = 'inline';
+            inputs.password.focus();
             break;
         case 'passToTxtPass':
-            txtPassword.style.display = 'inline';
-            password.style.display = 'none';
+            inputs.txtPassword.style.display = 'inline';
+            inputs.password.style.display = 'none';
             break;
         case 'txtConfToConf':
-            txtPasswordConf.style.display = 'none';
-            passwordConf.style.display = 'inline';
-            passwordConf.focus();
+            inputs.txtPasswordConf.style.display = 'none';
+            inputs.passwordConf.style.display = 'inline';
+            inputs.passwordConf.focus();
             break;
         case 'confToTxtConf':
-            txtPasswordConf.style.display = 'inline';
-            passwordConf.style.display = 'none';
+            inputs.txtPasswordConf.style.display = 'inline';
+            inputs.passwordConf.style.display = 'none';
             break;
     }
 }
@@ -56,13 +70,14 @@ function changePassFields(action)
 // Add event handlers to input fields
 function addEvents()
 {
+    var inputs = new InputsObj();
     var inputAr = document.getElementById('signUpForm').getElementsByTagName('input'); // Array of the input elements
     var inputArLen = inputAr.length;
 	
-    addEvent(globalObj.otherField, 'focus', otherFieldHandler, false); // Add focus event to the 'other' field
-    addEvent(document.getElementById('findType'), 'change', clearOtherField, false); // Add listener to clear the 'other' field if text is present when a radio btn gets checked
+    addEvent(inputs.foundByOther, 'focus', otherFieldHandler, false); // Add focus event to the 'other' field
+    addEvent(inputs.findType, 'change', clearOtherField, false); // Add listener to clear the 'other' field if text is present when a radio btn gets checked
 		
-    for(var i = 0; i < inputArLen; i++) // Revise later: use a better for loop, PHP foreach equivalent?
+    for(var i = 0; i < inputArLen; i++)
     {
         if(inputAr[i].type == 'text' || inputAr[i].type == 'password') // Assign listeners and attribute flags only to those fields that are text boxes
         {
@@ -142,28 +157,23 @@ function fieldBlur(e)
 // Called by next step btn, validates the form by calling the check functions
 function checkFormStatus()
 {
-    var valFirstName = checkInput(document.getElementById('firstName'));
-    var valLastName = checkInput(document.getElementById('lastName'));
-    var valPhoneNum = checkInput(document.getElementById('phone'));
-    var valCompName = checkInput(document.getElementById('compName'));
-    var valWebsite = checkInput(document.getElementById('website'));
-    var valEmail = checkInput(document.getElementById('email'));
-    var valEmailConf = confirmVals(document.getElementById('email'), document.getElementById('emailConf'));
-    var valPassword = checkInput(document.getElementById('password'));
-    var valPasswordConf = confirmVals(document.getElementById('password'), document.getElementById('passwordConf'));
-    var valFirstRadGrp = checkFirstRadGrp(document.getElementById('subType'));
-    var valSecRadGrp = checkSecRadGrp(document.getElementById('findType'));
-    var valTos = checkTos(document.getElementById('tos'));
-    var valOther = checkInput(globalObj.otherField);
-	
-    if(valFirstName && valLastName && valPhoneNum && valCompName && valWebsite && valEmail && valEmailConf && valPassword && valPasswordConf && valFirstRadGrp && valSecRadGrp && valTos && valOther)
-    {
-        return true; // If all the check functions return true, allow the form to submit
-    }
-    else
-    {
-        return false;
-    }
+    var inputs = new InputsObj();
+    var valFirstName = checkInput(inputs.firstName);
+    var valLastName = checkInput(inputs.lastName);
+    var valPhoneNum = checkInput(inputs.phone);
+    var valCompName = checkInput(inputs.compName);
+    var valWebsite = checkInput(inputs.website);
+    var valEmail = checkInput(inputs.email);
+    var valEmailConf = confirmVals(inputs.email, inputs.emailConf);
+    var valPassword = checkInput(inputs.password);
+    var valPasswordConf = confirmVals(inputs.password, inputs.passwordConf);
+    var valSubType = checkFirstRadGrp(inputs.subType);
+    var valFindType = checkSecRadGrp(inputs.findType);
+    var valTos = checkTos(inputs.tos);
+    var valFoundByOther = checkInput(inputs.foundByOther);
+    
+    // If all the check functions return true, allow the form to submit
+    return valFirstName && valLastName && valPhoneNum && valCompName && valWebsite && valEmail && valEmailConf && valPassword && valPasswordConf && valSubType && valFindType && valTos && valFoundByOther ? true : false;
 }
 
 // Depending on the field ID, validate with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
@@ -297,7 +307,9 @@ function confirmVals(firstVal, secVal)
 // Checks to see if a radio button in the 'Subscription type' section is checked
 function checkFirstRadGrp(evtTarget)
 {	
-    if(loopRadBtns(globalObj.firstRadGrp))
+    var inputs = new InputsObj();
+    
+    if(loopRadBtns(inputs.subTypeAr))
     {
         return true;
     }
@@ -314,7 +326,9 @@ function checkFirstRadGrp(evtTarget)
 // Checks to see if a radio button in the 'How did you find us' section is checked
 function checkSecRadGrp(evtTarget)
 {	
-    if(loopRadBtns(globalObj.secRadGrp) || globalObj.otherField.value != '')
+    var inputs = new InputsObj();
+    
+    if(loopRadBtns(inputs.findTypeAr) || inputs.foundByOther.value != '')
     {
         return true;
     }
@@ -324,33 +338,36 @@ function checkSecRadGrp(evtTarget)
         addEvent(evtTarget, 'change', function(){
             reqErrOff(evtTarget);
         }, false);
-        addEvent(globalObj.otherField, 'focus', function(){
+        addEvent(inputs.foundByOther, 'focus', function(){
             reqErrOff(evtTarget);
         }, false);
         return false;
     }
 }
 
-// Uncheck the radio btns in the second group if the 'other' field gains focus
+// Uncheck the radio btns in the 'How did you find us' section if the 'other' field gains focus
 function otherFieldHandler()
 {
-    var radioGrpArLen = globalObj.secRadGrp.length;
+    var inputs = new InputsObj();
+    var radioGrpArLen = inputs.findTypeAr.length;
 	
     for(var i = 0; i < radioGrpArLen; i++)
     {
-        if(globalObj.secRadGrp[i].checked)
+        if(inputs.findTypeAr[i].checked)
         {
-            globalObj.secRadGrp[i].checked = false;
+            inputs.findTypeAr[i].checked = false;
         }
     }
 }
 
-// Clears the 'other' field if a radio btn gets checked while there's still text in the field
+// Clears the 'other' field if a radio btn in the 'How did you find us' section gets checked while there's still text in the field
 function clearOtherField()
 {
-    if(loopRadBtns(globalObj.secRadGrp))
+    var inputs = new InputsObj();
+    
+    if(loopRadBtns(inputs.findTypeAr))
     {
-        globalObj.otherField.value = '';	
+        inputs.foundByOther.value = '';	
     }
 }
 

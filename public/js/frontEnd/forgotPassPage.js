@@ -2,27 +2,26 @@
 
 addEvent(window, 'load', init, false);
 
+// Object to access the input fields to keep from repeating document.getElementById('inputId')
+function InputsObj()
+{
+    this.email = document.getElementById('email');
+}
+
 function init()
 {
-    var email = document.getElementById('email');
-	
-    email.focus(); // *** Revise later: this throws an error when alertPassConfirm is displayed on the page because the email input does not exist when the alert is showing ***
-    email.error = false; // Create new flag attribute, used to tell if an error message is on
+    var inputs = new InputsObj();
+    inputs.email.focus();
+    inputs.email.error = false; // Create new flag attribute, used to tell if an error message is on
 }
 
 // Called by the login btn, validates the form by calling the check functions
 function checkFormStatus()
 {
-    var valEmail = checkInput(document.getElementById('email'));
+    var inputs = new InputsObj();
+    var valEmail = checkInput(inputs.email);
 	
-    if(valEmail)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return valEmail ? true : false;
 }
 
 // Depending on the field ID, call the validate function with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***

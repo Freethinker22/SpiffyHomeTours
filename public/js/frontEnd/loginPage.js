@@ -2,30 +2,29 @@
 
 addEvent(window, 'load', init, false);
 
+// Object to access the input fields to keep from repeating document.getElementById('inputId')
+function InputsObj()
+{
+    this.email = document.getElementById('email');
+    this.password = document.getElementById('password');
+}
+
 function init()
 {
-    var email = document.getElementById('email');
-    var password = document.getElementById('password');
-	
-    email.focus();
-    email.error = false; // Create new flag attribute, used to tell if an error message is on *** Revise later: don't really need to set these vars here, just create them in the error handler if needed ***
-    password.error = false;
+    var inputs = new InputsObj();
+    inputs.email.focus();
+    inputs.email.error = false; // Create new flag attribute, used to tell if an error message is on *** Revise later: don't really need to set these vars here, just create them in the error handler if needed ***
+    inputs.password.error = false;
 }
 
 // Called by the login btn, validates the form by calling the check functions
 function checkFormStatus()
 {
-    var valEmail = checkInput(document.getElementById('email'));
-    var valPassword = checkInput(document.getElementById('password'));
+    var inputs = new InputsObj();
+    var valEmail = checkInput(inputs.email);
+    var valPassword = checkInput(inputs.password);
 	
-    if(valEmail && valPassword)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return valEmail && valPassword ? true : false;
 }
 
 // Depending on the field ID, validate with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***

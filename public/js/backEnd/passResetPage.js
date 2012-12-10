@@ -2,62 +2,68 @@
 
 addEvent(window, 'load', init, false);
 
+// Object to access the input fields to keep from repeating document.getElementById('inputId')
+function InputsObj()
+{
+    this.txtOldPass = document.getElementById('txtOldPass');
+    this.txtNewPass = document.getElementById('txtNewPass');
+    this.txtNewPassConf = document.getElementById('txtNewPassConf');
+    this.oldPass = document.getElementById('oldPass');
+    this.newPass = document.getElementById('newPass');
+    this.newPassConf = document.getElementById('newPassConf');
+}
+
 function init() 
 {   
     document.getElementById('oldPass') ? changePassFields('init') : changePassFieldsEmail('init'); // Determine which function to call based on where the user accessed the page
     addEvents();
 }
 
-// Swap the password input fields to their readable counterparts, 
+// Change the password input fields to their readable counterparts 
 // Note: If JS is disabled, the password fields are still of type password because the CSS initially hides the password inputs of type text
 function changePassFields(action)
 {
-    var txtOldPass = document.getElementById('txtOldPass');
-    var txtNewPass = document.getElementById('txtNewPass');
-    var txtNewPassConf = document.getElementById('txtNewPassConf');
-    var oldPass = document.getElementById('oldPass');
-    var newPass = document.getElementById('newPass');
-    var newPassConf = document.getElementById('newPassConf');
+    var inputs = new InputsObj();
 	
     switch(action) // *** Note: All of this code will be unnecessary whenever IE8 goes away. Once that happens, remove the duplicate input tag in the HTML and use: evtTarget.type = 'text' or 'password' ***
     {
         case 'init':
-            if(oldPass.value == '' || newPass.value == '' || newPassConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
+            if(inputs.oldPass.value == '' || inputs.newPass.value == '' || inputs.newPassConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
             {
-                txtOldPass.style.display = 'inline';
-                txtNewPass.style.display = 'inline';
-                txtNewPassConf.style.display = 'inline';
-                oldPass.style.display = 'none';
-                newPass.style.display = 'none';
-                newPassConf.style.display = 'none';
+                inputs.txtOldPass.style.display = 'inline';
+                inputs.txtNewPass.style.display = 'inline';
+                inputs.txtNewPassConf.style.display = 'inline';
+                inputs.oldPass.style.display = 'none';
+                inputs.newPass.style.display = 'none';
+                inputs.newPassConf.style.display = 'none';
             }
             break;
         case 'txtOldPassToOldPass':
-            txtOldPass.style.display = 'none';
-            oldPass.style.display = 'inline';
-            oldPass.focus();
+            inputs.txtOldPass.style.display = 'none';
+            inputs.oldPass.style.display = 'inline';
+            inputs.oldPass.focus();
             break;
         case 'oldPassToTxtOldPass':
-            oldPass.style.display = 'none';
-            txtOldPass.style.display = 'inline';
+            inputs.oldPass.style.display = 'none';
+            inputs.txtOldPass.style.display = 'inline';
             break;
         case 'txtNewPassToNewPass':
-            txtNewPass.style.display = 'none';
-            newPass.style.display = 'inline';
-            newPass.focus();
+            inputs.txtNewPass.style.display = 'none';
+            inputs.newPass.style.display = 'inline';
+            inputs.newPass.focus();
             break;
         case 'newPassToTxtNewPass':
-            newPass.style.display = 'none';
-            txtNewPass.style.display = 'inline';
+            inputs.newPass.style.display = 'none';
+            inputs.txtNewPass.style.display = 'inline';
             break;
         case 'txtNewPassConfToNewPassConf':
-            txtNewPassConf.style.display = 'none';
-            newPassConf.style.display = 'inline';
-            newPassConf.focus();
+            inputs.txtNewPassConf.style.display = 'none';
+            inputs.newPassConf.style.display = 'inline';
+            inputs.newPassConf.focus();
             break;
         case 'newPassConfToTxtNewPassConf':
-            newPassConf.style.display = 'none';
-            txtNewPassConf.style.display = 'inline';
+            inputs.newPassConf.style.display = 'none';
+            inputs.txtNewPassConf.style.display = 'inline';
             break;
     }
 }
@@ -65,39 +71,36 @@ function changePassFields(action)
 // Same as other change pass field function but only for the reset page linked to from the forgot password email. Revise later: might be a way to combine the two change pass functions?
 function changePassFieldsEmail(action)
 {
-    var txtNewPass = document.getElementById('txtNewPass');
-    var txtNewPassConf = document.getElementById('txtNewPassConf');
-    var newPass = document.getElementById('newPass');
-    var newPassConf = document.getElementById('newPassConf');
+    var inputs = new InputsObj();
 	
     switch(action) // *** Note: All of this code will be unnecessary whenever IE8 goes away. Once that happens, remove the duplicate input tag in the HTML and use: evtTarget.type = 'text' or 'password' ***
     {
         case 'init':
-            if(newPass.value == '' || newPassConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
+            if(inputs.newPass.value == '' || inputs.newPassConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
             {
-                txtNewPass.style.display = 'inline';
-                txtNewPassConf.style.display = 'inline';
-                newPass.style.display = 'none';
-                newPassConf.style.display = 'none';
+                inputs.txtNewPass.style.display = 'inline';
+                inputs.txtNewPassConf.style.display = 'inline';
+                inputs.newPass.style.display = 'none';
+                inputs.newPassConf.style.display = 'none';
             }
             break;
         case 'txtNewPassToNewPass':
-            txtNewPass.style.display = 'none';
-            newPass.style.display = 'inline';
-            newPass.focus();
+            inputs.txtNewPass.style.display = 'none';
+            inputs.newPass.style.display = 'inline';
+            inputs.newPass.focus();
             break;
         case 'newPassToTxtNewPass':
-            newPass.style.display = 'none';
-            txtNewPass.style.display = 'inline';
+            inputs.newPass.style.display = 'none';
+            inputs.txtNewPass.style.display = 'inline';
             break;
         case 'txtNewPassConfToNewPassConf':
-            txtNewPassConf.style.display = 'none';
-            newPassConf.style.display = 'inline';
-            newPassConf.focus();
+            inputs.txtNewPassConf.style.display = 'none';
+            inputs.newPassConf.style.display = 'inline';
+            inputs.newPassConf.focus();
             break;
         case 'newPassConfToTxtNewPassConf':
-            newPassConf.style.display = 'none';
-            txtNewPassConf.style.display = 'inline';
+            inputs.newPassConf.style.display = 'none';
+            inputs.txtNewPassConf.style.display = 'inline';
             break;
     }
 }
@@ -188,12 +191,13 @@ function fieldBlur(e)
 // Called by the reset btn, checks which reset page is being used, and validates the form
 function checkFormStatus()
 {
-    var valNewPass = checkInput(document.getElementById('newPass'));
-    var valNewPassConf = confirmVals(document.getElementById('newPass'), document.getElementById('newPassConf'));
+    var inputs = new InputsObj();
+    var valNewPass = checkInput(inputs.newPass);
+    var valNewPassConf = confirmVals(inputs.newPass, inputs.newPassConf);
 	
-    if(document.getElementById('oldPass')) // If the old password field is present
+    if(inputs.oldPass) // If the old password field is present
     {
-        var valOldPass = checkInput(document.getElementById('oldPass'));
+        var valOldPass = checkInput(inputs.oldPass);
         return valOldPass && valNewPass && valNewPassConf ? true : false;
     }
     else

@@ -2,13 +2,18 @@
 
 addEvent(window, 'load', init, false);
 
+// Object to access the input fields to keep from repeating document.getElementById('inputId')
+function InputsObj()
+{
+    this.email = document.getElementById('notifyEmail');
+}
+
 function init()
 {
-    var email = document.getElementById('notifyEmail');
-	
-    email.className = 'defaultText'; // *** Revise later: This throws an error when the thank you msg is displayed, because the email input does not exist when the msg is showing ***
-    addEvent(email, 'focus', fieldFocus, false);
-    addEvent(email, 'blur' , fieldBlur, false);
+    var inputs = new InputsObj();
+    inputs.email.className = 'defaultText';
+    addEvent(inputs.email, 'focus', fieldFocus, false);
+    addEvent(inputs.email, 'blur' , fieldBlur, false);
 }
 
 // Clears the default field values and removes the error msgs if they're showing
@@ -47,7 +52,8 @@ function fieldBlur(e)
 // Called by the notify btn, validates the form by calling the check functions
 function checkFormStatus()
 {
-    var valEmail = checkInput(document.getElementById('notifyEmail'));
+    var inputs = new InputsObj();
+    var valEmail = checkInput(inputs.email);
     return valEmail ? true : false;
 }
 

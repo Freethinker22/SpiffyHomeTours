@@ -21,12 +21,6 @@ a img {
     width:325px;
 }
 
-/**** Login page CSS addendum for IE 7 and 8. ****/
-/** + html input[type="text"], input[type="password"] {  Chained attribute selectors in IE7 don't work unless the tag name is put in front of both selectors 
-    display:block;
-    width:225px;
-}*/
-
 /**** Pricing page CSS addendum for IE 7 and 8. ****/
 #mainContent h1 {
     padding:6px 0 4px; /* Fixes text clipping */

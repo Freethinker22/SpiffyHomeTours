@@ -1,21 +1,31 @@
 // Functions for the contact page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
 
-// Global variables
+// Global variable
 var sendRequest = createRequest(); // Request object used in form submission
 
 addEvent(window, 'load', init, false);
 
+// Object to access the input fields to keep from repeating document.getElementById('inputId')
+function InputsObj()
+{
+    this.fullName = document.getElementById('fullName');
+    this.email = document.getElementById('email');
+    this.subject = document.getElementById('subject');
+    this.message = document.getElementById('message');
+}
+
 function init()
 {
     var sendingImg = new Image();
-    sendingImg.src = 'public/img/sending.gif'; // Preload img
+    sendingImg.src = 'public/img/sending.gif'; // Preload processing img
     addEvents();
 }
 
-// Register event listeners, and setup flag attributes. If this function is called due to event rebinding, there is no need reload the processing graphic, hence the separate functions	
+// Register event listeners, and setup flag attributes
 function addEvents()
 {
-    var inputAr = [document.getElementById('fullName'), document.getElementById('email'), document.getElementById('subject'), document.getElementById('message')]; // Array of input fields
+    var inputs = new InputsObj();
+    var inputAr = [inputs.fullName, inputs.email, inputs.subject, inputs.message];
     var inputArLen = inputAr.length;
 	
     addEvent(document.getElementById('sendBtn'), 'click', checkFormStatus, false);
@@ -76,10 +86,11 @@ function fieldBlur(e)
 // Called by send btn, validates the form by calling the check functions and if they're good, calls sendForm()
 function checkFormStatus()
 {
-    var validName = checkInput(document.getElementById('fullName'));
-    var validEmail = checkInput(document.getElementById('email'));
-    var validSubject = checkInput(document.getElementById('subject'));
-    var validMessage = checkInput(document.getElementById('message'));
+    var inputs = new InputsObj();
+    var validName = checkInput(inputs.fullName);
+    var validEmail = checkInput(inputs.email);
+    var validSubject = checkInput(inputs.subject);
+    var validMessage = checkInput(inputs.message);
 	
     if(validName && validEmail && validSubject && validMessage)
     {
@@ -90,18 +101,20 @@ function checkFormStatus()
 // Depending on the field ID, call the validate function with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
 function checkInput(evtTarget)
 {
+    var regEx;
+    
     switch(evtTarget.id)
     {
         case 'fullName':
-            var regEx = /^[A-Za-z'\-\.\s]{1,50}$/; // *** Revise later: could prevent the usage of multiple spaces in a row ***
+            regEx = /^[A-Za-z'\-\.\s]{1,50}$/; // *** Revise later: could prevent the usage of multiple spaces in a row ***
             return validate(evtTarget, regEx, true);
             break;
         case 'email':
-            var regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
+            regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
             return validate(evtTarget, regEx, true);
             break;
         case 'subject':
-            var regEx = /^[A-Za-z0-9\-\.\/?!'\"\@#$%^&*()_\s]{1,50}$/;
+            regEx = /^[A-Za-z0-9\-\.\/?!'\"\@#$%^&*()_\s]{1,50}$/;
             return validate(evtTarget, regEx, true);
             break;
         case 'message':
@@ -211,11 +224,12 @@ function sendForm()
     }
     else
     {
+        var inputs = new InputsObj();
         var url = 'ajaxRouter.php?ajaxCon=ContactForm';
-        var nameValue = escape(document.getElementById('fullName').value); // Get the fields' values and append them to the url that is sent to the server
-        var emailValue = escape(document.getElementById('email').value);
-        var subjectValue = escape(document.getElementById('subject').value);
-        var messageValue = escape(document.getElementById('message').value);
+        var nameValue = escape(inputs.fullName.value); // Get the fields' values and append them to the url that is sent to the server
+        var emailValue = escape(inputs.email.value);
+        var subjectValue = escape(inputs.subject.value);
+        var messageValue = escape(inputs.message.value);
         var loadTimeValue = escape(document.getElementById('loadTime').value);
         var requestData = 'name=' + nameValue + '&email=' + emailValue + '&subject=' + subjectValue + '&message=' + messageValue + '&loadTime=' + loadTimeValue;
 		

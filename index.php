@@ -67,7 +67,7 @@ checkUrl();
 // Ajax controller file names have 3 parts. The page where the Ajax app is, 'Contact', The part of the page its used for, 'Form', and the 'Ajax' suffix
 
 // ***** Revise later ***** 
-// Refactor all of the JS files to have ternary operators in place of simple if/else statements
+// Refactor all of the JS files to have ternary operators in place of simple if/else statements also, start using OOP for access to init variables
 // At some point all the JS pages using validation need to have all of their val functions combined into one abstract validation file much like the PHP validation file
 // See if the style rules for alert/error msgs could be put into the theme stylesheet instead of spread around in the page specific stylesheets
 // Get loadView() in the SuperCon working for the Ajax apps, would need to move that function into the SuperModel but that creates bugs in other pages
