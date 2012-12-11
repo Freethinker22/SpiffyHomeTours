@@ -1,4 +1,4 @@
-// Functions for the forgot password page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
+// Functions for the forgot password page and form validation
 
 addEvent(window, 'load', init, false);
 
@@ -15,67 +15,15 @@ function init()
     inputs.email.error = false; // Create new flag attribute, used to tell if an error message is on
 }
 
-// Called by the login btn, validates the form by calling the check functions
+// Called by the send btn in the forgot password form
 function checkFormStatus()
 {
     var inputs = new InputsObj();
-    var valEmail = checkInput(inputs.email);
+    var val = new ValObj('dynamic');
+    
+    var valEmail = val.validate(inputs.email, val.EMAIL, true);
 	
     return valEmail ? true : false;
-}
-
-// Depending on the field ID, call the validate function with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
-function checkInput(evtTarget)
-{
-    var regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
-    return validate(evtTarget, regEx);
-}
-
-// Check the validity of the fields
-function validate(evtTarget, regEx)
-{
-    if(checkForNull(evtTarget))
-    {
-        return checkRegEx(evtTarget, regEx);
-    }
-    else
-    {
-        return false;
-    }
-}
-
-// Check the evetTarget value to see if the user entered a value
-function checkForNull(evtTarget)
-{
-    if(evtTarget.value != '')
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error) // If the error message is on, don't create another one
-        {
-            errMsg(evtTarget, 'Required');
-        }
-        return false;
-    }
-}
-
-// Check the evtTarget value against the regular expression
-function checkRegEx(evtTarget, regEx)
-{
-    if(regEx.test(evtTarget.value))
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error)
-        {
-            errMsg(evtTarget);
-        }
-        return false;
-    }
 }
 
 // Creates a default error message next to the target field unless a different one is given

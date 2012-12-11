@@ -7,7 +7,7 @@ class LoginCon extends SuperCon
     public $title = 'Spiffy Home Tours - Login';
     public $pageId = 'loginPg'; // Used in navMenu.js for 'you are here navigation'
     public $cssArray = array(array('public/css/reset.css', 'screen'), array('public/css/theme.css', 'screen'), array('public/css/frontEnd/login.css', 'screen'));
-    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/frontEnd/loginPage.js');
+    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/validator.js', 'public/js/frontEnd/loginPage.js');
     
     public function __construct()
     {

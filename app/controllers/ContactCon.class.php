@@ -7,7 +7,7 @@ class ContactCon extends SuperCon
     public $title = 'Spiffy Home Tours - Contact';
     public $pageId = 'contactPg'; // Used in navMenu.js for 'you are here navigation'
     public $cssArray = array(array('public/css/reset.css', 'screen'), array('public/css/theme.css', 'screen'), array('public/css/frontEnd/contact.css', 'screen'));
-    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/frontEnd/contactPage.js');
+    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/validator.js', 'public/js/frontEnd/contactPage.js');
     
     public function __construct()
     {

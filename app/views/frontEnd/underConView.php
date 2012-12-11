@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="public/css/underCon.css" media="screen" />
         <link rel="icon" href="public/img/favicon.ico" />
         <script type="text/javascript" src="public/js/utils.js"></script>
+        <script type="text/javascript" src="public/js/validator.js"></script>
         <script type="text/javascript" src="public/js/frontEnd/underConPage.js"></script>
         <title>Under construction</title>
         <!--[if lt IE 9]>

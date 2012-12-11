@@ -7,7 +7,7 @@ class ForgotPassCon extends SuperCon
     public $title = 'Spiffy Home Tours - Forgot Password';
     public $pageId = 'forgotPassPg'; // Used in navMenu.js for 'you are here navigation'
     public $cssArray = array(array('public/css/reset.css', 'screen'), array('public/css/theme.css', 'screen'), array('public/css/frontEnd/login.css', 'screen')); // The header view uses $cssArray to build link tags for the page specific stylesheets
-    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/frontEnd/forgotPassPage.js');
+    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/validator.js', 'public/js/frontEnd/forgotPassPage.js');
     
     public function __construct()
     {

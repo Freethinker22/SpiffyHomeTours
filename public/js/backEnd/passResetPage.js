@@ -1,4 +1,4 @@
-// Functions for the password reset page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
+// Functions for the password reset page and form validation
 
 addEvent(window, 'load', init, false);
 
@@ -117,7 +117,7 @@ function addEvents()
         {
             addEvent(inputAr[i], 'focus', fieldFocus, false);
             addEvent(inputAr[i], 'blur' , fieldBlur, false);
-            inputAr[i].error = false; // Create new flag attribute, used to tell if an error message is on
+            inputAr[i].error = false; // Create new flag attribute, used to tell if the error msg is highlighted
 			
             if(inputAr[i].value == inputAr[i].title)
             {
@@ -188,117 +188,23 @@ function fieldBlur(e)
     }
 }
 
-// Called by the reset btn, checks which reset page is being used, and validates the form
+// Called by the reset btn in the password reset form
 function checkFormStatus()
 {
     var inputs = new InputsObj();
-    var valNewPass = checkInput(inputs.newPass);
-    var valNewPassConf = confirmVals(inputs.newPass, inputs.newPassConf);
+    var val = new ValObj('dynamic');
+    
+    var valNewPass = val.checkPassword(inputs.newPass, val.PASSWORD);
+    var valNewPassConf = val.confirmVals(inputs.newPass, inputs.newPassConf);
 	
     if(inputs.oldPass) // If the old password field is present
     {
-        var valOldPass = checkInput(inputs.oldPass);
+        var valOldPass = val.checkPassword(inputs.oldPass, val.PASSWORD);
         return valOldPass && valNewPass && valNewPassConf ? true : false;
     }
     else
     {
         return valNewPass && valNewPassConf ? true : false;
-    }
-}
-
-// Depending on the field ID, validate with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
-function checkInput(evtTarget)
-{
-    var regEx;
-    
-    switch(evtTarget.id)
-    {
-        case 'oldPass':
-        case 'newPass':
-            regEx = /^[A-Za-z0-9\-!\@#$%^&*()_\s]{8,50}$/;
-            return checkPassword(evtTarget, regEx);
-            break;
-    }
-}
-
-// Check to see if two fields match
-function confirmVals(firstVal, secVal)
-{
-    if(checkForNull(secVal)) // secVal must be the confirm field value
-    {
-        if(firstVal.value != secVal.value)
-        {
-            if(!secVal.error)
-            {
-                errMsg(secVal, 'Doesn\'t Match'); 
-            }
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
-// Check function specifically for the password field
-function checkPassword(evtTarget, regEx)
-{
-    if(checkForNull(evtTarget))
-    {
-        if(evtTarget.value.length < 8)
-        {
-            if(!evtTarget.error)
-            { 
-                errMsg(evtTarget, 'Too Short');
-            }
-            return false;
-        }
-        else
-        {
-            return checkRegEx(evtTarget, regEx);	
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
-function checkForNull(evtTarget)
-{
-    if(evtTarget.value == '' || evtTarget.value == evtTarget.title)
-    {
-        if(!evtTarget.error) // If the error message is on, don't create another one
-        {
-            errMsg(evtTarget, 'Required');
-        }
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
-// Check the evtTarget value against the regular expression
-function checkRegEx(evtTarget, regEx)
-{
-    if(regEx.test(evtTarget.value))
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error)
-        {
-            errMsg(evtTarget);
-        }
-        return false;
     }
 }
 

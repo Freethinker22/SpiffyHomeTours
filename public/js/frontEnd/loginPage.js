@@ -1,4 +1,4 @@
-// Functions for the login page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
+// Functions for the login page and form validation
 
 addEvent(window, 'load', init, false);
 
@@ -17,79 +17,16 @@ function init()
     inputs.password.error = false;
 }
 
-// Called by the login btn, validates the form by calling the check functions
+// Called by the login btn in the login form
 function checkFormStatus()
 {
     var inputs = new InputsObj();
-    var valEmail = checkInput(inputs.email);
-    var valPassword = checkInput(inputs.password);
+    var val = new ValObj('dynamic');
+    
+    var valEmail = val.validate(inputs.email, val.EMAIL, true);
+    var valPassword = val.checkPassword(inputs.password, val.PASSWORD);
 	
     return valEmail && valPassword ? true : false;
-}
-
-// Depending on the field ID, validate with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
-function checkInput(evtTarget)
-{
-    var regEx;
-    
-    switch(evtTarget.id)
-    {
-        case 'email':
-            regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
-            return validate(evtTarget, regEx);
-            break;
-        case 'password':
-            regEx = /^[A-Za-z0-9\-!\@#$%^&*()_\s]{8,50}$/;
-            return validate(evtTarget, regEx);
-            break;
-    }
-}
-
-// Check the validity of the fields
-function validate(evtTarget, regEx)
-{
-    if(checkForNull(evtTarget))
-    {
-        return checkRegEx(evtTarget, regEx);
-    }
-    else
-    {
-        return false;
-    }
-}
-
-// Check the evetTarget value to see if the user entered a value
-function checkForNull(evtTarget)
-{
-    if(evtTarget.value != '')
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error) // If the error message is on, don't create another one
-        {
-            errMsg(evtTarget, 'Required');
-        }
-        return false;
-    }
-}
-
-// Check the evtTarget value against the regular expression
-function checkRegEx(evtTarget, regEx)
-{
-    if(regEx.test(evtTarget.value))
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error)
-        {
-            errMsg(evtTarget);
-        }
-        return false;
-    }
 }
 
 // Creates a default error message next to the target field unless a different one is given

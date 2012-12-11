@@ -1,4 +1,4 @@
-// Functions for the sign up page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
+// Functions for the sign up page and form validation
 
 addEvent(window, 'load', init, false);
 
@@ -83,7 +83,7 @@ function addEvents()
         {
             addEvent(inputAr[i], 'focus', fieldFocus, false);
             addEvent(inputAr[i], 'blur' , fieldBlur, false);
-            inputAr[i].error = false; // Create new flag attribute, used to tell if an error message is on
+            inputAr[i].error = false; // Create new flag attribute, used to tell if the error msg is highlighted
 			
             if(inputAr[i].value == inputAr[i].title)
             {
@@ -154,158 +154,32 @@ function fieldBlur(e)
     }
 }
 
-// Called by next step btn, validates the form by calling the check functions
+// Called by next step btn in the sign up form
 function checkFormStatus()
 {
     var inputs = new InputsObj();
-    var valFirstName = checkInput(inputs.firstName);
-    var valLastName = checkInput(inputs.lastName);
-    var valPhoneNum = checkInput(inputs.phone);
-    var valCompName = checkInput(inputs.compName);
-    var valWebsite = checkInput(inputs.website);
-    var valEmail = checkInput(inputs.email);
-    var valEmailConf = confirmVals(inputs.email, inputs.emailConf);
-    var valPassword = checkInput(inputs.password);
-    var valPasswordConf = confirmVals(inputs.password, inputs.passwordConf);
-    var valSubType = checkFirstRadGrp(inputs.subType);
-    var valFindType = checkSecRadGrp(inputs.findType);
+    var val = new ValObj('static');
+    
+    var valFirstName = val.validate(inputs.firstName, val.NAME, true);
+    var valLastName = val.validate(inputs.lastName, val.NAME, true);
+    var valPhoneNum = val.validate(inputs.phone, val.PHONE, true);
+    var valCompName = val.validate(inputs.compName, val.OTHER_TEXT, false);
+    var valWebsite = val.validate(inputs.website, val.URL, false);
+    var valEmail = val.validate(inputs.email, val.EMAIL, true);
+    var valEmailConf = val.confirmVals(inputs.email, inputs.emailConf);
+    var valPassword = val.checkPassword(inputs.password, val.PASSWORD);
+    var valPasswordConf = val.confirmVals(inputs.password, inputs.passwordConf);
+    var valSubType = checkSubType(inputs.subType);
+    var valFindType = checkFindType(inputs.findType);
     var valTos = checkTos(inputs.tos);
-    var valFoundByOther = checkInput(inputs.foundByOther);
+    var valFoundByOther = val.validate(inputs.foundByOther, val.OTHER_TEXT, false);
     
     // If all the check functions return true, allow the form to submit
     return valFirstName && valLastName && valPhoneNum && valCompName && valWebsite && valEmail && valEmailConf && valPassword && valPasswordConf && valSubType && valFindType && valTos && valFoundByOther ? true : false;
 }
 
-// Depending on the field ID, validate with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
-function checkInput(evtTarget)
-{
-    var regEx;
-    
-    switch(evtTarget.id)
-    {
-        case 'firstName':
-        case 'lastName':
-            regEx = /^[A-Za-z'\-\.\s]{1,50}$/; // *** Revise later: could prevent the usage of multiple spaces in a row ***
-            return validate(evtTarget, regEx, true);
-            break;
-        case 'phone':
-            regEx = /^(([0-9\-\.\/+()]+)\s?((ext|EXT|Ext|ex|EX|Ex|x|X):?\.?\s?)?){7,25}$/; // *** Revise later: could prevent the usage of multiple special characters in a row ***
-            return validate(evtTarget, regEx, true);
-            break;
-        case 'compName':
-        case 'foundByOther':
-            regEx = /^[A-Za-z0-9\-\.\/?!'\"\@#%^&*()_\s]{1,50}$/;
-            return validate(evtTarget, regEx);
-            break;
-        case 'website':
-            regEx = /^((http|https|ftp):\/\/)?([\w\-]+)\.([\w\-]+)([\w\-\.\/]*)?\/?$/; // *** Revise later: could prevent the usage of multiple periods and slashes in a row, input field length too.  Remember to update the PHP regex ***
-            return validate(evtTarget, regEx);
-            break;
-        case 'email':
-            regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
-            return validate(evtTarget, regEx, true);
-            break;
-        case 'password':
-            regEx = /^[A-Za-z0-9\-!\@#$%^&*()_\s]{8,50}$/;
-            return checkPassword(evtTarget, regEx);
-            break;
-    }
-}
-
-// Check the validity of required and non-required fields
-function validate(evtTarget, regEx, required)
-{
-    if(required)
-    {
-        if(checkForNull(evtTarget))
-        {
-            return checkRegEx(evtTarget, regEx);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else // If not required
-    {
-        if(evtTarget.value != '')
-        {
-            return checkRegEx(evtTarget, regEx);
-        }
-        else
-        {
-            return true; // Return true even if non-required field is still empty
-        }
-    }
-}
-
-// Check the evetTarget value against the regular expression
-function checkRegEx(evtTarget, regEx)
-{
-    if(regEx.test(evtTarget.value))
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error) // If the error message is on, don't create another one
-        {
-            errMsg(evtTarget);
-        }
-        return false;
-    }
-}
-
-// Check function specifically for the password field
-function checkPassword(evtTarget, regEx)
-{
-    if(checkForNull(evtTarget))
-    {
-        if(evtTarget.value.length < 8)
-        {
-            if(!evtTarget.error)
-            { 
-                errMsg(evtTarget, 'Too Short');
-            }
-            return false;
-        }
-        else
-        {
-            return checkRegEx(evtTarget, regEx);	
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
-// Check to see if two fields match
-function confirmVals(firstVal, secVal)
-{
-    if(checkForNull(secVal)) // secVal must be the confirm field value
-    {
-        if(firstVal.value != secVal.value)
-        {
-            if(!secVal.error)
-            {
-                errMsg(secVal, 'Doesn\'t Match'); 
-            }
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
 // Checks to see if a radio button in the 'Subscription type' section is checked
-function checkFirstRadGrp(evtTarget)
+function checkSubType(evtTarget)
 {	
     var inputs = new InputsObj();
     
@@ -324,7 +198,7 @@ function checkFirstRadGrp(evtTarget)
 }
 
 // Checks to see if a radio button in the 'How did you find us' section is checked
-function checkSecRadGrp(evtTarget)
+function checkFindType(evtTarget)
 {	
     var inputs = new InputsObj();
     
@@ -388,21 +262,6 @@ function checkTos(evtTarget)
     }
 }
 
-// If the field is empty or its value is equal to its default text, change the required note in the span tag to red using CSS class, if not return ture
-function checkForNull(evtTarget)
-{
-    if(evtTarget.value == '' || evtTarget.value == evtTarget.title)
-    {
-        reqErrOn(evtTarget);
-        addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
 // Creates a default error message next to the target field unless a different one is given
 function errMsg(evtTarget, msg)
 {
@@ -422,7 +281,7 @@ function errMsg(evtTarget, msg)
     evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
 }
 
-// Changes the class on to highlight required fields
+// Changes the class to highlight (required) in the span tag
 function reqErrOn(evtTarget)
 {
     if(evtTarget.id == 'tos')
@@ -434,9 +293,10 @@ function reqErrOn(evtTarget)
         var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0]; // Reference to the target's span element
         spanObj.className = 'reqError';
     }
+    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused
 }
 
-// Turns off the highlights on required fields
+// Turn off the highlighting of (required) in the span tag
 function reqErrOff(evtTarget)
 {
     if(evtTarget.id == 'tos')

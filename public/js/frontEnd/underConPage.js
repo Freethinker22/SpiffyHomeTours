@@ -1,4 +1,4 @@
-// Functions for the under construction page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
+// Functions for the under construction page and form validation
 
 addEvent(window, 'load', init, false);
 
@@ -49,75 +49,14 @@ function fieldBlur(e)
     }
 }
 
-// Called by the notify btn, validates the form by calling the check functions
+// Called by the notify btn
 function checkFormStatus()
 {
     var inputs = new InputsObj();
-    var valEmail = checkInput(inputs.email);
+    var val = new ValObj('dynamic');
+    
+    var valEmail = val.validate(inputs.email, val.EMAIL, true);
     return valEmail ? true : false;
-}
-
-// Depending on the field ID, validate with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
-function checkInput(evtTarget)
-{
-    var regEx;
-    
-    switch(evtTarget.id)
-    {
-        case 'notifyEmail':
-            regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
-            return validate(evtTarget, regEx);
-            break;
-    }
-}
-
-// Check the validity of the fields
-function validate(evtTarget, regEx)
-{
-    if(checkForNull(evtTarget))
-    {
-        return checkRegEx(evtTarget, regEx);
-    }
-    else
-    {
-        return false;
-    }
-}
-
-// If the field is empty or its value is equal to its default text, show required msg
-function checkForNull(evtTarget)
-{
-    
-    if(evtTarget.value != '' && evtTarget.value != evtTarget.title)
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error) // If the error msg is on, don't create another one
-        {
-            errMsg(evtTarget, 'An e-mail address is required');
-            addEvent(evtTarget, 'focus', fieldFocus, false); // Reassign focus listener so the error msg is removed when refocused
-        }
-        return false;
-    }
-}
-
-// Check the evtTarget value against the regular expression
-function checkRegEx(evtTarget, regEx)
-{
-    if(regEx.test(evtTarget.value))
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error)
-        {
-            errMsg(evtTarget);
-        }
-        return false;
-    }
 }
 
 // Creates a default error msg unless a different one is given

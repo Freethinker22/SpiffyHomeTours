@@ -1,4 +1,4 @@
-// Functions for the contact page and form validation *** Revise later: functions like validate, checkForNull, checkRegEx, etc could all be abstracted into one validation file ***
+// Functions for the contact page and form validation
 
 // Global variable
 var sendRequest = createRequest(); // Request object used in form submission
@@ -34,7 +34,7 @@ function addEvents()
     {
         addEvent(inputAr[i], 'focus', fieldFocus, false);
         addEvent(inputAr[i], 'blur', fieldBlur, false);
-        inputAr[i].error = false; // Create new flag attribute, used to tell if an error message is present
+        inputAr[i].error = false; // Create new flag attribute, used to tell if the error msg is highlighted
 		
         if(inputAr[i].value == inputAr[i].title) // Set the color of the default text to light gray if the default text is still showing
         {
@@ -83,102 +83,20 @@ function fieldBlur(e)
     }
 }
 
-// Called by send btn, validates the form by calling the check functions and if they're good, calls sendForm()
+// Called by the send message btn in the contact form
 function checkFormStatus()
 {
     var inputs = new InputsObj();
-    var validName = checkInput(inputs.fullName);
-    var validEmail = checkInput(inputs.email);
-    var validSubject = checkInput(inputs.subject);
-    var validMessage = checkInput(inputs.message);
-	
+    var val = new ValObj('static');
+    
+    var validName = val.validate(inputs.fullName, val.NAME, true);
+    var validEmail = val.validate(inputs.email, val.EMAIL, true);
+    var validSubject = val.validate(inputs.subject, val.OTHER_TEXT, true);
+    var validMessage = val.checkForNull(inputs.message); // The message is sanitized in the PHP form handler
+    
     if(validName && validEmail && validSubject && validMessage)
     {
         sendForm(); // If all the check functions return true, allow the form to submit
-    }
-}
-
-// Depending on the field ID, call the validate function with the correct regular expression *** Remember: these RegExs exactly match the ones in the PHP validator ***
-function checkInput(evtTarget)
-{
-    var regEx;
-    
-    switch(evtTarget.id)
-    {
-        case 'fullName':
-            regEx = /^[A-Za-z'\-\.\s]{1,50}$/; // *** Revise later: could prevent the usage of multiple spaces in a row ***
-            return validate(evtTarget, regEx, true);
-            break;
-        case 'email':
-            regEx = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
-            return validate(evtTarget, regEx, true);
-            break;
-        case 'subject':
-            regEx = /^[A-Za-z0-9\-\.\/?!'\"\@#$%^&*()_\s]{1,50}$/;
-            return validate(evtTarget, regEx, true);
-            break;
-        case 'message':
-            return checkForNull(evtTarget); // The message is sanitized in the PHP form handler
-            break;
-    }
-}
-
-// Check the validity of required and non-required fields
-function validate(evtTarget, regEx, required)
-{
-    if(required)
-    {
-        if(checkForNull(evtTarget))
-        {
-            return checkRegEx(evtTarget, regEx);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else // If not required
-    {
-        if(evtTarget.value != '')
-        {
-            return checkRegEx(evtTarget, regEx);
-        }
-        else
-        {
-            return true; // Return true even if non-required field is still empty
-        }
-    }
-}
-
-// Check the evetTarget value against the regular expression
-function checkRegEx(evtTarget, regEx)
-{
-    if(regEx.test(evtTarget.value))
-    {
-        return true;
-    }
-    else
-    {
-        if(!evtTarget.error) // If the error message is on, don't create another one
-        {
-            errMsg(evtTarget);
-        }
-        return false;
-    }
-}
-
-// If the field is empty or its value is equal to its default text, change the required note in the span tag to red using CSS class, if not return ture
-function checkForNull(evtTarget)
-{
-    if(evtTarget.value == '' || evtTarget.value == evtTarget.title)
-    {
-        reqErrOn(evtTarget);
-        addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused
-        return false;
-    }
-    else
-    {
-        return true;
     }
 }
 
@@ -201,14 +119,15 @@ function errMsg(evtTarget, msg)
     evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
 }
 
-// Changes the class on to highlight required fields
+// Changes the class to highlight (required) in the span tag
 function reqErrOn(evtTarget)
 {
     var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0]; // Reference to the target's span element
     spanObj.className = 'reqError';
+    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused
 }
 
-// Turns off the highlights on required fields
+// Turn off the highlighting of (required) in the span tag
 function reqErrOff(evtTarget)
 {
     var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0];
