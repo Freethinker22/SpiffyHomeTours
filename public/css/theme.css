@@ -64,10 +64,9 @@ nav ul li img{
 
 /**** Main content style rules ****/
 #mainContent {
-    background:#F7F5E9 url("../img/mainContentBg.png") repeat;
+    background:#F7F5E9 url("../img/mainContentBg.png");
     clear:both;
     margin:-60px auto 20px;
-    overflow:auto; /* Used to keep floating left and right columns inside parent element */
     padding:55px 10px 30px;
     width:900px;
     -moz-box-shadow:5px 5px 3px #777;
@@ -84,8 +83,8 @@ footer {
 }
 footer p {
     font-family:Verdana, Geneva, sans-serif;
-    font-size:12px;
-    line-height:14px;
+    font-size:.75em;
+    line-height:1.25em;
     margin-top:7px;
     position:relative; /* Sets the position so the footer text can be moved below the footer background img */
     text-align:center;

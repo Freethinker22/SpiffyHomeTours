@@ -1,4 +1,4 @@
-<section id="mainContent">
+<section id="mainContent" class="clearfix">
     <section id="leftCol">
         <article>
             <p>
