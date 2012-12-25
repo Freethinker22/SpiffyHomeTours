@@ -4,6 +4,9 @@ define('DEVELOPMENT_ENVIRONMENT', true);
 // Define the path to the views directory for use in loadView()
 define('VIEWS_PATH', 'app/views/');
 
+// Define the path to the virtual tours directory for use in the TourCon
+define('TOURS_PATH', 'tours/');
+
 // Database login vars
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'dataBaseName');

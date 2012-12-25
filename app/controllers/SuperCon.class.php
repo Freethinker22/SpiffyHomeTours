@@ -13,7 +13,7 @@ class SuperCon
         }
     }
     
-    // This is where what the user sees is initialized
+    // Initialize one of the regular pages of the website
     public function renderPage($withHeader = true)
     {
         if($withHeader)
@@ -26,8 +26,14 @@ class SuperCon
         }
         else
         {
-            $this->controller->displayPage(); // Load the page w/o the default header and footer, used for under construction page
+            $this->controller->displayPage(); // Load the page w/o the default header and footer, used for under construction page *** Note: This condition will not be needed once the site is ready to launch ***
         }
+    }
+    
+    // Initialize the tour app and pass it the name of the directory where its config file and imgs reside
+    public function renderTour($tourDirectory)
+    {
+        $this->controller->displayPage($tourDirectory);
     }
     
     // Checks to see if the view exists and includes it

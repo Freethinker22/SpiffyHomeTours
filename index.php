@@ -14,7 +14,7 @@ function checkUrl()
     else
     {
         $controller = 'UnderCon'; // For when the site is under construction
-        //$controller = 'HomeCon';
+        //$controller = 'HomeCon'; // Default landing page
         $action = null;
         init($controller, $action);
     }
@@ -38,11 +38,26 @@ function splitUrl($urlArray)
     init($controller, $action);
 }
 
-// Instantiate the super controller to build the page
+// Instantiate the super controller, then init the tour application or init a regular website page 
 function init($controller, $action)
-{
-    $superCon = new SuperCon($controller, $action);
-    $controller != 'UnderCon' ? $superCon->renderPage() : $superCon->renderPage(false); // Don't display the header and footer for the under construction page
+{    
+    if($controller == 'TourCon')
+    {
+        $tourDirectory = $action; // Set the tour's directory name from the action var in the URL
+        $action = null; // Reset the action so as not to call a non-existent function in the page controller
+        $superCon = new SuperCon($controller, $action); // Instantiate the SuperCon
+        $superCon->renderTour($tourDirectory); // Initalize the tour application and pass it the tour's directory name
+    }
+    else if($controller == 'UnderCon')
+    {
+        $superCon = new SuperCon($controller, $action);
+        $superCon->renderPage(false); // Don't display the default header and footer for the under construction page *** Note: This condition will not be needed once the site is ready to launch ***
+    }
+    else
+    {
+        $superCon = new SuperCon($controller, $action);
+        $superCon->renderPage();
+    }
 }
 
 checkUrl();
