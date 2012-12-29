@@ -7,8 +7,7 @@ function checkUrl()
 {
     if(isset($_GET['url'])) // 'url' is the name of the query string var set in the mod_rewrite
     {
-        $urlArray = explode('-', $_GET['url']); // Urls in the view are called with the format of controller-action. Revise later: Fix the trailing slash bug in the mod_rewrite to allow con/action format
-        
+        $urlArray = explode('-', rawurlencode($_GET['url'])); // Urls in the view are called with the format of controller-action. Revise later: Fix the trailing slash bug in the mod_rewrite to allow con/action format
         file_exists('app/controllers/' . $urlArray[0] . 'Con.class.php') ? splitUrl($urlArray) : include('app/views/errors/error404.php'); // Check if the incoming controller name is valid
     }
     else

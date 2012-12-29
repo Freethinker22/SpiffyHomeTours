@@ -49,20 +49,19 @@
     -webkit-box-shadow:3px 3px 6px #777;
     box-shadow:3px 3px 6px #777;
 }
-.signUp a:link {
+.signUp a {
     background:url("../../img/signUpBtn.png") no-repeat center;
     color:#FFF;
     display:block;
     font-weight:bold;
     height:40px;
     margin:0 auto;
-    width:153px;
-}
-.signUp a:visited, .signUp a:hover {
-    color:#FFF;
 }
 .signUp a span {
     display:block;
     outline:none;
-    padding:3px 0; /* Centers text on button background, might be a better way to do this? */
+    padding:3px 0;
 }
+.badge:hover + .signUp a, .signUp a:hover {
+    background:url("../../img/signUpBtnOver.png") no-repeat center; /* Show the roll over version of the sign up link when either it or the plan badge is hovered over */
+} 

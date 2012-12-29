@@ -1,9 +1,9 @@
 $(document).ready(function()
 {
-    $.getJSON('tours/' + tourDirectory + '/config.json', function(json)
+    $.getJSON('tours/' + tourDirectory + '/config.json', function(config)
     {
-        $('body').append('<p>' + json.firstName + '</p>');
-        document.title = json.pageTitle;
+        $('body').append('<p>' + config.firstName + '</p>');
+        document.title = config.pageTitle;
         
     });
 });
