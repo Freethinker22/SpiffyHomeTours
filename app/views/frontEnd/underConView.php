@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <!--This is a special view that doesn't use the regular header or footer views -->
+<!DOCTYPE html> <!--This is a special view that doesn't use the regular header or footer views -->
 <html>
     <head lang="en-US">
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -31,6 +31,7 @@
         <nav>
             <p>Under Construction</p>
         </nav>
+        
         <section id="mainContent">
             <p class="msgBox">Welcome to Spiffy Home Tours!  The site is currently still being built but if you would like to be notified when it goes live, please send me your email address.  You'll be sent a message when the site is about to launch.  To see what's done so far, follow the home page link below.</p>
             <?php

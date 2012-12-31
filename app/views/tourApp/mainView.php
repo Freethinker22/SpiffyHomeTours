@@ -1,7 +1,7 @@
 <?php
 $tourDirectory = $this->tourDirectory;
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> <!--This is a special view that doesn't use the regular header or footer views -->
 <html>
     <head lang="en-US">
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
