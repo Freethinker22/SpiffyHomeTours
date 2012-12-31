@@ -7,6 +7,9 @@
         <meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
         <link rel="icon" href="public/img/favicon.ico" />
         <title><?php echo $this->controller->title; ?></title>
+        <script type="text/javascript" src="public/js/jQuery/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="public/js/navMenu.js"></script>
+        <script type="text/javascript" src="public/js/utils.js"></script> <!-- *** wont need this after jquery conversion *** -->
         
         <?php
         // Loop through the CSS and Javascript arrays from the page controller and build the link and script tags needed for page rendering
@@ -41,7 +44,7 @@
         </header>
 
         <nav>
-            <ul id="navigation"> <!-- *** Remember btn img ids are the file names *** -->
+            <ul id="navigation"> <!-- *** Remember: The btn img ids have to be the same as the file names *** -->
                 <li><a href="Home" title="Home"><img src="public/img/navImgs/home.png" id="home" alt="Home Button" /></a></li>
                 <li><a href="Samples" title="Samples"><img src="public/img/navImgs/samples.png" id="samples" alt="Samples Button" /></a></li>
                 <li><a href="Pricing" title="Pricing"><img src="public/img/navImgs/pricing.png" id="pricing" alt="Pricing Button" /></a></li>

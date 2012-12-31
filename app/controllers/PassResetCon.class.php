@@ -7,7 +7,7 @@ class PassResetCon extends SuperCon
     public $title = 'Spiffy Home Tours - Password Reset';
     public $pageId = 'passResetPg'; // Used in navMenu.js for 'you are here navigation'
     public $cssArray = array(array('public/css/reset.css', 'screen'), array('public/css/theme.css', 'screen'), array('public/css/backEnd/passReset.css', 'screen')); // The header view uses $cssArray to build link tags for the page specific stylesheets
-    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js', 'public/js/validator.js', 'public/js/backEnd/passResetPage.js');
+    public $jsArray = array('public/js/validator.js', 'public/js/backEnd/passResetPage.js');
     
     public function __construct()
     {

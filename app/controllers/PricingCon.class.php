@@ -7,7 +7,7 @@ class PricingCon extends SuperCon
     public $title = 'Spiffy Home Tours - Pricing';
     public $pageId = 'pricingPg'; // Used in navMenu.js for 'you are here navigation'
     public $cssArray = array(array('public/css/reset.css', 'screen'), array('public/css/theme.css', 'screen'), array('public/css/frontEnd/pricing.css', 'screen'));
-    public $jsArray = array('public/js/utils.js', 'public/js/navMenu.js');
+    public $jsArray = array();
     
     public function __construct()
     {
