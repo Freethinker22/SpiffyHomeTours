@@ -1,5 +1,4 @@
 //  Navigation menu for spiffyhometours.com
-
 $(document).ready(function()
 {
     var pageId = $('body').attr('id'); // Set inside every page controller for use in 'You are here navigation'

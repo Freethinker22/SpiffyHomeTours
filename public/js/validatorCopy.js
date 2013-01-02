@@ -14,9 +14,7 @@ function ValObj(errStyle)
     this.PASSWORD = /^[A-Za-z0-9\-!\@#$%^&*()_\s]{8,50}$/;
     
     // Other properties
-    this.errStyle = errStyle; // *** still need this??? ****
-    
-    this.errMsg = ''; // *** used in EX ***
+    this.errStyle = errStyle;
 }
 
 // Check the validity of required and non-required fields
@@ -35,7 +33,7 @@ ValObj.prototype.validate = function(evtTarget, regEx, required)
     }
     else // If not required
     {
-        if(evtTarget.attr('value') != '')
+        if(evtTarget.value != '')
         {
             return this.checkRegEx(evtTarget, regEx); // Validate the input if the field contains text
         }
@@ -92,49 +90,46 @@ ValObj.prototype.confirmVals = function(firstVal, secVal)
     {
         return false;
     }
-};
+}
 
 // If the field is empty or its value is equal to its default text, notify the user
 // Note: Error style static means there's already a required msg next to the input field that highlights when its left empty. The dynamic style generates a msg using createElement()
 // Note: The differance in error styles is due to the design of the page and how much room there is to display an error msg
 ValObj.prototype.checkForNull = function(evtTarget)
 {
-    if(evtTarget.attr('value') == '' || evtTarget.attr('value') == evtTarget.attr('title'))
+    if(evtTarget.value == '' || evtTarget.value == evtTarget.title)
     {
-//        if(this.errStyle == 'static') // ****** DON'T delete this until you figure out how to turn on the highlighting in the other js files **********
-//        {
-//            reqErrOn(evtTarget); // Changes the class to highlight (required) in the span tag
-//        }
-//        else if(this.errStyle == 'dynamic')
-//        {
-//            if(!evtTarget.prop('error')) // If the error message is on, don't create another one
-//            {
-//                errMsg(evtTarget, 'Required');
-//            }    
-//        }
-        this.errMsg = 'Required'; // *** used in EX ***
+        if(this.errStyle == 'static')
+        {
+            reqErrOn(evtTarget); // Changes the class to highlight (required) in the span tag
+        }
+        else if(this.errStyle == 'dynamic')
+        {
+            if(!evtTarget.error) // If the error message is on, don't create another one
+            {
+                errMsg(evtTarget, 'Required');
+            }    
+        }
         return false;
     }
     else
     {
         return true;
     }
-};
-
+}
 // Check the evetTarget value against the regular expression
 ValObj.prototype.checkRegEx = function(evtTarget, regEx)
 {
-    if(regEx.test(evtTarget.attr('value')))
+    if(regEx.test(evtTarget.value))
     {
         return true;
     }
     else
     {
-//        if(!evtTarget.prop('error')) // If the error message is on, don't create another one
-//        {
-//            errMsg(evtTarget);
-//        }
-        this.errMsg = 'Invalid Entry'; // *** used in EX ***
+        if(!evtTarget.error) // If the error message is on, don't create another one
+        {
+            errMsg(evtTarget);
+        }
         return false;
     }
-};
+}

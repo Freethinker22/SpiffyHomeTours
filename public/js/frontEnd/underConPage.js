@@ -1,80 +1,64 @@
-// Functions for the under construction page and form validation
-
-addEvent(window, 'load', init, false);
-
-// Object to access the input fields to keep from repeating document.getElementById('inputId')
-function InputsObj()
+// Form validation for the under construction page
+$(document).ready(function()
 {
-    this.email = document.getElementById('notifyEmail');
-}
-
-function init()
-{
-    var inputs = new InputsObj();
-    inputs.email.className = 'defaultText';
-    addEvent(inputs.email, 'focus', fieldFocus, false);
-    addEvent(inputs.email, 'blur' , fieldBlur, false);
-}
-
-// Clears the default field values and removes the error msgs if they're showing
-function fieldFocus(e)
-{
-    var evtTarget = e.target || e.srcElement; // Handle browser differences
+    var formInputs = $('#notifyForm input'); // Array of form inputs
     
-    if(evtTarget.value == evtTarget.title)
-    {
-        evtTarget.value = ''; // Clear field's initial value
-        evtTarget.className = ''; // Remove the defaultText class to make the user's text black
-    }
-	
-    if(evtTarget.error) // If error msg is showing, remove msg and reset flag attribute
-    {
-        var errorContainer = document.getElementById('errorContainer'); // Reference to error msg error container
-        errorContainer.removeChild(document.getElementById('errorMsg')); // Removes error msg if it exists in the parent element
-        removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener to keep subsequent focuses from clearing entered data
-        evtTarget.error = false; // Reset flag attribute
-    }
-}
-
-// Resets the fields inital values if they're empty on blur
-function fieldBlur(e)
-{
-    var evtTarget = e.target || e.srcElement;
-	
-    if(evtTarget.value == '')
-    {
-        evtTarget.value = evtTarget.title; // Reset default text value to input tag's title
-        evtTarget.className = 'defaultText'; // Reset the color of the default text to light gray
-        addEvent(evtTarget, 'focus', fieldFocus, false); // Reassign focus listener so the error msg is removed when refocused
-    }
-}
-
-// Called by the notify btn
-function checkFormStatus()
-{
-    var inputs = new InputsObj();
-    var val = new ValObj('dynamic');
+    formInputs.addClass('defaultText'); // Set the initial text in the inputs to light gray
+    formInputs.prop('error', false); // Create flags to know if the error msg is on or not 
     
-    var valEmail = val.validate(inputs.email, val.EMAIL, true);
-    return valEmail ? true : false;
-}
-
-// Creates a default error msg unless a different one is given
-function errMsg(evtTarget, msg)
-{
-    if(msg == null)
+    // Clears the default field values if they're showing
+    formInputs.focus(function()
     {
-        msg = 'Invalid Entry';
+        if($(this).attr('value') === $(this).attr('title'))
+        {
+            $(this).attr('value', '');
+            $(this).removeClass('defaultText');
+        }
+    });
+    
+    // Resets the fields' inital values if they're empty on blur
+    formInputs.blur(function()
+    {
+        if($(this).attr('value') === '')
+        {
+            $(this).attr('value', $(this).attr('title'));
+            $(this).addClass('defaultText');
+        }
+    });
+    
+    // Called by the submit btn on the form
+    $('#notifyBtn').click(function(event)
+    {
+        var val = new ValObj();
+        var valEmail = checkInput(val, $('#notifyEmail'), val.EMAIL, true); 
+
+        valEmail ? $('#notifyForm').submit() : event.preventDefault(); // Submit the form or prevent the default submit action of the form so the validation can run
+    });
+    
+    // Uses a reference to the validator obj and the input field to be validated. The val obj either returns true or sets its errMsg property to the correct error msg and returns false
+    function checkInput(valObj, input, regEx, required)
+    {
+        if(valObj.validate(input, regEx, required))
+        {
+            return true;
+        }
+        else
+        {
+            if(!input.prop('error')) // If the error msg is already showing, don't create another one
+            {
+                var errId = input.attr('id') + 'ErrMsg'; // Set a unique id for each error msg so it can specifically be removed
+                
+                input.after('<p class="errMsg" id="' + errId + '">' + valObj.errMsg + '</p>'); // Append the error msg set in the validator obj
+                input.prop('error', true);
+                
+                input.focus(function(event) // Assign a listener to remove the error msg when the user returns to the field
+                {
+                    $('#' + errId).remove();
+                    input.prop('error', false);
+                    input.unbind(event);
+                });
+            }
+            return false;
+        }
     }
-        
-    var errorContainer = document.getElementById('errorContainer'); // Reference to error msg error container
-    var errElem = document.createElement('p'); // Create container for error msg
-    var errText = document.createTextNode(msg); // Create error msg
-	
-    errElem.appendChild(errText); // Put error msg in container
-    errElem.setAttribute('class', 'errLabel'); // Set the error msg style
-    errElem.setAttribute('id', 'errorMsg'); // Set the id of the error msg element so it can be removed in fieldFocus
-    errorContainer.appendChild(errElem);// Put the error msg on the screen
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Reassign a focus listener so error msg is removed when refocused	
-    evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
-}
+});

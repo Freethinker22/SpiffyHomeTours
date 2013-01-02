@@ -33,12 +33,9 @@ button {
 .defaultText {
     color:#888;
 }
-.errLabel {
+.errMsg {
     color:red;
-    display:inline;
     font-size:.85em;
-}
-#errorContainer {
     text-align:center;
 }
 .msgBox {
