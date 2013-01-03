@@ -1,4 +1,4 @@
-// Functions for the login page and form validation
+// Form validation for the login page
 
 addEvent(window, 'load', init, false);
 
@@ -6,7 +6,7 @@ addEvent(window, 'load', init, false);
 function InputsObj()
 {
     this.email = document.getElementById('email');
-    this.password = document.getElementById('password');
+    this.password = document.getElementById('password'); // ****** loginPage and forgotPassPage could be combined into one file using two click listeners for each form button ***********
 }
 
 function init()

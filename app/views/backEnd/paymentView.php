@@ -10,7 +10,7 @@ $model = $this->model; // Shortcut to the model
     <?php // Check to see if the error flag in the model is set to true. If so, include the error msg
     if($model->emailTaken)
     {
-        $this->loadView('errors/errorEmailTaken');
+        $this->loadView('alerts/emailTaken');
     }
     ?>
     

@@ -50,69 +50,16 @@ li.centered {
 li a:link, li a:visited, li a:hover {
     color:#FFF;
 }
-.errLabel { /* Note: This is the class of the <p> tag echoed out of the Validator object when there is an error */
+.errLabel {
     color:red;
     display:inline;
     font-size:.85em;
 }
-
-/**** Alert message style rules. The alerts are seperate views loaded in if there was an error or to confirm an event ****/
-
-/**** Style rules used for the alerts in the forgot password page ****/
-img + p { /* Text in the alert boxes */
-    font-size:.93em;
-    margin-left:37px;
-    width:330px;
-}
-img + p a:link, img + p a:visited {
-    color:#00F;
-}
-img + p a:hover {
-    color:#00F;
-    text-decoration:underline;
-}
-.alertTextBg {
+.textMsgBg {
     background:#8AB0BF;
     border:1px solid black;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border-radius:6px;
     padding:4px;
-}
-.alertGraphic { /* Also used in the deny access alert */
-    float:left;
-}
-#alertPassConfirm {
-    margin:0 auto 20px;
-    position:relative;
-    top:130px;
-    width:360px;
-}
-#alertEmailNotInDb {
-    margin:4px auto 20px;
-    width:360px;
-}
-
-/**** Style rules used for the deny access alert in the login page ****/
-#alertDenyAccess {
-    background:white;
-    border:1px solid red;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    margin:0 auto 20px;
-    padding:6px;
-    width:350px;
-}
-#alertDenyAccess p {
-    font-size:.93em;
-    margin-left:37px;
-    width:330px;
-}
-#alertDenyAccess a:link, #alertDenyAccess a:visited {
-    color:#00F;
-}
-#alertDenyAccess a:hover {
-    color:#00F;
-    text-decoration:underline;
 }

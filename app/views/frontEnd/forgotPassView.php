@@ -33,7 +33,7 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
             else
             {
                 ?>
-                <p class="alertTextBg">Kindly provide your e-mail address and instructions on reseting your password will be e-mailed to you.</p>
+                <p class="textMsgBg">Kindly provide your e-mail address and instructions on reseting your password will be e-mailed to you.</p>
                 <?php
             }
         }

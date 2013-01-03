@@ -11,30 +11,3 @@
 .columnTitle {
     font-weight: bold;
 }
-
-/**** Error message box style rules. Shows only if the user's email is already in the DB ****/
-#alertMsg {
-    background:white;
-    border:1px solid red;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    margin:0 auto 20px;
-    padding:6px;
-    width:350px;
-}
-#alertMsg p {
-    font-size:.93em;
-    margin-left:37px;
-    width:330px;
-}
-#alertMsg a:link, #alertMsg a:visited {
-    color:#00F;
-}
-#alertMsg a:hover {
-    color:#00F;
-    text-decoration:underline;
-}
-#alertGraphic {
-    float:left;
-}

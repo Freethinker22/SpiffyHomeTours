@@ -1,15 +1,4 @@
-@font-face {
-    font-family:GoudyBookletter1911_1;
-    src:url("../fonts/GoudyBookletter1911_1.eot");
-    src:local('☺'), url("../fonts/GoudyBookletter1911_1.woff") format("woff"), url("../fonts/GoudyBookletter1911_1.ttf") format("truetype");
-}
-nav p {
-    color:#E4ECEF;
-    font-family:GoudyBookletter1911_1;
-    font-size:2.25em;
-    padding-top:26px;
-    text-align:center;
-}
+/**** Under construction page CSS ****/
 #notifyBox {
     background:url("../img/loginBg.png") no-repeat center;
     height:325px;
@@ -44,7 +33,7 @@ button {
 .defaultText {
     color:#888;
 }
-.errLabel { /* Note: This class is for the error msg echoed out of the Validator object when there is an error */
+.errLabel {
     color:red;
     display:inline;
     font-size:.85em;
@@ -80,24 +69,4 @@ button {
     line-height:1.5em;
     padding-top:145px;
     text-align:center;
-}
-
-/**** Error message box style rules. Shows only if the time error box comes back from the server ****/
-#alertMsg {
-    background:white;
-    border:1px solid red;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    margin:0 auto 20px;
-    padding:6px;
-    width:350px;
-}
-#alertMsg p {
-    font-size:.93em;
-    margin-left:37px;
-    width:330px;
-}
-#alertGraphic {
-    float:left;
 }

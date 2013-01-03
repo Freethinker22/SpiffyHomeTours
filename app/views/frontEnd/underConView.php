@@ -28,7 +28,7 @@
             </section>
         </header>
         
-        <nav>
+        <nav class="altNavMenu">
             <p>Under Construction</p>
         </nav>
         

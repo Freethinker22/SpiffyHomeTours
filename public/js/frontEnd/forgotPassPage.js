@@ -1,4 +1,4 @@
-// Functions for the forgot password page and form validation
+// Form validation for the forgot password page
 
 addEvent(window, 'load', init, false);
 

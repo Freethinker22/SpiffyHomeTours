@@ -4,7 +4,6 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" type="text/css" href="public/css/reset.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="public/css/theme.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="public/css/alerts.css" media="screen" />
         <link rel="icon" href="public/img/favicon.ico" />
         <title>Page Not Found</title>
         <!--[if lt IE 9]>
@@ -25,14 +24,14 @@
             </section>
         </header>
         
-        <nav>
+        <nav class="altNavMenu">
             <p>Page Not Found</p>
         </nav>
         
         <section id="mainContent">
-            <section id="alertMsg">
-                <img src="public/img/alertGraphic.png" class="alertGraphic" alt="Alert Graphic" />
-                <p>Well this is embarrassing...  <br />
+            <section class="alertMsg">
+                <img src="public/img/alertGraphic.png" alt="Alert Graphic" />
+                <p>Well this is embarrassing...<br />
                 It seems the page you requested doesn't exist.  Check the URL in your browser's address bar and refresh the page.  If that doesn't work, here is how to <a href="Contact" title="Contact me">contact</a> me.</p>
             </section>
         </section>

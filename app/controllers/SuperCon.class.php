@@ -50,7 +50,8 @@ class SuperCon
         }
         else
         {
-            include(VIEWS_PATH . 'errors/errorNoViewFound.php');
+            error_log('No view found. ' . $viewName);
+            header('Location: error404');
         }
     }
 }

@@ -1,1 +1,1 @@
-<p id="notifyThanksMsg">Thank you for your interest, we'll be in touch.</p>
+<p id="notifyThanksMsg">Thank you for your interest, I'll be in touch.</p>

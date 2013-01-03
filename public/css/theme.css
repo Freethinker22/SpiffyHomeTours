@@ -1,5 +1,9 @@
-/**** Main theme CSS. This file sets up the main header, footer, nav bar, and background.  Pages have individual stylesheets to customize their content ****/
+/* Main theme CSS. This file sets up the header, footer, nav bar, background, and other theme parts of the site. Pages have individual stylesheets to customize their content */
 @font-face {
+    font-family:GoudyBookletter1911_1;
+    src:url("../fonts/GoudyBookletter1911_1.eot");
+    src:local('☺'), url("../fonts/GoudyBookletter1911_1.woff") format("woff"), url("../fonts/GoudyBookletter1911_1.ttf") format("truetype");
+    
     font-family:Junction;
     src:url("../fonts/Junction.eot");
     src:local('☺'), url("../fonts/Junction.woff") format("woff"), url("../fonts/Junction.ttf") format("truetype");
@@ -43,7 +47,7 @@ header section img {
     margin-top:6px;
 }
 
-/**** Nav style rules ****/
+/**** Nav bar style rules ****/
 nav {
     background:url("../img/menuBanner.png") no-repeat center;
     clear:both; /* Must clear floats or it messes with nav ul centering */
@@ -60,6 +64,13 @@ nav ul li {
 }
 nav ul li img{
     margin-top:20px;
+}
+nav.altNavMenu p { /* Used only in the 404 page and the under construction page */ 
+    color:#E4ECEF;
+    font-family:GoudyBookletter1911_1;
+    font-size:2.25em;
+    padding-top:26px;
+    text-align:center;
 }
 
 /**** Main content style rules ****/
@@ -89,4 +100,37 @@ footer p {
     position:relative; /* Sets the position so the footer text can be moved below the footer background img */
     text-align:center;
     top:170px;
+}
+
+/**** Alert msg boxes. Alerts are seperate views loaded in if there was an error or to confirm an event ****/
+.alertMsg {
+    background:white;
+    border:1px solid red;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    margin:0 auto 20px;
+    padding:6px;
+    width:370px;
+}
+.alertMsgAlt {
+    background:#8AB0BF;
+    border:1px solid black;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    margin:0 auto;
+    padding:6px;
+    font-size:.93em;
+    width:330px;
+}
+.alertMsg img, .alertMsgAlt img {
+    float:left;
+}
+.alertMsg p, .alertMsgAlt p {
+    margin-left:37px;
+}
+.alertMsgPassConfirm { /* Used in the forgot password confirm and change password confirm msgs */
+    position:relative;
+    top:100px;
 }

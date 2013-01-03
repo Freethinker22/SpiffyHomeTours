@@ -79,9 +79,4 @@ checkUrl();
 // ***** File naming convention *****
 // Page controller file names have 2 parts. The page name, 'Contact' and the 'Con' suffix
 // Ajax controller file names have 3 parts. The page where the Ajax app is, 'Contact', The part of the page its used for, 'Form', and the 'Ajax' suffix
-
-// ***** Revise later ***** 
-// See if the style rules for alert/error msgs could be put into the theme stylesheet instead of spread around in the page specific stylesheets
-// Get loadView() in the SuperCon working for the Ajax apps, would need to move that function into the SuperModel but that creates bugs in other pages
-// Build a better 404 page.  Make it a standard error box that doesn't span the whole page
 ?>

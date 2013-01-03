@@ -17,7 +17,7 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
         {
             $this->loadView('alerts/passResetConfirm');
         }
-        else // Revise later: maybe put the html below into its own view? But then, why bother having three view files for one page? Maybe redesign contoller to use just two views?
+        else // Revise later: Maybe put the html below into its own view? But then, why bother having three view files for one page? Maybe redesign contoller to use just two views?
         {
         ?>
         <form name="passResetForm" id="passResetForm" method="post" action="PassReset" onSubmit="return checkFormStatus();">

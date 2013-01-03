@@ -9,7 +9,7 @@
     padding:5px 0;
     width:800px;
 }
-#mainContent p {
+#mainContent > p {
     margin:0 auto 10px;
     width:745px; /* Same width as #contactArea plus any padding it has */
 }
@@ -123,24 +123,4 @@ p a:link, p a:visited, p a:hover {
     font-size:1.25em;
     line-height:1.5em;
     text-align:center; 
-}
-
-/**** Error message box style rules. Shows only if the time error box comes back from the server ****/
-#alertMsg {
-    background:white;
-    border:1px solid red;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    margin:0 auto 20px;
-    padding:6px;
-    width:350px;
-}
-#alertMsg p {
-    font-size:.93em;
-    margin-left:37px;
-    width:330px;
-}
-#alertGraphic {
-    float:left;
 }
