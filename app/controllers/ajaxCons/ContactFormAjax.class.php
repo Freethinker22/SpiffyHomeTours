@@ -13,7 +13,7 @@ class ContactFormAjax
         {
             if($this->validator->valNumber($_POST['loadTime'], true) && $this->validator->checkTime($_POST['loadTime'])) // Val the loadTime var then check if the submission is old enough to be from a human and not a bot
             {
-                $userName = $_POST['name'];
+                $userName = $_POST['fullName'];
                 $userEmail = $_POST['email'];
                 $userSubject = $_POST['subject'];
                 $userMsg = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
@@ -21,18 +21,19 @@ class ContactFormAjax
                 
                 if($this->model->messenger->contactMsg($userName, $userEmail, $userSubject, $userMsg, $isClient))
                 {
-                    include(VIEWS_PATH . 'alerts/msgSent.php'); // Redisplay page with the confirmation msg showing
+                    include(VIEWS_PATH . 'alerts/msgSent.php'); // Return the confirmation msg to be displayed using Ajax
                 }
             }
             else
             {
-                error_log('File:ContactFormAjax.class.php - Time error'); // Log the time error
-                include(VIEWS_PATH . 'alerts/tooFast.php'); // Redisplay page with the time error showing
+                error_log('File:ContactFormAjax.class.php - Time error');
+                include(VIEWS_PATH . 'alerts/tooFast.php'); // Return the time error to be displayed using Ajax
             }
         }
         else
         {
-            include(VIEWS_PATH . 'errors/error404.php'); // Note: This is here incase the JS validation is thwarted and the server side val comes back false, the form shouldn't submit w/o JS being enabled
+            error_log('File:ContactFormAjax.class.php - Contact form submitted w/o JS being enabled');
+            header('Location: error404'); // Note: This is here incase the JS validation is thwarted and the server side val comes back false, the form shouldn't submit w/o JS being enabled
         }
     }
 }

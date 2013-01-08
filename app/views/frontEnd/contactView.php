@@ -10,25 +10,25 @@ $loadTime = time(); // Initial time that the page loads is checked against the t
                 <div id="inputsWrapper">
                     <div>
                         <label for="fullName">Your Name: <span class="required">(required)</span></label>
-                        <input type="text" name="fullName" id="fullName" title="First &amp; last name" value="First &amp; last name" maxlength="50" />
+                        <input type="text" name="fullName" id="fullName" class="formInputs" title="First &amp; last name" value="First &amp; last name" maxlength="50" />
                     </div>
                     <div>
                         <label for="email">Your E-mail: <span class="required">(required)</span></label>
-                        <input type="text" name="email" id="email" title="E-mail address" value="E-mail address" maxlength="500" />
+                        <input type="text" name="email" id="email" class="formInputs" title="E-mail address" value="E-mail address" maxlength="500" />
                     </div>
                     <div>
                         <label for="subject">In Regards To: <span class="required">(required)</span></label>
-                        <input type="text" name="subject" id="subject" title="Subject" value="Subject" maxlength="50"/>
+                        <input type="text" name="subject" id="subject" class="formInputs" class="formInputs" title="Subject" value="Subject" maxlength="50"/>
                     </div>
                     <div>
                         <label for="message">Your Message: <span class="required">(required)</span></label>
-                        <textarea name="message" id="message" title="Enter your message here" cols="40" rows="10">Enter your message here</textarea>
+                        <textarea name="message" id="message" class="formInputs" title="Enter your message here" cols="40" rows="10">Enter your message here</textarea>
                     </div>
                     <div>
                         <input type="hidden" name="loadTime" id="loadTime" value="<?php echo $loadTime ?>" maxlenght="50" />
                     </div>
                 </div> <!-- End inputsWrapper -->
-                <input type="button" name="sendBtn" id="sendBtn" value="Send Message" />
+                <input type="button" name="contactBtn" id="contactBtn" value="Send Message" />
             </form>
         </section> <!-- End leftCol section -->
 

@@ -241,7 +241,7 @@ class FrontEndModel extends SuperModel
     public function checkContact()
     {
         $valArray = array(
-            $this->validator->valName($_POST['name'], true),
+            $this->validator->valName($_POST['fullName'], true),
             $this->validator->valEmail($_POST['email'], true),
             $this->validator->valOtherText($_POST['subject'], true),
             $this->validator->checkForNull(filter_var($_POST['message'], FILTER_SANITIZE_STRING)) // Sanitize the user's message before checking it for null in the validator

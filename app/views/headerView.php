@@ -9,7 +9,6 @@
         <title><?php echo $this->controller->title; ?></title>
         <script type="text/javascript" src="public/js/jQuery/jquery-1.8.3.min.js"></script>
         <script type="text/javascript" src="public/js/navMenu.js"></script>
-        <script type="text/javascript" src="public/js/utils.js"></script> <!-- *** wont need this after jquery conversion *** -->
         
         <?php
         // Loop through the CSS and Javascript arrays from the page controller and build the link and script tags needed for page rendering

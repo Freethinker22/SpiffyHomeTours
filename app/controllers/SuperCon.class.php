@@ -50,7 +50,7 @@ class SuperCon
         }
         else
         {
-            error_log('No view found. ' . $viewName);
+            error_log('File:SuperCon.class.php - No view found. ' . $viewName);
             header('Location: error404');
         }
     }

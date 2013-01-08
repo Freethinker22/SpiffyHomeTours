@@ -1,10 +1,6 @@
 // Functions for the sign up page and form validation
-$(document).ready(function()
-{
-    
-});
 
-//addEvent(window, 'load', init, false);
+addEvent(window, 'load', init, false);
 
 // Object to access the input fields to keep from repeating document.getElementById('inputId')
 function InputsObj()

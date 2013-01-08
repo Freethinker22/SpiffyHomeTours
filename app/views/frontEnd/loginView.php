@@ -13,7 +13,7 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
     }
     ?>
     <section id="loginBox">
-        <form name="loginForm" id="loginForm" method="post" action="Login" onSubmit="return checkFormStatus();">
+        <form name="loginForm" id="loginForm" method="post" action="Login">
             <ul>
                 <li>
                     <label for="email">E-mail Address: <?php if($btnPressed) $vaildator->valEmail($_POST['email'], true, true); ?></label>

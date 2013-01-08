@@ -13,7 +13,6 @@
 #passResetForm {
     margin:0 auto;
     padding-top:100px;
-    position:relative;
     width:410px;
 }
 #passResetForm label {
@@ -24,12 +23,11 @@ input {
     margin-bottom:8px;
     outline:none;
 }
-input[type="text"], [type="password"] {
+input[type="text"], input[type="password"] {
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border-radius:6px;
     height:1.5em;
-    outline:none;
     width:11em;
 }
 button {
@@ -39,26 +37,16 @@ button {
     margin:10px auto;
     outline:none;
 }
-#txtOldPass {
+.displayNone { /* By default, in case JS is off, hide the duplicate password inputs, and un-hide them in JS */
     display:none;
 }
-#txtNewPass { /* By default, in case JS is off, hide the duplicate password inputs, and un-hide them in JS */
-    display:none;
-}
-#txtNewPassConf {
-    display:none;
+.displayInline {
+    display:inline;
 }
 .defaultText {
     color:#888;
 }
-.required {
-    font-size:.75em;
-}
-.reqError {
-    color:red;
-    font-size:.75em;
-}
-.errLabel {
+.errMsg {
     color:red;
     display:inline;
     font-size:.85em;

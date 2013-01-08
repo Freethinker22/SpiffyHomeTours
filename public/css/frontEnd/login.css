@@ -1,4 +1,4 @@
-/**** Login and Forgot Password page CSS ****/
+/**** Login and Forgot Password pages CSS ****/
 
 /**** Main content style rules ****/
 #mainContent {
@@ -27,7 +27,7 @@ input {
     margin-bottom:5px;
     outline:none;
 }
-input[type="text"], [type="password"] {
+input[type="text"], input[type="password"] {
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border-radius:6px;
@@ -50,7 +50,7 @@ li.centered {
 li a:link, li a:visited, li a:hover {
     color:#FFF;
 }
-.errLabel {
+.errMsg {
     color:red;
     display:inline;
     font-size:.85em;

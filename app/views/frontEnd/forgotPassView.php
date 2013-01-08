@@ -14,7 +14,7 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
         else
         {
             ?>
-            <form name="forgotPassForm" id="forgotPassForm" method="post" action="ForgotPass" onSubmit="return checkFormStatus();">
+            <form name="forgotPassForm" id="forgotPassForm" method="post" action="ForgotPass">
                 <ul>
                     <li>
                         <label for="email">E-mail Address: <?php if($btnPressed) $vaildator->valEmail($_POST['email'], true, true); ?></label>

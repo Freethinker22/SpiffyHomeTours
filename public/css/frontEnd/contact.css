@@ -31,13 +31,6 @@ input {
 label {
     display:block;
 }
-label .required {
-    font-size:.75em;
-}
-label .reqError {
-    color:red;
-    font-size:.75em;
-}
 input[type="text"] {
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
@@ -46,7 +39,7 @@ input[type="text"] {
     outline:none;
     width:16em;
 }
-input[type="submit"], [type="button"] {
+input[type="submit"], input[type="button"] {
     margin-top:10px;
 }
 textarea {
@@ -60,9 +53,17 @@ textarea {
 .defaultText {
     color:#888;
 }
-.errLabel {
+.required {
+    font-size:.75em;
+}
+.reqError {
+    color:red;
+    font-size:.75em;
+}
+.errMsg {
     color:red;
     display:inline;
+    font-size:.85em;
 }
 
 /**** Right column style rules ****/
@@ -105,19 +106,12 @@ p a:link, p a:visited, p a:hover {
     margin-top:150px;
     text-align:center;
 }
-#sendingDiv p {
-    width:inherit;
+
+/**** Left column style rules used after the Ajax form submission for the thank you msg html in contact form ***/
+#sentMsg {
+    margin-top:150px;
 }
-/**** Left column style rules used after the Ajax form submission for the thank you msg html in contactForm.php ***/
-#outterMsg {
-    height:inherit;
-    position: relative;
-}
-#innerMsg {
-    position:absolute;
-    top:35%;
-}
-#innerMsg p {
+#sentMsg p {
     display:table-cell;
     font-family:Junction, "Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size:1.25em;

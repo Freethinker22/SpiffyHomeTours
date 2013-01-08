@@ -3,8 +3,16 @@ $(document).ready(function()
 {
     var formInputs = $('#notifyForm input'); // Array of form inputs
     
-    formInputs.addClass('defaultText'); // Set the initial text in the inputs to light gray
-    formInputs.prop('error', false); // Create flags to know if the error msg is on or not 
+    formInputs.prop('error', false); // Create flags to know if the error msg is on or not
+    
+    // Set the color of the text in the inputs to light gray if its the initial text, if the page has been reloaded due to an error, the user's text is not set to light gray
+    formInputs.addClass(function()
+    {
+        if($(this).attr('value') === $(this).attr('title'))
+        {
+            return 'defaultText';
+        }
+    });
     
     // Clears the default field values if they're showing
     formInputs.focus(function()
@@ -26,13 +34,13 @@ $(document).ready(function()
         }
     });
     
-    // Called by the submit btn on the form
-    $('#notifyBtn').click(function(event)
+    // Validate the user's input and allow it to submit if valid, otherwise return false and display the errors
+    $('#notifyForm').submit(function()
     {
         var val = new ValObj();
-        var valEmail = checkInput(val, $('#notifyEmail'), val.EMAIL, true); 
-
-        valEmail ? $('#notifyForm').submit() : event.preventDefault(); // Submit the form or prevent the default submit action of the form so the validation can run
+        var valEmail = checkInput(val, $('#notifyEmail'), val.EMAIL, true);
+        
+        return valEmail ? true : false;
     });
     
     // Uses a reference to the validator obj and the input field to be validated. The val obj either returns true or sets its errMsg property to the correct error msg and returns false

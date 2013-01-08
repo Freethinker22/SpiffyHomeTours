@@ -1,201 +1,132 @@
-// Functions for the contact page and form validation
-
-// Global variable
-var sendRequest = createRequest(); // Request object used in form submission
-
-addEvent(window, 'load', init, false);
-
-// Object to access the input fields to keep from repeating document.getElementById('inputId')
-function InputsObj()
+// Form validation for the contact page
+$(document).ready(function()
 {
-    this.fullName = document.getElementById('fullName');
-    this.email = document.getElementById('email');
-    this.subject = document.getElementById('subject');
-    this.message = document.getElementById('message');
-}
-
-function init()
-{
+    var formInputs = $('.formInputs'); // Array of form inputs
     var sendingImg = new Image();
+    
+    formInputs.prop('error', false); // Create flags to know if the error msg is on or not
     sendingImg.src = 'public/img/sending.gif'; // Preload processing img
-    addEvents();
-}
-
-// Register event listeners, and setup flag attributes
-function addEvents()
-{
-    var inputs = new InputsObj();
-    var inputAr = [inputs.fullName, inputs.email, inputs.subject, inputs.message];
-    var inputArLen = inputAr.length;
-	
-    addEvent(document.getElementById('sendBtn'), 'click', checkFormStatus, false);
-	
-    for(var i = 0; i < inputArLen; i++)
-    {
-        addEvent(inputAr[i], 'focus', fieldFocus, false);
-        addEvent(inputAr[i], 'blur', fieldBlur, false);
-        inputAr[i].error = false; // Create new flag attribute, used to tell if the error msg is highlighted
-		
-        if(inputAr[i].value == inputAr[i].title) // Set the color of the default text to light gray if the default text is still showing
-        {
-            inputAr[i].className = 'defaultText';
-        }
-    }
-}
-
-// Clears the default field values and removes the error messages if they're showing
-function fieldFocus(e)
-{
-    var evtTarget = e.target || e.srcElement; // Handle browser differences
-	
-    if(evtTarget.error) // If error message is showing, remove message and reset flag attribute
-    {
-        var parentObj = evtTarget.parentNode; // Reference to error message parent element
-        parentObj.removeChild(parentObj.getElementsByTagName('p')[0]); // Removes error p tag if it exists in the parent element	
-        removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener to keep subsequent focuses from clearing entered data
-        evtTarget.error = false; // Reset flag attribute
-    }
-    else
-    {
-        if(evtTarget.value == evtTarget.title) // Check if field still has its initial value
-        {
-            evtTarget.value = ''; // Clear field's initial value
-            removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener after initial focus to keep subsequent focuses from clearing entered data
-            evtTarget.className = ''; // Remove the defaultText class to make the user entered text black
-        }
-        if(evtTarget.parentNode.getElementsByTagName('span')[0].className == 'reqError') // If 'required' is highlighted because of an error, un-highlight it
-        {
-            reqErrOff(evtTarget); // Change the span's class back to normal un-highlighted text
-        }
-    }
-}
-
-// Resets the fields inital values if they're empty on blur
-function fieldBlur(e)
-{
-    var evtTarget = e.target || e.srcElement;
-	
-    if(evtTarget.value == '')
-    {
-        evtTarget.value = evtTarget.title; // Reset initial value to input tag's title
-        addEvent(evtTarget, 'focus', fieldFocus, false); // Re-add event listener so initial value will be removed when refocused
-        evtTarget.className = 'defaultText'; // Reset the color of the default text to light gray
-    }
-}
-
-// Called by the send message btn in the contact form
-function checkFormStatus()
-{
-    var inputs = new InputsObj();
-    var val = new ValObj('static');
     
-    var validName = val.validate(inputs.fullName, val.NAME, true);
-    var validEmail = val.validate(inputs.email, val.EMAIL, true);
-    var validSubject = val.validate(inputs.subject, val.OTHER_TEXT, true);
-    var validMessage = val.checkForNull(inputs.message); // The message is sanitized in the PHP form handler
+    // Set the color of the text in the inputs to light gray if its the initial text, if the page has been reloaded due to an error, the user's text is not set to light gray
+    formInputs.addClass(function()
+    {
+        if($(this).attr('value') === $(this).attr('title'))
+        {
+            return 'defaultText';
+        }
+    });
     
-    if(validName && validEmail && validSubject && validMessage)
+    // Clears the default field values if they're showing
+    formInputs.focus(function()
     {
-        sendForm(); // If all the check functions return true, allow the form to submit
+        if($(this).attr('value') === $(this).attr('title'))
+        {
+            $(this).attr('value', '');
+            $(this).removeClass('defaultText');
+        }
+    });
+    
+    // Resets the fields' inital values if they're empty on blur
+    formInputs.blur(function()
+    {
+        if($(this).attr('value') === '')
+        {
+            $(this).attr('value', $(this).attr('title'));
+            $(this).addClass('defaultText');
+        }
+    });
+    
+    $('#contactBtn').click(function()
+    {
+        var val = new ValObj();
+        var valName = checkInput(val, $('#fullName'), val.NAME, true);
+        var valEmail = checkInput(val, $('#email'), val.EMAIL, true);
+        var valSubject = checkInput(val, $('#subject'), val.OTHER_TEXT, true);
+        var valMsg = val.checkForNull($('#message'));
+        
+        if(!valMsg) // The message box only needs to be checked for null, its sanitization is done on the server
+        {
+            reqErrOn($('#message'));
+        }
+        
+        if(valName && valEmail && valSubject && valMsg)
+        {
+            sendForm(); // If all the check functions return true, submit the form via AJAX
+        }
+    });
+    
+    function checkInput(valObj, input, regEx, required)
+    {
+        if(valObj.validate(input, regEx, required))
+        {
+            return true;
+        }
+        else if(valObj.isNull)
+        {
+            reqErrOn(input);
+            return false;
+        }
+        else
+        {
+            if(!input.prop('error')) // If the error msg is already showing, don't create another one
+            {
+                var errId = input.attr('id') + 'ErrMsg'; // Set a unique id for each error msg so it can specifically be removed
+                
+                input.after('<p class="errMsg" id="' + errId + '">' + valObj.errMsg + '</p>'); // Append the error msg set in the validator obj
+                input.prop('error', true);
+                
+                input.focus(function(event) // Assign a listener to remove the error msg when the user returns to the field
+                {
+                    $('#' + errId).remove();
+                    input.prop('error', false);
+                    input.unbind(event);
+                });
+            }
+            return false;
+        }
     }
-}
-
-// Creates a default error message next to the target field unless a different one is given
-function errMsg(evtTarget, msg)
-{
-    if(msg == null)
+    
+    // Highlight the 'required' text in the label's span tag if the input is empty
+    function reqErrOn(input)
     {
-        msg = 'Invalid Entry';
+        input.prev().children('span').removeClass('required').addClass('reqError');
+        
+        input.focus(function(event) // Assign a listener to remove the highlighting on the 'required' text in the label's span tag if the text was highlighted
+        {
+            input.prev().children('span').removeClass('reqError').addClass('required');
+            input.unbind(event);
+        });
     }
-	
-    var parentObj = document.getElementById(evtTarget.id).parentNode; // Reference to field's parent element
-    var errElem = document.createElement('p'); // Create container for error message
-    var errText = document.createTextNode(msg); // Create error message
-	
-    errElem.appendChild(errText); // Put error message in container
-    errElem.setAttribute('class', 'errLabel'); // Set the error message style
-    parentObj.appendChild(errElem); // Put the container in the parent element
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused	
-    evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
-}
-
-// Changes the class to highlight (required) in the span tag
-function reqErrOn(evtTarget)
-{
-    var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0]; // Reference to the target's span element
-    spanObj.className = 'reqError';
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused
-}
-
-// Turn off the highlighting of (required) in the span tag
-function reqErrOff(evtTarget)
-{
-    var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0];
-    spanObj.className = 'required';
-}
-
-// Send the form to the server with user input data
-function sendForm()
-{
-    if(sendRequest == null)
+    
+    // Send the form to the server with user input data
+    function sendForm()
     {
-        alert('Oops! It seems there was an connection error, please try again.');
-    }
-    else
-    {
-        var inputs = new InputsObj();
-        var url = 'ajaxRouter.php?ajaxCon=ContactForm';
-        var nameValue = escape(inputs.fullName.value); // Get the fields' values and append them to the url that is sent to the server
-        var emailValue = escape(inputs.email.value);
-        var subjectValue = escape(inputs.subject.value);
-        var messageValue = escape(inputs.message.value);
-        var loadTimeValue = escape(document.getElementById('loadTime').value);
-        var requestData = 'name=' + nameValue + '&email=' + emailValue + '&subject=' + subjectValue + '&message=' + messageValue + '&loadTime=' + loadTimeValue;
-		
-        sendRequest.onreadystatechange = msgReceived;
-        sendRequest.open('POST', url, true);
-        sendRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Needed to un-encode POST requests
-        sendRequest.send(requestData);
+       var formData = $('#contactForm').serialize();
+       var request = $.ajax({
+            type: 'POST',
+            url: 'ajaxRouter.php?ajaxCon=ContactForm',
+            data: formData
+        });
+                
+        request.done(function(data)
+        {
+            $('#sendingDiv').remove(); // Remove the sending graphic
+            $('#leftCol').append(data);
+        });
+        
+        request.fail(function()
+        {
+            alert('Oops! It seems there was an connection error, please try again.');
+        });
+        
         msgSending();
     }
-}
-
-// Display sending graphic while waiting on server
-function msgSending()
-{
-    var leftCol = document.getElementById('leftCol'); // Reference to the left column of the contact page
-    var contactForm = document.getElementById('contactForm'); // Reference to the contact form
-    var imgDiv = document.createElement('div'); // Container for the sending img
-    var sendImg = document.createElement('img'); // Img element to hold the sending img
-    var msgPara = document.createElement('p'); // Container for the sending message
-    var sendMsg = document.createTextNode('Sending Message...'); // The text for the sending message
-			
-    leftCol.removeChild(contactForm); // Remove the form from the left column
-    leftCol.setAttribute('class', 'leftColSending'); // Assign the left column a class to append it's CSS
-    sendImg.setAttribute('src', 'public/img/sending.gif'); // Set the sendImg tag's src attribute
-    imgDiv.setAttribute('id', 'sendingDiv'); // Assign the imgDiv tag's id attribute
-    imgDiv.appendChild(sendImg); // Put the img in the img div
-    msgPara.appendChild(sendMsg); // Put the message text in the paragraph
-    imgDiv.appendChild(msgPara); // Put the paragraph in the img div
-    leftCol.appendChild(imgDiv); // Put the img div in the left column
-}
-
-// Callback function for sendRequest
-function msgReceived()
-{
-    if(sendRequest.readyState == 4)
+    
+    // Display the sending graphic while waiting on the server
+    function msgSending()
     {
-        if(sendRequest.status == 200)
-        {
-            var leftCol = document.getElementById('leftCol');
-			
-            leftCol.removeChild(document.getElementById('sendingDiv')); // Remove sending div and message
-            leftCol.innerHTML = sendRequest.responseText; // Display either msg sent and thank you, or redisplay the form with any errors showing from server side validation
-			
-            if(elementInDoc(document.getElementById('contactForm'))) // If its the error form that comes back, rebind the events for the form
-            {
-                addEvents(); // Rebind the events and other JS for the returned form when there is an error in the server side validation
-            }
-        }
+        $('#contactForm').remove();
+        $('#leftCol').addClass('leftColSending');
+        $('#leftCol').append('<div id="sendingDiv"><img src="public/img/sending.gif" alt="Sending animation" /><p>Sending Message...</p></div>');
     }
-}
+});

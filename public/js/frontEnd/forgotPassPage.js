@@ -1,60 +1,43 @@
 // Form validation for the forgot password page
-
-addEvent(window, 'load', init, false);
-
-// Object to access the input fields to keep from repeating document.getElementById('inputId')
-function InputsObj()
+$(document).ready(function()
 {
-    this.email = document.getElementById('email');
-}
+    var formInputs = $('#forgotPassForm input'); // Array of form inputs
 
-function init()
-{
-    var inputs = new InputsObj();
-    inputs.email.focus();
-    inputs.email.error = false; // Create new flag attribute, used to tell if an error message is on
-}
+    formInputs.prop('error', false); // Create flags to know if the error msg is on or not
+    $('#email').focus(); // Give the email input focus by default
 
-// Called by the send btn in the forgot password form
-function checkFormStatus()
-{
-    var inputs = new InputsObj();
-    var val = new ValObj('dynamic');
-    
-    var valEmail = val.validate(inputs.email, val.EMAIL, true);
-	
-    return valEmail ? true : false;
-}
-
-// Creates a default error message next to the target field unless a different one is given
-function errMsg(evtTarget, msg)
-{
-    if(msg == null)
+    $('#forgotPassForm').submit(function()
     {
-        msg = 'Invalid Entry';
+        var val = new ValObj();
+        var valEmail = checkInput(val, $('#email'), val.EMAIL, true);
+
+        return valEmail ? true : false;        
+    });
+
+    // Uses a reference to the validator obj and the input field to be validated. The val obj either returns true or sets its errMsg property to the correct error msg and returns false
+    function checkInput(valObj, input, regEx, required)
+    {
+        if(valObj.validate(input, regEx, required))
+        {
+            return true;
+        }
+        else
+        {
+            if(!input.prop('error')) // If the error msg is already showing, don't create another one
+            {
+                var errId = input.attr('id') + 'ErrMsg'; // Set a unique id for each error msg so it can specifically be removed
+
+                input.prev().after('<p class="errMsg" id="' + errId + '">' + valObj.errMsg + '</p>'); // Append the error msg set in the validator obj
+                input.prop('error', true);
+
+                input.focus(function(event) // Assign a listener to remove the error msg when the user returns to the field
+                {
+                    $('#' + errId).remove();
+                    input.prop('error', false);
+                    input.unbind(event);
+                });
+            }
+            return false;
+        }
     }
-	
-    var labelObj = document.getElementById(evtTarget.id).parentNode.getElementsByTagName('label'); // Reference to field's label element
-    var errElem = document.createElement('p'); // Create container for error message
-    var errText = document.createTextNode(msg); // Create error message
-	
-    errElem.appendChild(errText); // Put error message in container
-    errElem.setAttribute('class', 'errLabel'); // Set the error message style
-    labelObj[0].appendChild(errElem); // Put the error message in the label element. [0] is there because getElementsByTagName returns an array and there is only 1 label element per evtTarget
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Assign a focus listener so error message is removed when refocused	
-    evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
-}
-
-// Removes the error message if on is present
-function fieldFocus(e)
-{
-    var evtTarget = e.target || e.srcElement; // Handle browser differences
-	
-    if(evtTarget.error) // If error message is showing, remove message and reset flag attribute
-    {
-        var labelObj = document.getElementById(evtTarget.id).parentNode.getElementsByTagName('label'); // Reference to field's label element
-        labelObj[0].removeChild(labelObj[0].getElementsByTagName('p')[0]); // Removes error p tag if it exists in the label element
-        removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener
-        evtTarget.error = false; // Reset flag attribute
-    }	
-}
+});

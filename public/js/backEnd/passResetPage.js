@@ -1,228 +1,94 @@
-// Functions for the password reset page and form validation
-
-addEvent(window, 'load', init, false);
-
-// Object to access the input fields to keep from repeating document.getElementById('inputId')
-function InputsObj()
+// Form validation for the password reset page
+$(document).ready(function()
 {
-    this.txtOldPass = document.getElementById('txtOldPass');
-    this.txtNewPass = document.getElementById('txtNewPass');
-    this.txtNewPassConf = document.getElementById('txtNewPassConf');
-    this.oldPass = document.getElementById('oldPass');
-    this.newPass = document.getElementById('newPass');
-    this.newPassConf = document.getElementById('newPassConf');
-}
-
-function init() 
-{   
-    document.getElementById('oldPass') ? changePassFields('init') : changePassFieldsEmail('init'); // Determine which function to call based on where the user accessed the page
-    addEvents();
-}
-
-// Change the password input fields to their readable counterparts 
-// Note: If JS is disabled, the password fields are still of type password because the CSS initially hides the password inputs of type text
-function changePassFields(action)
-{
-    var inputs = new InputsObj();
-	
-    switch(action) // *** Note: All of this code will be unnecessary whenever IE8 goes away. Once that happens, remove the duplicate input tag in the HTML and use: evtTarget.type = 'text' or 'password' ***
-    {
-        case 'init':
-            if(inputs.oldPass.value == '' || inputs.newPass.value == '' || inputs.newPassConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
-            {
-                inputs.txtOldPass.style.display = 'inline';
-                inputs.txtNewPass.style.display = 'inline';
-                inputs.txtNewPassConf.style.display = 'inline';
-                inputs.oldPass.style.display = 'none';
-                inputs.newPass.style.display = 'none';
-                inputs.newPassConf.style.display = 'none';
-            }
-            break;
-        case 'txtOldPassToOldPass':
-            inputs.txtOldPass.style.display = 'none';
-            inputs.oldPass.style.display = 'inline';
-            inputs.oldPass.focus();
-            break;
-        case 'oldPassToTxtOldPass':
-            inputs.oldPass.style.display = 'none';
-            inputs.txtOldPass.style.display = 'inline';
-            break;
-        case 'txtNewPassToNewPass':
-            inputs.txtNewPass.style.display = 'none';
-            inputs.newPass.style.display = 'inline';
-            inputs.newPass.focus();
-            break;
-        case 'newPassToTxtNewPass':
-            inputs.newPass.style.display = 'none';
-            inputs.txtNewPass.style.display = 'inline';
-            break;
-        case 'txtNewPassConfToNewPassConf':
-            inputs.txtNewPassConf.style.display = 'none';
-            inputs.newPassConf.style.display = 'inline';
-            inputs.newPassConf.focus();
-            break;
-        case 'newPassConfToTxtNewPassConf':
-            inputs.newPassConf.style.display = 'none';
-            inputs.txtNewPassConf.style.display = 'inline';
-            break;
-    }
-}
-
-// Same as other change pass field function but only for the reset page linked to from the forgot password email. Revise later: might be a way to combine the two change pass functions?
-function changePassFieldsEmail(action)
-{
-    var inputs = new InputsObj();
-	
-    switch(action) // *** Note: All of this code will be unnecessary whenever IE8 goes away. Once that happens, remove the duplicate input tag in the HTML and use: evtTarget.type = 'text' or 'password' ***
-    {
-        case 'init':
-            if(inputs.newPass.value == '' || inputs.newPassConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
-            {
-                inputs.txtNewPass.style.display = 'inline';
-                inputs.txtNewPassConf.style.display = 'inline';
-                inputs.newPass.style.display = 'none';
-                inputs.newPassConf.style.display = 'none';
-            }
-            break;
-        case 'txtNewPassToNewPass':
-            inputs.txtNewPass.style.display = 'none';
-            inputs.newPass.style.display = 'inline';
-            inputs.newPass.focus();
-            break;
-        case 'newPassToTxtNewPass':
-            inputs.newPass.style.display = 'none';
-            inputs.txtNewPass.style.display = 'inline';
-            break;
-        case 'txtNewPassConfToNewPassConf':
-            inputs.txtNewPassConf.style.display = 'none';
-            inputs.newPassConf.style.display = 'inline';
-            inputs.newPassConf.focus();
-            break;
-        case 'newPassConfToTxtNewPassConf':
-            inputs.newPassConf.style.display = 'none';
-            inputs.txtNewPassConf.style.display = 'inline';
-            break;
-    }
-}
-
-// Add event handlers to the input fields
-function addEvents()
-{
-    var inputAr = document.getElementById('passResetForm').getElementsByTagName('input'); // Array of the input elements
-    var inputArLen = inputAr.length;
-    
-    for(var i = 0; i < inputArLen; i++)
-    {
-        if(inputAr[i].type == 'text' || inputAr[i].type == 'password') // Assign listeners and attribute flags only to those fields that are text boxes
-        {
-            addEvent(inputAr[i], 'focus', fieldFocus, false);
-            addEvent(inputAr[i], 'blur' , fieldBlur, false);
-            inputAr[i].error = false; // Create new flag attribute, used to tell if the error msg is highlighted
-			
-            if(inputAr[i].value == inputAr[i].title)
-            {
-                inputAr[i].className = 'defaultText'; // If the field has text in it by default, change the color of the text to light gray
-            }
-        }
-    }
-}
-
-// Clears the default field values and removes the error message if its showing, also changes the password field over to type password if its in focus
-function fieldFocus(e)
-{
-    var evtTarget = e.target || e.srcElement; // Handle browser differences
-    
-    if(evtTarget.value == evtTarget.title)
-    {
-        evtTarget.value = ''; // Clear field's initial value
-        removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener to keep subsequent focuses from clearing entered data
-        evtTarget.className = ''; // Remove the defaultText class to make the user entered text black
-    }
-	
-    if(evtTarget.error) // If error message is showing, remove message and reset flag attribute
-    {
-        var parentObj = evtTarget.parentNode; // Reference to error message parent element
-        parentObj.removeChild(parentObj.getElementsByTagName('p')[0]); // Removes error p tag if it exists in the parent element	
-        evtTarget.error = false; // Reset flag attribute
-    }
-    
-    // Swap out the readable text field for a password typed field
-    switch(evtTarget.id)
-    {
-        case 'txtOldPass':
-            changePassFields('txtOldPassToOldPass');
-            break;
-        case 'txtNewPass':
-            changePassFields('txtNewPassToNewPass');
-            break;
-        case 'txtNewPassConf':
-            changePassFields('txtNewPassConfToNewPassConf');
-            break;
-    }
-}
-
-// Resets the fields inital values if they're empty on blur
-function fieldBlur(e)
-{
-    var evtTarget = e.target || e.srcElement;
-	
-    if(evtTarget.value == '')
-    {
-        evtTarget.value = evtTarget.title; // Reset default text value to input tag's title
-        addEvent(evtTarget, 'focus', fieldFocus, false); // Re-add event listener so initial value will be removed when refocused
-        evtTarget.className = 'defaultText'; // Reset the color of the default text to light gray
+    var formInputs = $('#passResetForm input'); // Array of form inputs
+    formInputs.prop('error', false); // Create flags to know if the error msg is on or not
         
-        // Switch back to showing the password field with readable text
-        switch(evtTarget.id)
+    // The password fields have two input tags, one of type text for initial display and one of type password for user input
+    // The inputs of type text are initially hidden via CSS incase JS is disabled
+    // This code here swaps the classes of the inputs and shows the inputs of type text at runtime if the form isn't being redisplayed due to an error
+    if($('#newPass').attr('value') === '')
+    {
+        $('#txtNewPass').addClass('displayInline');
+        $('#txtNewPassConf').addClass('displayInline');
+        $('#newPass').addClass('displayNone');
+        $('#newPassConf').addClass('displayNone');
+
+         // If the user accessed the reset page from the user panel, this field will be present
+        if($('#oldPass').length > 0)
         {
-            case 'oldPass':
-                changePassFields('oldPassToTxtOldPass');
-                break;
-            case 'newPass':
-                changePassFields('newPassToTxtNewPass');
-                break;
-            case 'newPassConf':
-                changePassFields('newPassConfToTxtNewPassConf');
-                break;
+            $('#txtOldPass').addClass('displayInline');
+            $('#oldPass').addClass('displayNone');
         }
     }
-}
-
-// Called by the reset btn in the password reset form
-function checkFormStatus()
-{
-    var inputs = new InputsObj();
-    var val = new ValObj('dynamic');
     
-    var valNewPass = val.checkPassword(inputs.newPass, val.PASSWORD);
-    var valNewPassConf = val.confirmVals(inputs.newPass, inputs.newPassConf);
-	
-    if(inputs.oldPass) // If the old password field is present
+    // Clears the default field values if they're showing
+    formInputs.focus(function()
     {
-        var valOldPass = val.checkPassword(inputs.oldPass, val.PASSWORD);
-        return valOldPass && valNewPass && valNewPassConf ? true : false;
-    }
-    else
+        if($(this).attr('value') === $(this).attr('title'))
+        {
+            $(this).removeClass('displayInline').addClass('displayNone'); // Hide the input of type text
+            $(this).prev().removeClass('displayNone').addClass('displayInline'); // Show the input of type password
+            $(this).prev().focus();
+        }
+    });
+    
+    // Resets the fields' inital values if they're empty on blur
+    formInputs.blur(function()
     {
-        return valNewPass && valNewPassConf ? true : false;
+        if($(this).attr('value') === '')
+        {
+            $(this).removeClass('displayInline').addClass('displayNone');
+            $(this).next().removeClass('displayNone').addClass('displayInline');
+        }
+    });
+    
+    $('#passResetForm').submit(function()
+    {
+        var val = new ValObj();
+        var valNewPass = checkInput(val, $('#newPass'), val.PASSWORD, true);
+        var valNewPassConf = confirmInputs(val, $('#newPass'), $('#newPassConf'));
+        
+        if($('#oldPass').length > 0)
+        {
+            var valOldPass = checkInput(val, $('#oldPass'), val.PASSWORD, true);
+            
+            return valNewPass && valNewPassConf && valOldPass ? true : false;
+        }
+        else
+        {
+            return valNewPass && valNewPassConf ? true : false;
+        }
+    });
+    
+    // Uses a reference to the validator obj and the input field to be validated. The val obj either returns true or sets its errMsg property to the correct error msg and returns false
+    function checkInput(valObj, input, regEx, required)
+    {
+        return valObj.validate(input, regEx, required) ? true : showErrMsg(input, valObj.errMsg);
     }
-}
+    
+    function confirmInputs(valObj, firstVal, secVal)
+    {
+        return valObj.confirmVals(firstVal, secVal) ? true : showErrMsg(secVal, valObj.errMsg);
+    }
+    
+    // Add the error msg to the DOM and assign it a listener so its removed when the field gains focus again
+    function showErrMsg(input, errMsg)
+    {
+        if(!input.prop('error')) // If the error msg is already showing, don't create another one
+        {
+            var errId = input.attr('id') + 'ErrMsg'; // Set a unique id for each error msg so it can specifically be removed
 
-// Creates a default error message next to the target field unless a different one is given
-function errMsg(evtTarget, msg)
-{
-    if(msg == null)
-    {
-        msg = 'Invalid Entry';
+            input.parent().append('<p class="errMsg" id="' + errId + '">' + errMsg + '</p>'); // Append the error msg set in the validator obj
+            input.prop('error', true);
+
+            input.focus(function(event) // Assign a listener to remove the error msg when the user returns to the field
+            {
+                $('#' + errId).remove();
+                input.prop('error', false);
+                input.unbind(event);
+            });
+        }
+        return false;
     }
-	
-    var parentObj = document.getElementById(evtTarget.id).parentNode; // Reference to field's parent element
-    var errElem = document.createElement('p'); // Create container for error message
-    var errText = document.createTextNode(msg); // Create error message
-	
-    errElem.appendChild(errText); // Put error message in container
-    errElem.setAttribute('class', 'errLabel'); // Set the error message style
-    parentObj.appendChild(errElem); // Put the container in the parent element
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign the focus listener so the error message is removed when refocused	
-    evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
-}
+});
