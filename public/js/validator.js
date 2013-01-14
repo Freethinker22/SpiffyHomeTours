@@ -1,6 +1,6 @@
 // This Validator object used in every page with text inputs
 // Remember: These RegExs exactly match the ones in the PHP Validator class
-function ValObj(errStyle) // ******** still need errStyle??? ********
+function ValObj()
 {
     // Constants
     this.NAME = /^[A-Za-z'\-\.\s]{1,50}$/; // *** Revise later: Could prevent the usage of multiple spaces in a row ***
@@ -11,15 +11,15 @@ function ValObj(errStyle) // ******** still need errStyle??? ********
     this.OTHER_TEXT = /^[A-Za-z0-9\-\.\/?!'\"\@#%^&*()_\s]{1,50}$/;
     this.PASSWORD = /^[A-Za-z0-9\-!\@#$%^&*()_\s]{8,50}$/;
     
-    // Error msg property
-    this.errStyle = errStyle; // ******* still need this, parameter too??? ********
+    // Error msg properties
     this.errMsg = '';
     this.isNull = false;
 }
 
-// Route the validate call to the right validate function
+// Route the validate call to the right validation function
 ValObj.prototype.validate = function(input, regEx, required)
 {
+    this.resetProperties();
     var type = input.attr('type');
     
     switch(type)
@@ -42,7 +42,7 @@ ValObj.prototype.checkText = function(input, regEx, required)
     }
     else
     {
-        return input.attr('value') != '' ? this.checkRegEx(input, regEx) : true; // Validate the input if the field contains text, return true even if the non-required field is empty
+        return input.val() !== '' ? this.checkRegEx(input, regEx) : true; // Validate the input if the field contains text, return true even if the non-required field is empty
     }
 };
 
@@ -51,7 +51,7 @@ ValObj.prototype.checkPassword = function(input, regEx)
 {
     if(this.checkForNull(input))
     {
-        if(input.attr('value').length < 8)
+        if(input.val().length < 8)
         {
             this.errMsg = 'Too Short';
             return false;
@@ -70,9 +70,11 @@ ValObj.prototype.checkPassword = function(input, regEx)
 // Check to see if two fields match
 ValObj.prototype.confirmVals = function(firstVal, secVal)
 {
+    this.resetProperties();
+    
     if(this.checkForNull(secVal)) // secVal must be the confirm field value
     {
-        if(firstVal.attr('value') != secVal.attr('value'))
+        if(firstVal.val() !== secVal.val())
         {
             this.errMsg = 'Doesn\'t Match'; 
             return false;
@@ -88,32 +90,17 @@ ValObj.prototype.confirmVals = function(firstVal, secVal)
     }
 };
 
-// If the field is empty or its value is equal to its default text, notify the user
-// Note: Error style static means there's already a required msg next to the input field that highlights when its left empty. The dynamic style generates a msg using createElement()
-// Note: The differance in error styles is due to the design of the page and how much room there is to display an error msg
+// Check if the field is empty or its value is equal to its default text
 ValObj.prototype.checkForNull = function(input)
 {
-    if(input.attr('value') == '' || input.attr('value') == input.attr('title'))
+    if(input.val() === '' || input.val() === input.attr('title'))
     {
-//        if(this.errStyle == 'static') // ****** DON'T delete this until you figure out how to turn on the highlighting in the other js files **********
-//        {
-//            reqErrOn(evtTarget); // Changes the class to highlight (required) in the span tag
-//        }
-//        else if(this.errStyle == 'dynamic')
-//        {
-//            if(!evtTarget.prop('error')) // If the error message is on, don't create another one
-//            {
-//                errMsg(evtTarget, 'Required');
-//            }    
-//        }
         this.errMsg = 'Required';
         this.isNull = true;
         return false;
     }
     else
     {
-        this.errMsg = '';
-        this.isNull = false;
         return true;
     }
 };
@@ -121,17 +108,20 @@ ValObj.prototype.checkForNull = function(input)
 // Check the evetTarget value against the regular expression
 ValObj.prototype.checkRegEx = function(input, regEx)
 {
-    if(regEx.test(input.attr('value')))
+    if(regEx.test(input.val()))
     {
         return true;
     }
     else
     {
-//        if(!evtTarget.prop('error')) // If the error message is on, don't create another one
-//        {
-//            errMsg(evtTarget);
-//        }
-        this.errMsg = 'Invalid Entry'; // *** used in EX ***
+        this.errMsg = 'Invalid Entry';
         return false;
     }
 };
+
+// Reset obj properties to default values. This is so the obj can be used repeatedly w/o the previous call to it affecting the next one
+ValObj.prototype.resetProperties = function()
+{
+    this.errMsg = '';
+    this.isNull = false;
+}

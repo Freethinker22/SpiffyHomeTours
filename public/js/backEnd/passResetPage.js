@@ -6,8 +6,8 @@ $(document).ready(function()
         
     // The password fields have two input tags, one of type text for initial display and one of type password for user input
     // The inputs of type text are initially hidden via CSS incase JS is disabled
-    // This code here swaps the classes of the inputs and shows the inputs of type text at runtime if the form isn't being redisplayed due to an error
-    if($('#newPass').attr('value') === '')
+    // This code here swaps the classes of the inputs and shows the inputs of type text when the page loads or reloads due to an error
+    if($('#newPass').val() === '')
     {
         $('#txtNewPass').addClass('displayInline');
         $('#txtNewPassConf').addClass('displayInline');
@@ -22,10 +22,10 @@ $(document).ready(function()
         }
     }
     
-    // Clears the default field values if they're showing
+    // Toggle the password fields
     formInputs.focus(function()
     {
-        if($(this).attr('value') === $(this).attr('title'))
+        if($(this).val() === $(this).attr('title'))
         {
             $(this).removeClass('displayInline').addClass('displayNone'); // Hide the input of type text
             $(this).prev().removeClass('displayNone').addClass('displayInline'); // Show the input of type password
@@ -33,17 +33,16 @@ $(document).ready(function()
         }
     });
     
-    // Resets the fields' inital values if they're empty on blur
     formInputs.blur(function()
     {
-        if($(this).attr('value') === '')
+        if($(this).val() === '')
         {
             $(this).removeClass('displayInline').addClass('displayNone');
             $(this).next().removeClass('displayNone').addClass('displayInline');
         }
     });
     
-    $('#passResetForm').submit(function()
+    $('#passResetForm').submit(function(event)
     {
         var val = new ValObj();
         var valNewPass = checkInput(val, $('#newPass'), val.PASSWORD, true);
@@ -57,7 +56,7 @@ $(document).ready(function()
         }
         else
         {
-            return valNewPass && valNewPassConf ? true : false;
+            return valNewPass && valNewPassConf ? true : event.preventDefault();
         }
     });
     

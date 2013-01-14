@@ -21,7 +21,7 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
         }
         ?>
         
-        <form name="signUpForm" id="signUpForm" method="post" action="SignUp" onSubmit="return checkFormStatus();">
+        <form name="signUpForm" id="signUpForm" method="POST" action="SignUp">
             <fieldset class="inputText">
                 <legend>Client Information</legend>
                 <ul>
@@ -67,21 +67,20 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
                     </li>
                     <li>
                         <label for="password">Password: <span class="<?php echo $btnPressed ? $model->setReq($_POST['password'], 'Min. 8 characters') : 'required'; ?>">(required)</span></label>
-                        <input type="password" name="password" id="password" title="Min. 8 characters" value="<?php echo htmlspecialchars($btnPressed ? $_POST['password'] : ''); ?>" maxlength="50" />
-                        <input type="text" name="txtPassword" id="txtPassword" title="Min. 8 characters" value="Min. 8 characters" maxlength="50" /> <!-- Text typed password fields are turned on and off onfocus by JS so default text is readable -->
+                        <input type="password" name="password" id="password" class="realPass" title="Min. 8 characters" value="<?php echo htmlspecialchars($btnPressed ? $_POST['password'] : ''); ?>" maxlength="50" />
+                        <input type="text" name="txtPassword" id="txtPassword" class="txtPass displayNone" title="Min. 8 characters" value="Min. 8 characters" maxlength="50" /> <!-- Text typed password fields are toggled by JS so default text is readable -->
                         <?php if($btnPressed) $vaildator->valPassword($_POST['password'], true); ?>
                     </li>
                     <li>
                         <label for="passwordConf">Confirm Password: <span class="<?php echo $btnPressed ? $model->setReq($_POST['passwordConf'], 'Retype your password') : 'required'; ?>">(required)</span></label>
-                        <input type="password" name="passwordConf" id="passwordConf" title="Retype your password" value="<?php echo htmlspecialchars($btnPressed ? $_POST['passwordConf'] : ''); ?>" maxlength="50" />
-                        <input type="text" name="txtPasswordConf" id="txtPasswordConf" title="Retype your password" value="Retype your password" maxlength="50" />
+                        <input type="password" name="passwordConf" id="passwordConf" class="realPass" title="Retype your password" value="<?php echo htmlspecialchars($btnPressed ? $_POST['passwordConf'] : ''); ?>" maxlength="50" />
+                        <input type="text" name="txtPasswordConf" id="txtPasswordConf" class="txtPass displayNone" title="Retype your password" value="Retype your password" maxlength="50" />
                         <?php if($btnPressed) $vaildator->confirmMatch($_POST['password'], $_POST['passwordConf'], true, 'Retype your password'); ?>
                     </li>
                 </ul>
             </fieldset>
             <fieldset>
                 <legend>Choose Your Subscription <span class="<?php echo $model->setSubTypeReq(); ?>">(required)</span></legend>
-                
                 <ul id="subType">
                     <li>
                         <input type="radio" name="subType" id="oneTour" value="oneTour" <?php echo $model->setSubTypeGroup('oneTour'); ?> />
@@ -96,7 +95,7 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
                         <label for="threeMonth">Three Months: One time payment of $67.50 - non-recurring</label>
                     </li>
                     <li>
-                        <input type="radio" name="subType" id="sixMonths" value="sixMonth" <?php echo $model->setSubTypeGroup('sixMonth'); ?> />
+                        <input type="radio" name="subType" id="sixMonth" value="sixMonth" <?php echo $model->setSubTypeGroup('sixMonth'); ?> />
                         <label for="sixMonth">Six Months: One time payment of $120.00 - non-recurring</label>
                     </li>
                     <li>
@@ -125,17 +124,17 @@ $btnPressed = $this->model->btnPressed; // Shortcut to the btnPressed flag var i
                         <label for="friend">Friend or Associate</label>
                     </li>
                     <li>
-                        <label for="other">Other:</label>
+                        <label for="foundByOther">Other:</label>
                         <input type="text" name="foundByOther" id="foundByOther" maxlength="50" value="<?php echo $model->setFoundByText(); ?>" />
                         <?php if($btnPressed && $_POST['foundByOther'] != '') $vaildator->valOtherText($_POST['foundByOther'], false, true); ?>
                     </li>
                 </ul>
             </fieldset>
             <div class="<?php echo $model->isTosChecked(); ?>" id="tosDiv">
-                <label for="terms"><a href="legalStuff/tosView.php" title="Terms of Service" target="_blank">I agree to the Terms of service</a></label>
+                <label for="tos"><a href="legalStuff/tosView.php" title="Terms of Service" target="_blank">I agree to the Terms of service</a></label>
                 <input type="checkbox" name="tos" id="tos" value="agree" <?php echo $model->keepTosChecked(); ?> />
             </div>
-            <input type="submit" name="nextStepBtn" id="nextStepBtn" value="Next Step" /> <!-- This will take the user to the payment page if there are no errors in the form -->
+            <button type="submit" name="nextStepBtn" id="nextStepBtn">Next Step</button> <!-- This will take the user to the payment page if there are no errors in the form -->
         </form>
     </section> <!-- End signUpArea section -->
 </section> <!-- End mainContent section -->

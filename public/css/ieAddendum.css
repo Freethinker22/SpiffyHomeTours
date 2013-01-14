@@ -1,5 +1,9 @@
 /**** Main theme CSS addendum for IE 7 and 8. ****/
 
+#tooOld {
+    text-align:center; /* Aligns the too old browser message in old IE */
+}
+
 /**** Main content style rules ****/
 #mainContent {
     margin:-65px auto 20px; /* Moves mainContent section up more to hide the top border */

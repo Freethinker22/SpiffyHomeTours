@@ -1,4 +1,24 @@
 <?php // This file uses the url and query string to route all calls made to the index to the correct page controller
+
+// ***** Framework flow *****
+// call to index with url
+// index uses url to build controller and action vars
+// init super controller
+// init page specific controller
+// init model
+// modify the model if needed
+// init the view
+// view uses model functions to get info about what to display
+ 
+// ***** Notes *****
+// The FrontEndModel handles the pages that can be navigated to without a subscription, the BackEndModel handles the rest
+// URLs from view and JS files can be from the TLD on down but in the CSS, need to be relative to the stylesheet
+// The Ajax router is used to instantiate classes from the library and model folders so as to reuse the code
+
+// ***** File naming convention *****
+// Page controller file names have 2 parts. The page name, 'Contact' and the 'Con' suffix
+// Ajax controller file names have 3 parts. The page where the Ajax app is, 'Contact', The part of the page its used for, 'Form', and the 'Ajax' suffix
+
 session_start();
 require_once('bootstrap.php');
 
@@ -60,23 +80,4 @@ function init($controller, $action)
 }
 
 checkUrl();
-
-// ***** Framework flow *****
-// call to index with url
-// index uses url to build controller and action vars
-// init super controller
-// init page specific controller
-// init model
-// modify the model if needed
-// init the view
-// view uses model functions to get info about what to display
- 
-// ***** Notes *****
-// The FrontEndModel handles the pages that can be navigated to without a subscription, the BackEndModel handles the rest
-// URLs from view and JS files can be from the TLD on down but in the CSS, need to be relative to the stylesheet
-// The Ajax router is used to instantiate classes from the library and model folders so as to reuse the code
-
-// ***** File naming convention *****
-// Page controller file names have 2 parts. The page name, 'Contact' and the 'Con' suffix
-// Ajax controller file names have 3 parts. The page where the Ajax app is, 'Contact', The part of the page its used for, 'Form', and the 'Ajax' suffix
 ?>

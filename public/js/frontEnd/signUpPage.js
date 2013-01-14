@@ -1,330 +1,222 @@
 // Functions for the sign up page and form validation
 $(document).ready(function()
 {
+    var formInputs = $('#signUpForm input'); // Array of all form inputs
+    var defaultText = $('#signUpForm input[type="text"]'); // Array of form inputs that are text fields
     
-});
-
-//addEvent(window, 'load', init, false);
-
-// Object to access the input fields to keep from repeating document.getElementById('inputId')
-function InputsObj()
-{
-    this.firstName = document.getElementById('firstName');
-    this.lastName = document.getElementById('lastName');
-    this.phone = document.getElementById('phone');
-    this.compName = document.getElementById('compName');
-    this.website = document.getElementById('website');
-    this.email = document.getElementById('email');
-    this.emailConf = document.getElementById('emailConf');
-    this.password = document.getElementById('password');
-    this.txtPassword = document.getElementById('txtPassword');
-    this.passwordConf = document.getElementById('passwordConf');
-    this.txtPasswordConf = document.getElementById('txtPasswordConf');
-    this.subType = document.getElementById('subType');
-    this.subTypeAr = document.getElementById('subType').getElementsByTagName('input');
-    this.findType = document.getElementById('findType');
-    this.findTypeAr = document.getElementById('findType').getElementsByTagName('input');
-    this.tos = document.getElementById('tos');
-    this.foundByOther = document.getElementById('foundByOther');
-}
-
-function init()
-{
-    changePassFields('init');
-    addEvents();
-}
-
-// Swap the password input fields to their readable counterparts, this is so if JS is disabled, the password fields are still of type password
-function changePassFields(action)
-{
-    var inputs = new InputsObj();
-	
-    switch(action) // *** Note: All of this code will be unnecessary whenever IE8 goes away. Once that happens, remove the duplicate input tag in the HTML and use: evtTarget.type = 'text' ***
-    {
-        case 'init':
-            if(inputs.password.value == '' || inputs.passwordConf.value == '') // Keep the password fields from being replaced with the password txt fields if there is a value in them and the page is redisplayed
-            {
-                inputs.txtPassword.style.display = 'inline';
-                inputs.txtPasswordConf.style.display = 'inline';
-                inputs.password.style.display = 'none';
-                inputs.passwordConf.style.display = 'none';
-            }
-            break;
-        case 'txtPassToPass':
-            inputs.txtPassword.style.display = 'none';
-            inputs.password.style.display = 'inline';
-            inputs.password.focus();
-            break;
-        case 'passToTxtPass':
-            inputs.txtPassword.style.display = 'inline';
-            inputs.password.style.display = 'none';
-            break;
-        case 'txtConfToConf':
-            inputs.txtPasswordConf.style.display = 'none';
-            inputs.passwordConf.style.display = 'inline';
-            inputs.passwordConf.focus();
-            break;
-        case 'confToTxtConf':
-            inputs.txtPasswordConf.style.display = 'inline';
-            inputs.passwordConf.style.display = 'none';
-            break;
-    }
-}
-
-// Add event handlers to input fields
-function addEvents()
-{
-    var inputs = new InputsObj();
-    var inputAr = document.getElementById('signUpForm').getElementsByTagName('input'); // Array of the input elements
-    var inputArLen = inputAr.length;
-	
-    addEvent(inputs.foundByOther, 'focus', otherFieldHandler, false); // Add focus event to the 'other' field
-    addEvent(inputs.findType, 'change', clearOtherField, false); // Add listener to clear the 'other' field if text is present when a radio btn gets checked
-		
-    for(var i = 0; i < inputArLen; i++)
-    {
-        if(inputAr[i].type == 'text' || inputAr[i].type == 'password') // Assign listeners and attribute flags only to those fields that are text boxes
-        {
-            addEvent(inputAr[i], 'focus', fieldFocus, false);
-            addEvent(inputAr[i], 'blur' , fieldBlur, false);
-            inputAr[i].error = false; // Create new flag attribute, used to tell if the error msg is highlighted
-			
-            if(inputAr[i].value == inputAr[i].title)
-            {
-                inputAr[i].className = 'defaultText'; // If the field has text in it by default, change the color of the text to light gray
-            }
-        }
-    }	
-}
-
-// Clears the default field values and removes the error messages if they're showing, also changes the password field over to type password if its in focus
-function fieldFocus(e)
-{
-    var evtTarget = e.target || e.srcElement; // Handle browser differences
-	
-    if(evtTarget.error) // If error message is showing, remove message and reset flag attribute
-    {
-        var parentObj = evtTarget.parentNode; // Reference to error message parent element
-        parentObj.removeChild(parentObj.getElementsByTagName('p')[0]); // Removes error p tag if it exists in the parent element	
-        removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener to keep subsequent focuses from clearing entered data
-        evtTarget.error = false; // Reset flag attribute
-    }
-    else
-    {		
-        if(evtTarget.value == evtTarget.title)
-        {
-            evtTarget.value = ''; // Clear field's initial value
-            removeEvent(evtTarget, 'focus', fieldFocus, false); // Removes focus listener after initial focus to keep subsequent focuses from clearing entered data
-            evtTarget.className = ''; // Remove the defaultText class to make the user entered text black
-        }
-        if(evtTarget.title != '') // Only fields that're required have a title used for default text replacement, this statment avoids errors created by fields w/o the required span element
-        {
-            if(evtTarget.parentNode.getElementsByTagName('span')[0].className == 'reqError') // If 'required' is highlighted because of an error, un-highlight it
-            {
-                reqErrOff(evtTarget); // Change the span's class back to normal un-highlighted text
-            }
-        }	
-		
-        if(evtTarget.id == 'txtPassword') // Swap out the readable text field for a password typed field
-        {
-            changePassFields('txtPassToPass');
-        }
-        if(evtTarget.id == 'txtPasswordConf')
-        {
-            changePassFields('txtConfToConf');
-        }
-    }
-}
-
-// Resets the fields inital values if they're empty on blur
-function fieldBlur(e)
-{
-    var evtTarget = e.target || e.srcElement;
-	
-    if(evtTarget.value == '')
-    {
-        evtTarget.value = evtTarget.title; // Reset default text value to input tag's title
-        addEvent(evtTarget, 'focus', fieldFocus, false); // Re-add event listener so initial value will be removed when refocused
-        evtTarget.className = 'defaultText'; // Reset the color of the default text to light gray
-		
-        if(evtTarget.id == 'password') // Switch back to showing the password field with readable text
-        {
-            changePassFields('passToTxtPass');
-        }
-        if(evtTarget.id == 'passwordConf')
-        {
-            changePassFields('confToTxtConf');
-        }
-    }
-}
-
-// Called by next step btn in the sign up form
-function checkFormStatus()
-{
-    var inputs = new InputsObj();
-    var val = new ValObj('static');
+    formInputs.prop('error', false); // Create flags to know if the error msg is on or not
     
-    var valFirstName = val.validate(inputs.firstName, val.NAME, true);
-    var valLastName = val.validate(inputs.lastName, val.NAME, true);
-    var valPhoneNum = val.validate(inputs.phone, val.PHONE, true);
-    var valCompName = val.validate(inputs.compName, val.OTHER_TEXT, false);
-    var valWebsite = val.validate(inputs.website, val.URL, false);
-    var valEmail = val.validate(inputs.email, val.EMAIL, true);
-    var valEmailConf = val.confirmVals(inputs.email, inputs.emailConf);
-    var valPassword = val.checkPassword(inputs.password, val.PASSWORD);
-    var valPasswordConf = val.confirmVals(inputs.password, inputs.passwordConf);
-    var valSubType = checkSubType(inputs.subType);
-    var valFindType = checkFindType(inputs.findType);
-    var valTos = checkTos(inputs.tos);
-    var valFoundByOther = val.validate(inputs.foundByOther, val.OTHER_TEXT, false);
+    // The password fields have two input tags, one of type text for initial display and one of type password for user input
+    // The inputs of type text are initially hidden via CSS incase JS is disabled
+    // This code here swaps the classes of the inputs and shows the inputs of type text when the page loads or reloads due to an error
+    if($('#password').val() === '')
+    {
+        $('#txtPassword').removeClass('displayNone').addClass('displayInline');
+        $('#txtPasswordConf').removeClass('displayNone').addClass('displayInline');
+        $('#password').addClass('displayNone');
+        $('#passwordConf').addClass('displayNone');
+    }
+    
+    // Inputs with a title have a default value, the color of the default value is light gray
+    // If the page has been reloaded due to an error, the text will not be set to light gray if the text is not equal to the title
+    defaultText.addClass(function()
+    {
+        if($(this).val() === $(this).attr('title'))
+        {
+            return 'lightGrayText';
+        }
+    });
+    
+    // Swap the text password inputs out for the real password inputs
+    $('.txtPass').focus(function()
+    {
+        $(this).removeClass('displayInline').addClass('displayNone');
+        $(this).prev().removeClass('displayNone').addClass('displayInline');
+        $(this).prev().focus();
+    });
+    
+    // If nothing was entered in the real password inputs, change them back to the text password inputs
+    $('.realPass').blur(function()
+    {
+        if($(this).val() === '')
+        {
+            $(this).removeClass('displayInline').addClass('displayNone');
+            $(this).next().removeClass('displayNone').addClass('displayInline');
+            $(this).next().val($(this).next().attr('title'));
+            $(this).next().addClass('lightGrayText');
+        }
+    });
+    
+    // Clears the default field values if they're showing
+    defaultText.focus(function()
+    {
+        $(this).removeClass('lightGrayText'); // This is here because some inputs of type text don't have a title and thus it wouldn't be removed if that field gained focus, blurred, and regained focus again
+        
+        if($(this).val() === $(this).attr('title'))
+        {
+            $(this).val('');
+        }
+    });
+    
+    // Resets the fields' inital values if they're empty on blur
+    defaultText.blur(function()
+    {
+        if($(this).val() === '')
+        {
+            $(this).val($(this).attr('title'));
+            $(this).addClass('lightGrayText');
+        }
+    });
+    
+    // Uncheck the radio btns in the 'How did you find us' section if the 'other' field gains focus
+    $('#foundByOther').focus(function()
+    {
+        $('#findType').find('input[type="radio"]').each(function()
+        {
+            $(this).attr('checked', false);
+        });
+    });
+    
+    // Clears the 'other' field if a radio btn in the 'How did you find us' section gets checked while there's text in the field
+    $('#findType').change(function()
+    {
+        if(loopRadBtns($('#findType')))
+        {
+            $('#foundByOther').val('');
+        }
+    });
     
     // If all the check functions return true, allow the form to submit
-    return valFirstName && valLastName && valPhoneNum && valCompName && valWebsite && valEmail && valEmailConf && valPassword && valPasswordConf && valSubType && valFindType && valTos && valFoundByOther ? true : false;
-}
-
-// Checks to see if a radio button in the 'Subscription type' section is checked
-function checkSubType(evtTarget)
-{	
-    var inputs = new InputsObj();
+    $('#signUpForm').submit(function(event)
+    {
+        var val = new ValObj();
+        var valFirstName = checkInput(val, $('#firstName'), val.NAME, true);
+        var valLastName = checkInput(val, $('#lastName'), val.NAME, true);
+        var valPhoneNum = checkInput(val, $('#phone'), val.PHONE, true);
+        var valCompName = checkInput(val, $('#compName'), val.OTHER_TEXT, false);
+        var valWebsite = checkInput(val, $('#website'), val.URL, false);
+        var valEmail = checkInput(val, $('#email'), val.EMAIL, true);
+        var valEmailConf = confirmInputs(val, $('#email'), $('#emailConf'));
+        var valPassword = checkInput(val, $('#password'), val.PASSWORD, true);
+        var valPasswordConf = confirmInputs(val, $('#password'), $('#passwordConf'));
+        var valSubType = checkSubType($('#subType'));
+        var valFindType = checkFindType($('#findType'));
+        var valFoundByOther = checkInput(val, $('#foundByOther'), val.OTHER_TEXT, false);
+        var valTos = checkTos($('#tos'));
     
-    if(loopRadBtns(inputs.subTypeAr))
-    {
-        return true;
-    }
-    else
-    {
-        reqErrOn(evtTarget);
-        addEvent(evtTarget, 'change', function(){
-            reqErrOff(evtTarget);
-        }, false); // Assign listener so error message is removed on form change or focus
-        return false;
-    }
-}
-
-// Checks to see if a radio button in the 'How did you find us' section is checked
-function checkFindType(evtTarget)
-{	
-    var inputs = new InputsObj();
+        return valFirstName && valLastName && valPhoneNum && valCompName && valWebsite && valEmail && valEmailConf && valPassword && valPasswordConf && valSubType && valFindType && valFoundByOther && valTos ? true : event.preventDefault();
+    });
     
-    if(loopRadBtns(inputs.findTypeAr) || inputs.foundByOther.value != '')
+    // Validate the input using the val obj and display error msgs if needed based on properties of the val obj
+    function checkInput(valObj, input, regEx, required)
     {
-        return true;
-    }
-    else
-    {
-        reqErrOn(evtTarget);
-        addEvent(evtTarget, 'change', function(){
-            reqErrOff(evtTarget);
-        }, false);
-        addEvent(inputs.foundByOther, 'focus', function(){
-            reqErrOff(evtTarget);
-        }, false);
-        return false;
-    }
-}
-
-// Uncheck the radio btns in the 'How did you find us' section if the 'other' field gains focus
-function otherFieldHandler()
-{
-    var inputs = new InputsObj();
-    var radioGrpArLen = inputs.findTypeAr.length;
-	
-    for(var i = 0; i < radioGrpArLen; i++)
-    {
-        if(inputs.findTypeAr[i].checked)
-        {
-            inputs.findTypeAr[i].checked = false;
-        }
-    }
-}
-
-// Clears the 'other' field if a radio btn in the 'How did you find us' section gets checked while there's still text in the field
-function clearOtherField()
-{
-    var inputs = new InputsObj();
-    
-    if(loopRadBtns(inputs.findTypeAr))
-    {
-        inputs.foundByOther.value = '';	
-    }
-}
-
-// Check to see if the terms of service checkbox is checked
-function checkTos(evtTarget)
-{
-    if(!evtTarget.checked)
-    {
-        reqErrOn(evtTarget);
-        addEvent(evtTarget, 'focus', function(){
-            reqErrOff(evtTarget);
-        }, false); // Assign listener to turn off the error once the TOS box gets checked *** Revise later: not working in Chrome and Safari, not even calling event? ***
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
-// Creates a default error message next to the target field unless a different one is given
-function errMsg(evtTarget, msg)
-{
-    if(msg == null)
-    {
-        msg = 'Invalid Entry';
-    }
-	
-    var parentObj = document.getElementById(evtTarget.id).parentNode; // Reference to field's parent element
-    var errElem = document.createElement('p'); // Create container for error message
-    var errText = document.createTextNode(msg); // Create error message
-	
-    errElem.appendChild(errText); // Put error message in container
-    errElem.setAttribute('class', 'errLabel'); // Set the error message style
-    parentObj.appendChild(errElem); // Put the container in the parent element
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign the focus listener so the error message is removed when refocused	
-    evtTarget.error = true; // Set error flag var to prevent multiple errors from being displayed
-}
-
-// Changes the class to highlight (required) in the span tag
-function reqErrOn(evtTarget)
-{
-    if(evtTarget.id == 'tos')
-    {
-        evtTarget.parentNode.className = 'tosErr'; // Highlights the parent div of the TOS checkbox
-    }
-    else
-    {
-        var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0]; // Reference to the target's span element
-        spanObj.className = 'reqError';
-    }
-    addEvent(evtTarget, 'focus', fieldFocus, false); // Re-assign focus listener so error message is removed when refocused
-}
-
-// Turn off the highlighting of (required) in the span tag
-function reqErrOff(evtTarget)
-{
-    if(evtTarget.id == 'tos')
-    {
-        evtTarget.parentNode.className = ''; // Un-highlights the parent div of the TOS checkbox
-    }
-    else
-    {
-        var spanObj = evtTarget.parentNode.getElementsByTagName('span')[0];
-        spanObj.className = 'required';
-    }
-}
-
-// Loops through btn array and returns true if one of the radio buttons is checked
-function loopRadBtns(btnGrp)
-{
-    var btnGrpLen = btnGrp.length;
-	
-    for(var i = 0; i < btnGrpLen; i++)
-    {
-        if(btnGrp[i].checked)
+        if(valObj.validate(input, regEx, required)) // If the input is valid, return true
         {
             return true;
         }
+        else if(valObj.isNull) // If the input has no value but is required, highlight the required notification
+        {
+            return showReqErr(input);
+        }
+        else // If the input is not valid, create and display an error msg
+        {
+            return showErrMsg(input, valObj.errMsg);
+        }
     }
-    return false;
-}
+    
+    // Same as checkInput only using a different method of the val obj
+    function confirmInputs(valObj, firstVal, secVal)
+    {
+        if(valObj.confirmVals(firstVal, secVal))
+        {
+            return true;
+        }
+        else if(valObj.isNull)
+        {
+            return showReqErr(secVal);
+        }
+        else
+        {
+            return showErrMsg(secVal, valObj.errMsg);
+        }
+    }
+    
+    // Determine if a radio btn was selected in the radio btn group, if not, highlight the required error msg
+    function checkSubType(btnGroup)
+    {
+        return loopRadBtns(btnGroup) ? true : showReqErr(btnGroup);
+    }
+    
+    function checkFindType(btnGroup)
+    {
+        return loopRadBtns(btnGroup) || $('#foundByOther').val() !== '' ? true : showReqErr(btnGroup);
+    }
+    
+    // Check to see if the terms of service checkbox is checked
+    function checkTos(tosBox)
+    {
+        if(tosBox.attr('checked'))
+        {
+            return true;
+        }
+        else
+        {
+            tosBox.parent().addClass('tosErr'); // Highlights the parent div of the TOS checkbox
+            
+            tosBox.click(function(event)
+            {
+                tosBox.parent().removeClass('tosErr');
+                tosBox.unbind(event);
+            });
+            return false;
+        }
+    }
+    
+    // Iterate over the radio group and determine if one of them is selected
+    function loopRadBtns(btnGroup)
+    {
+        var isChecked = false;
+        
+        btnGroup.find('input[type="radio"]').each(function()
+        {
+            if($(this).attr('checked'))
+            {
+                isChecked = true;
+            }
+        });
+        return isChecked;
+    }
+    
+    // Add the error msg to the DOM and assign it a listener so its removed when the field gains focus again
+    function showErrMsg(input, errMsg)
+    {
+        if(!input.prop('error')) // If the error msg is already showing, don't create another one
+        {
+            var errId = input.attr('id') + 'ErrMsg'; // Set a unique id for each error msg so it can specifically be removed
+
+            input.after('<p class="errMsg" id="' + errId + '">' + errMsg + '</p>'); // Append the error msg set in the validator obj
+            input.prop('error', true);
+
+            input.focus(function(event) // Assign a listener to remove the error msg when the user returns to the field
+            {
+                $('#' + errId).remove();
+                input.prop('error', false);
+                input.unbind(event);
+            });
+        }
+        return false;
+    }
+
+    // Highlight the 'required' text in the input's span tag if the input is empty
+    function showReqErr(input)
+    {
+        input.parent().find('span').removeClass('required').addClass('reqError');
+
+        input.on('focus change', function(event) // Assign a listener to remove the highlighting on the 'required' text in the label's span tag if the text was highlighted
+        {
+            input.parent().find('span').removeClass('reqError').addClass('required');
+            input.off(event);
+        });
+        return false;
+    }
+});

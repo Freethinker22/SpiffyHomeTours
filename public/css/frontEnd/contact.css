@@ -50,21 +50,6 @@ textarea {
     overflow:auto;
     outline:none;
 }
-.defaultText {
-    color:#888;
-}
-.required {
-    font-size:.75em;
-}
-.reqError {
-    color:red;
-    font-size:.75em;
-}
-.errMsg {
-    color:red;
-    display:inline;
-    font-size:.85em;
-}
 
 /**** Right column style rules ****/
 #rightCol {

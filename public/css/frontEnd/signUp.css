@@ -43,11 +43,11 @@ input[type="text"], input[type="password"] {
 input[type="checkbox"] {
     cursor:pointer;
 }
-#txtPassword { /* By default, in case JS is off, hide the duplicate password inputs, and un-hide them in JS */
+.displayNone { /* By default, in case JS is off, hide the duplicate password inputs, and un-hide them in JS */
     display:none;
 }
-#txtPasswordConf { /****** change these to two classes like in passreset ******/
-    display:none;
+.displayInline {
+    display:inline;
 }
 label a:link, label a:visited, label a:hover {
     color:#00F;
@@ -55,25 +55,6 @@ label a:link, label a:visited, label a:hover {
 .inputText label {
     float:left;
     width:250px;
-}
-.defaultText {
-    color:#888;
-}
-.required {
-    font-size:.75em;
-}
-.reqError {
-    color:red;
-    font-size:.75em;
-}
-/*.errLabel {
-    color:red; ****** drop this? 
-    display:inline;
-}*/
-.errMsg {
-    color:red;
-    display:inline;
-    font-size:.85em;
 }
 .tosErr {
     background-color:red;
