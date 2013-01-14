@@ -6,13 +6,13 @@ $(document).ready(function()
     formInputs.prop('error', false); // Create flags to know if the error msg is on or not
     $('#email').focus(); // Give the email input focus by default
     
-    $('#loginForm').submit(function()
+    $('#loginForm').submit(function(event)
     {
         var val = new ValObj();
         var valEmail = checkInput(val, $('#email'), val.EMAIL, true);
         var valPass = checkInput(val, $('#password'), val.PASSWORD, true);
         
-        return valEmail && valPass ? true : false;
+        return valEmail && valPass ? true : event.preventDefault();
     });
     
     // Uses a reference to the validator obj and the input field to be validated. The val obj either returns true or sets its errMsg property to the correct error msg and returns false

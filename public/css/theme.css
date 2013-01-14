@@ -134,3 +134,21 @@ footer p {
     position:relative;
     top:100px;
 }
+
+/**** Classes used for the forms and error msgs on those forms ****/
+.lightGrayText {
+    color:#888;
+}
+.required {
+    font-size:.75em;
+}
+.reqError {
+    color:red;
+    font-size:.75em;
+}
+.errMsg {
+    color:red;
+    display:inline;
+    font-size:.85em;
+    text-align:center;
+}

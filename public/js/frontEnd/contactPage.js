@@ -10,29 +10,29 @@ $(document).ready(function()
     // Set the color of the text in the inputs to light gray if its the initial text, if the page has been reloaded due to an error, the user's text is not set to light gray
     formInputs.addClass(function()
     {
-        if($(this).attr('value') === $(this).attr('title'))
+        if($(this).val() === $(this).attr('title'))
         {
-            return 'defaultText';
+            return 'lightGrayText';
         }
     });
     
     // Clears the default field values if they're showing
     formInputs.focus(function()
     {
-        if($(this).attr('value') === $(this).attr('title'))
+        if($(this).val() === $(this).attr('title'))
         {
-            $(this).attr('value', '');
-            $(this).removeClass('defaultText');
+            $(this).val('');
+            $(this).removeClass('lightGrayText');
         }
     });
     
     // Resets the fields' inital values if they're empty on blur
     formInputs.blur(function()
     {
-        if($(this).attr('value') === '')
+        if($(this).val() === '')
         {
-            $(this).attr('value', $(this).attr('title'));
-            $(this).addClass('defaultText');
+            $(this).val($(this).attr('title'));
+            $(this).addClass('lightGrayText');
         }
     });
     
@@ -46,7 +46,7 @@ $(document).ready(function()
         
         if(!valMsg) // The message box only needs to be checked for null, its sanitization is done on the server
         {
-            reqErrOn($('#message'));
+            showReqErr($('#message'));
         }
         
         if(valName && valEmail && valSubject && valMsg)
@@ -63,7 +63,7 @@ $(document).ready(function()
         }
         else if(valObj.isNull)
         {
-            reqErrOn(input);
+            showReqErr(input);
             return false;
         }
         else
@@ -87,7 +87,7 @@ $(document).ready(function()
     }
     
     // Highlight the 'required' text in the label's span tag if the input is empty
-    function reqErrOn(input)
+    function showReqErr(input)
     {
         input.prev().children('span').removeClass('required').addClass('reqError');
         

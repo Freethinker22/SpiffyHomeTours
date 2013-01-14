@@ -8,39 +8,39 @@ $(document).ready(function()
     // Set the color of the text in the inputs to light gray if its the initial text, if the page has been reloaded due to an error, the user's text is not set to light gray
     formInputs.addClass(function()
     {
-        if($(this).attr('value') === $(this).attr('title'))
+        if($(this).val() === $(this).attr('title'))
         {
-            return 'defaultText';
+            return 'lightGrayText';
         }
     });
     
     // Clears the default field values if they're showing
     formInputs.focus(function()
     {
-        if($(this).attr('value') === $(this).attr('title'))
+        if($(this).val() === $(this).attr('title'))
         {
-            $(this).attr('value', '');
-            $(this).removeClass('defaultText');
+            $(this).val('');
+            $(this).removeClass('lightGrayText');
         }
     });
     
     // Resets the fields' inital values if they're empty on blur
     formInputs.blur(function()
     {
-        if($(this).attr('value') === '')
+        if($(this).val() === '')
         {
-            $(this).attr('value', $(this).attr('title'));
-            $(this).addClass('defaultText');
+            $(this).val($(this).attr('title'));
+            $(this).addClass('lightGrayText');
         }
     });
     
     // Validate the user's input and allow it to submit if valid, otherwise return false and display the errors
-    $('#notifyForm').submit(function()
+    $('#notifyForm').submit(function(event)
     {
         var val = new ValObj();
         var valEmail = checkInput(val, $('#notifyEmail'), val.EMAIL, true);
         
-        return valEmail ? true : false;
+        return valEmail ? true : event.preventDefault();
     });
     
     // Uses a reference to the validator obj and the input field to be validated. The val obj either returns true or sets its errMsg property to the correct error msg and returns false
@@ -56,7 +56,7 @@ $(document).ready(function()
             {
                 var errId = input.attr('id') + 'ErrMsg'; // Set a unique id for each error msg so it can specifically be removed
                 
-                input.after('<p class="errMsg" id="' + errId + '">' + valObj.errMsg + '</p>'); // Append the error msg set in the validator obj
+                input.after('<p class="errMsgCen" id="' + errId + '">' + valObj.errMsg + '</p>'); // Append the error msg set in the validator obj
                 input.prop('error', true);
                 
                 input.focus(function(event) // Assign a listener to remove the error msg when the user returns to the field

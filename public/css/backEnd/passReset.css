@@ -43,11 +43,3 @@ button {
 .displayInline {
     display:inline;
 }
-.defaultText {
-    color:#888;
-}
-.errMsg {
-    color:red;
-    display:inline;
-    font-size:.85em;
-}
