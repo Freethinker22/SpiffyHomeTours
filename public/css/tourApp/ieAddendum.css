@@ -1,0 +1,5 @@
+/**** Tour application CSS addendum for IE 7 and 8. ****/
+
+#tooOld {
+    text-align:center; /* Aligns the too old browser message in old IE */
+}

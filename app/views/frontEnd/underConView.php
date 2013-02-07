@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="public/css/theme.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="public/css/underCon.css" media="screen" />
         <link rel="icon" href="public/img/favicon.ico" />
-        <script type="text/javascript" src="public/js/jQuery/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="public/js/jsLibraries/jQuery.js"></script>
         <script type="text/javascript" src="public/js/validator.js"></script>
         <script type="text/javascript" src="public/js/frontEnd/underConPage.js"></script>
         <title>Under construction</title>

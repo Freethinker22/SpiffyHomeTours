@@ -1,0 +1,149 @@
+{
+    "pageTitle": "123 Test",
+    "theme": "blackTheme.css",
+    "music": "song.mp3",
+    "fsbo": false,
+
+    "agent":
+    {
+        "name": "Matthew Whitehead",
+        "cellPhone": "785-979-1492",
+        "workPhone": "785-842-0000",
+        "email": "m@spiffyhometours.com",
+        "agency": "Realty Executives",
+        "website": "http://spiffyhometours.com",
+        "pictureUrl": "img/AgentPic.jpg",
+        "logoUrl": "img/LogoTemp.jpg"
+    },
+    
+    "property":
+    {
+        "address": "5000 Clinton Parkway",
+        "city": "Lawrence",
+        "state": "KS",
+        "zipCode": "66047",
+        "mlsNumber": "123456",
+        "features": "The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.  Second part: The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.  Third part: The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.  Forth part: The text that goes here would be descriptions of other features of the house.  Such as a walk out deck with a great view, or a fully finished basement with mini bar.  This part of the tour would be written by the agent.",
+        "neighborhoodInfoUrl": "http://p01.bestplaces.net/p/nhood1.aspx?partner=mlsli&qryzip=66047",
+        "schoolsInfoUrl": "http://nces.ed.gov/globallocator/index.asp?search=1&School=1&PrivSchool=1&zipcode=66047",
+
+        "details":
+        [
+            {
+                "label": "Price",
+                "data": "$250,000"
+            },
+            {
+                "label": "Bedrooms",
+                "data": "Two"
+            },
+            {
+                "label": "Bathrooms",
+                "data": "Two"
+            },
+            {
+                "label": "Garage",
+                "data": "No"
+            },
+            {
+                "label": "FirePlace",
+                "data": "Yes - Wood"
+            },
+            {
+                "label": "Basement",
+                "data": "No"
+            },
+            {
+                "label": "Square Feet",
+                "data": "1050 Sq Ft"
+            },
+            {
+                "label": "Lot Size",
+                "data": "1/2 acre"
+            },
+            {
+                "label": "Year Built",
+                "data": "1996"
+            }
+        ]
+    },
+    
+    "images": 
+    [
+        {
+            "name": "Airplane",
+            "path": "tours/123Test/img/Airplane.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Allen Field House",
+            "path": "tours/123Test/img/AllenFieldHouse.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Blackjack Oak",
+            "path": "tours/123Test/img/BlackjackOak.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Church",
+            "path": "tours/123Test/img/Church.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Downtown Austin",
+            "path": "tours/123Test/img/DowntownAustin.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Downtown KC",
+            "path": "tours/123Test/img/DowntownKC.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Elk River",
+            "path": "tours/123Test/img/ElkRiver.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Friendship Garden",
+            "path": "tours/123Test/img/FriendshipGarden.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Friendship Garden Alt",
+            "path": "tours/123Test/img/FriendshipGardenAlt.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Kaw River",
+            "path": "tours/123Test/img/KawRiver.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Kennedy Space Center",
+            "path": "tours/123Test/img/KennedySpaceCenter.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Lake Travis",
+            "path": "tours/123Test/img/LakeTravis.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Pump Organ",
+            "path": "tours/123Test/img/PumpOrgan.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Sunflower",
+            "path": "tours/123Test/img/Sunflower.jpg",
+            "interactive": false
+        },
+        {
+            "name": "Texas Capitol",
+            "path": "tours/123Test/img/TexasCapitol.jpg",
+            "interactive": false
+        }
+    ]
+}

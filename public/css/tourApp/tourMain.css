@@ -1,0 +1,184 @@
+/******* Main stylesheet for the virtual tour application *******/
+
+/*************
+Reset section
+**************/
+/* Zeros margin and padding so as to add where needed instead of using defaults */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
+    border:0;
+    font:inherit;
+    font-size:100%;
+    margin:0;
+    padding:0;
+    vertical-align:baseline;
+}
+/* Sets HTML5 tags to block level elements for older browsers that don't support them */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display:block;
+}
+/* Removes underlining, borders, and outlines in all link elements */
+a {
+    border:none;
+    outline:none;
+    text-decoration:none;
+}
+ol, ul {
+    list-style:none;
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+/* Keep parent containers from collapsing when they only contain floated elements */
+.clearfix:after {
+    clear:both;
+    content:".";
+    display:block;
+    font-size:0;
+    height:0;
+    visibility:hidden;
+}
+.clearfix { 
+    zoom:1; 
+}
+* {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+/*************
+Basic theme, tour specific styles are added in the theme stylesheet
+*************/
+body {
+    background-color:#444;
+    font-family:Verdana, Arial, Times;
+    line-height:1;
+}
+.dropShadow {
+    -moz-box-shadow:5px 5px 3px #111;
+    -webkit-box-shadow:5px 5px 3px #111;
+    box-shadow:5px 5px 3px #111;
+}
+.logoText {
+    color:white;
+    font-size:.75em;
+    margin-bottom:5px;
+}
+.twoThirdsOpacity {
+    filter:alpha(opacity=66);
+    opacity:0.66;
+}
+.oneThirdOpacity {
+    filter:alpha(opacity=33);
+    opacity:0.33;
+}
+.displayNone {
+    display:none;
+}
+
+/*************
+Element Structure for full size screens *** Revise later: Add other media sizes, need to figure out how to recalculate the animation algorithms on resize event?
+*************/
+
+/*******
+Main tour elements
+*******/
+#viewport {
+    height:730px;
+    left:50%;
+    margin:-365px 0 0 -525px;
+    overflow:hidden;
+    position:absolute;
+    top:50%;
+    width:1050px;
+}
+#slideMenu {
+    height:500px;
+    position:absolute;
+    overflow:hidden;
+    left:860px;
+    top:70px;
+    width:150px;
+}
+#imgDisplay {
+    background-color:white;
+    height:500px;
+    left:70px;
+    position:absolute;
+    top:70px;
+    width:750px;
+}
+#propInfo {
+    background:url("../../img/tourApp/propInfoBg.jpg");
+    height:100px;
+    left:70px;
+    position:absolute;
+    top:600px;
+    width:450px;
+}
+#agentInfo {
+    background:url("../../img/tourApp/agentInfoBg.jpg");
+    height:100px;
+    left:570px;
+    position:absolute;
+    top:600px;
+    width:250px;
+}
+#shtLogo {
+    left:875px;
+    position:absolute;
+    top:615px;
+}
+
+/*******
+Loading graphic
+*******/
+#loading div~div {
+    right:0; /* Move the second mask div to the right side */
+}
+#loading img {
+    left:50%;
+    margin:-7px 0 0 -64px;
+    position:absolute;
+    top:50%;
+    z-index:2;
+}
+.loadingMask {
+    background-color:black;
+    height:730px; /* Viewport height */
+    position:absolute;
+    width:525px; /* 1/2 of viewport width */
+    z-index:1;
+}
+
+/*******
+Slide menu
+*******/
+.slide {
+    background-color:#333;
+    border:2px solid white;
+    height:100px;
+    line-height:100px; /* This is so horizontal thumbs can use vertical-align */
+    margin:5px auto; /*** temporary for viewing purposes, center might not be needed, slides will need to be pushed right if including scroll bar ***/
+    position:relative;
+    text-align:center;
+    width:150px;
+}
+/* Types of thumbnail imgs, h&w of the thumbs equal the h&w of the slide minus the slide's borders */
+.loadingThumb {
+    text-align:center;
+    vertical-align:middle;
+}
+.stdThumb {
+    height:96px;
+    width:146px;
+}
+.verThumb {
+    height:96px;
+}
+.horThumb {
+    vertical-align:middle; /* For this to work, parent must have line-height set */
+    width:146px;
+}
