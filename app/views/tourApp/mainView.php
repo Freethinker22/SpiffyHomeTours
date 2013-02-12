@@ -30,8 +30,10 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
         <![endif]-->
     </head>
     <body>
+<!--        <button id="prevSlide">Prev</button>
+        <button id="nextSlide">Next</button>-->
         <section id="viewport" class="dropShadow">
-            <section id="loading">
+            <section id="loading" class="displayNone">
                 <img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
                 <div class="loadingMask"></div>
                 <div class="loadingMask"></div>
@@ -46,6 +48,9 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
             <section id="agentInfo" class="dropShadow oneThirdOpacity"></section>
             
             <section id="shtLogo" class="twoThirdsOpacity"><a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="logoText">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a></section>
+            
+            <img id="prevBtn" class="fourFifthsOpacity" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
+            <img id="nextBtn" class="fourFifthsOpacity" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
         </section>        
         
         <!-- Templates -->

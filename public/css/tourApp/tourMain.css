@@ -66,6 +66,10 @@ body {
     font-size:.75em;
     margin-bottom:5px;
 }
+.fourFifthsOpacity {
+    filter:alpha(opacity=80);
+    opacity:0.80;
+}
 .twoThirdsOpacity {
     filter:alpha(opacity=66);
     opacity:0.66;
@@ -77,13 +81,17 @@ body {
 .displayNone {
     display:none;
 }
+#nextBtn:hover, #prevBtn:hover {
+    filter:alpha(opacity=95);
+    opacity:0.95;
+}
 
 /*************
-Element Structure for full size screens *** Revise later: Add other media sizes, need to figure out how to recalculate the animation algorithms on resize event?
+Element Structure for full size screens *** Revise later: Add other media sizes, need to figure out how to recalculate the animation algorithms on resize event? ***
 *************/
 
 /*******
-Main tour elements
+Main tour elements *** Remember: when putting in media queries, move all non changing properties to their own area so as not to repeat them in each media query ***
 *******/
 #viewport {
     height:730px;
@@ -98,9 +106,9 @@ Main tour elements
     height:500px;
     position:absolute;
     overflow:hidden;
-    left:860px;
+    left:835px;
     top:70px;
-    width:150px;
+    width:200px;
 }
 #imgDisplay {
     background-color:white;
@@ -131,6 +139,18 @@ Main tour elements
     position:absolute;
     top:615px;
 }
+#prevBtn {
+    cursor:pointer;
+    left:875px;
+    position:absolute;
+    top:39px;
+}
+#nextBtn {
+    cursor:pointer;
+    left:875px;
+    position:absolute;
+    top:570px;
+}
 
 /*******
 Loading graphic
@@ -143,14 +163,14 @@ Loading graphic
     margin:-7px 0 0 -64px;
     position:absolute;
     top:50%;
-    z-index:2;
+    z-index:201;
 }
 .loadingMask {
     background-color:black;
     height:730px; /* Viewport height */
     position:absolute;
     width:525px; /* 1/2 of viewport width */
-    z-index:1;
+    z-index:200;
 }
 
 /*******
@@ -159,10 +179,10 @@ Slide menu
 .slide {
     background-color:#333;
     border:2px solid white;
+    cursor:pointer;
     height:100px;
-    line-height:100px; /* This is so horizontal thumbs can use vertical-align */
-    margin:5px auto; /*** temporary for viewing purposes, center might not be needed, slides will need to be pushed right if including scroll bar ***/
-    position:relative;
+    line-height:94px; /* This is so horizontal thumbs can use vertical-align */
+    position:absolute;
     text-align:center;
     width:150px;
 }

@@ -4,7 +4,12 @@
 function Param()
 {
     // SlideMenu obj
-    this.maxHorRatio = .60; // Imgs with a height to width ratio less than this are considered horizontal panos and tweened as such
+    this.centerGap = 15; // centerGap pushes the top and bottom halves of slide array away from the center so the two slides neighboring the center slide show more
+    this.horiSpace = 10; // Space between slides on the x axis
+    this.maxHoriRatio = .60; // Imgs with a height to width ratio less than this are considered horizontal panos and tweened as such
+    this.topZ = 100; // Z-index of the upper most slide, this number must be greater than the number of slides to display
+    this.transLength = 0.5; // Slide menu animation length
+    this.vertSpace = 60; // Space between slides on the y axis
     
     // Preloader obj
     this.amtToLoad = 5; // Number of imgs to load before the tour starts
