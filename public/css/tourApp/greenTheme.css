@@ -3,3 +3,11 @@
 #viewport {
     background:#00FF00 url("../../img/tourApp/greenTextureBg.jpg");
 }
+#imgName { /* The img name background */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2E4F1B,endColorstr=#8F2E4F1B); /* For IE < 9 */
+    background-color:rgba(46, 79, 27, 0.60);
+}
+#btnBar { /* The button bar background */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2E4F1B,endColorstr=#8F2E4F1B); /* For IE < 9 */
+    background-color:rgba(46, 79, 27, 0.60);
+}

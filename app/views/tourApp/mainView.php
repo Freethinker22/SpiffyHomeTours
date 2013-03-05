@@ -1,7 +1,7 @@
 <?php
 $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the correct JSON config file
 ?>
-<!DOCTYPE html> <!--This is a special view that doesn't use the regular header or footer views -->
+<!DOCTYPE html> <!--This is a special view that doesn't use the framework's regular header or footer views -->
 <html>
     <head lang="en-US">
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -15,7 +15,6 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
         <script type="text/javascript">var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
         <script type="text/javascript" src="public/js/jsLibraries/fullSize/jQuery.js"></script>
         <script type="text/javascript" src="public/js/jsLibraries/fullSize/underscore.js"></script>
-        <!--<script type="text/javascript" src="public/js/jsLibraries/fullSize/backbone.js"></script>-->
         <script type="text/javascript" src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
         <script type="text/javascript" src="public/js/tourApp/param.js"></script>
         <script type="text/javascript" src="public/js/tourApp/tourMain.js"></script> <!-- *** Merge js files and libraries after dev is complete *** -->
@@ -26,14 +25,19 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
         <![endif]-->
 
         <!--[if lt IE 8]>
-            <div id="tooOld" style='clear: both; height: 59px; padding:0 0 0 15px; position: relative;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div>
+            <div id="tooOld" style='clear: both; height: 59px; padding:0 0 0 15px; position: relative;'>
+                <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a>
+            </div>
         <![endif]-->
     </head>
     <body>
-<!--        <button id="prevSlide">Prev</button>
-        <button id="nextSlide">Next</button>-->
+        <noscript>
+            <p id="jsWarning">It seems you have JavaScript disabled.  Please enable JavaScript for this page to function properly.</p>
+        </noscript>
+        
         <section id="viewport" class="dropShadow">
             <section id="loading" class="displayNone">
+<!--            <section id="loading">-->
                 <img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
                 <div class="loadingMask"></div>
                 <div class="loadingMask"></div>
@@ -41,23 +45,76 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
             
             <section id="slideMenu"></section>
             
-            <section id="imgDisplay" class="dropShadow"></section>
+            <section id="imgDisplay" class="topLeftBorder">
+                <div id="tourImgDiv">
+                    <img id="tourImg" src="public/img/tourApp/imgLoading.gif" alt="Tour image" />
+                </div>
+            </section>
             
-            <section id="propInfo" class="dropShadow oneThirdOpacity"></section>
+            <section id="imgName" class="btnBarText topLeftBorder">
+                <p id="imgNameText">Image Label</p>
+            </section>
+                        
+            <section id="btnBar" class="btnBarText">
+                <p class="btnBarLabel">Music:</p>
+                <p id="musicPlayBtn" class="btnBarBtn clickable">Play</p>
+                <p>/</p>
+                <p id="musicPauseBtn" class="btnBarBtn clickable">Pause</p>
+                
+                <p class="btnBarLabel">Slideshow:</p>
+                <p id="tourPlayBtn" class="btnBarBtn clickable underline">Play</p>
+                <p>/</p>
+                <p id="tourPauseBtn" class="btnBarBtn clickable">Pause</p>
+            </section>
             
-            <section id="agentInfo" class="dropShadow oneThirdOpacity"></section>
+            <section id="addressBox" class="dropShadow topLeftBorder"></section>
             
-            <section id="shtLogo" class="twoThirdsOpacity"><a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="logoText">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a></section>
+            <section id="contactBox" class="dropShadow topLeftBorder"></section>
             
-            <img id="prevBtn" class="fourFifthsOpacity" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
-            <img id="nextBtn" class="fourFifthsOpacity" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
-        </section>        
+            <section id="shtLogo" class="twoThirdsOpacity">
+                <a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="logoText">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
+            </section>
+            
+            <img id="prevBtn" class="fourFifthsOpacity clickable" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
+            <img id="nextBtn" class="fourFifthsOpacity clickable" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
+        </section> <!-- End viewport section -->   
         
-        <!-- Templates -->
+        <!-- 
+        Underscore.js templates
+        -->
         <script id="slideTemp" type="text/template">
-            <img src="<%= path %>" alt="<%= name %>" class="loadingThumb" />
+            <img src="<%- img.src %>" alt="<%- img.alt %>" class="loadingSlide" />
         </script>
         
-        <!-- *** put some PHP here that updates the tours DB entry and updates the number of views it gets so that can be displayed to the client in the user panel *** -->
+        <script id="addressBoxTemp" type="text/template">
+            <div class="infoText">
+                <ul>
+                    <% _.each(address.data, function(input) { %>
+                        <li> 
+                            <%- input %>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        </script>
+        
+        <script id="contactBoxTemp" type="text/template">
+            <% if(contact.data.agentPic) { %>
+                <img src="<%- contact.data.agentPic %>" alt="Agent Pic" />
+            <% } %>
+            
+            <div class="infoText">
+                <ul>
+                    <% _.each(contact.data.inputs, function(input) { %>
+                        <li> 
+                            <%- input %>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        </script>
     </body>
 </html>
+
+<!-- *** put some PHP here that updates the tours DB entry and updates the number of views it gets so that can be displayed to the client in the user panel *** -->
+<!-- *** remember text input box length limits. addressBox: Max 30 chars, contactBox: Max 30 chars *** -->

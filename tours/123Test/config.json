@@ -3,8 +3,27 @@
     "theme": "blackTheme.css",
     "music": "song.mp3",
     "fsbo": false,
+    
+    "addressBox":
+    {
+        "input1": "5000 Clinton Parkway",
+        "input2": "Lawrence, KS 66047",
+        "input3": "MLS# 123456"
+    },
+    
+    "contactBox":
+    {
+        "agentPic": "tours/123Test/img/AgentPic.jpg",
+        
+        "inputs":
+        {
+            "input1": "Matthew Whitehead",
+            "input2": "785-979-1492",
+            "input3": "Realty Executives"
+        }
+    },
 
-    "agent":
+    "agentInfo":
     {
         "name": "Matthew Whitehead",
         "cellPhone": "785-979-1492",
@@ -12,11 +31,11 @@
         "email": "m@spiffyhometours.com",
         "agency": "Realty Executives",
         "website": "http://spiffyhometours.com",
-        "pictureUrl": "img/AgentPic.jpg",
-        "logoUrl": "img/LogoTemp.jpg"
+        "pictureUrl": "tours/123Test/img/AgentPic.jpg",
+        "logoUrl": "tours/123Test/img/AgentLogo.jpg"
     },
     
-    "property":
+    "propertyInfo":
     {
         "address": "5000 Clinton Parkway",
         "city": "Lawrence",
@@ -71,78 +90,83 @@
     "images": 
     [
         {
-            "name": "Airplane",
-            "path": "tours/123Test/img/Airplane.jpg",
+            "alt": "Airplane",
+            "src": "tours/123Test/img/Airplane.jpg",
             "interactive": false
         },
         {
-            "name": "Allen Field House",
-            "path": "tours/123Test/img/AllenFieldHouse.jpg",
+            "alt": "Allen Field House",
+            "src": "tours/123Test/img/AllenFieldHouse.jpg",
             "interactive": false
         },
         {
-            "name": "Blackjack Oak",
-            "path": "tours/123Test/img/BlackjackOak.jpg",
+            "alt": "Blackjack Oak",
+            "src": "tours/123Test/img/BlackjackOak.jpg",
             "interactive": false
         },
         {
-            "name": "Church",
-            "path": "tours/123Test/img/Church.jpg",
+            "alt": "Church",
+            "src": "tours/123Test/img/Church.jpg",
             "interactive": false
         },
         {
-            "name": "Downtown Austin",
-            "path": "tours/123Test/img/DowntownAustin.jpg",
+            "alt": "Downtown Austin",
+            "src": "tours/123Test/img/DowntownAustin.jpg",
             "interactive": false
         },
         {
-            "name": "Downtown KC",
-            "path": "tours/123Test/img/DowntownKC.jpg",
+            "alt": "Downtown KC",
+            "src": "tours/123Test/img/DowntownKC.jpg",
             "interactive": false
         },
         {
-            "name": "Elk River",
-            "path": "tours/123Test/img/ElkRiver.jpg",
+            "alt": "Elk River Short",
+            "src": "tours/123Test/img/ElkRiverShort.jpg",
             "interactive": false
         },
         {
-            "name": "Friendship Garden",
-            "path": "tours/123Test/img/FriendshipGarden.jpg",
+            "alt": "Elk River",
+            "src": "tours/123Test/img/ElkRiver.jpg",
             "interactive": false
         },
         {
-            "name": "Friendship Garden Alt",
-            "path": "tours/123Test/img/FriendshipGardenAlt.jpg",
+            "alt": "Friendship Garden",
+            "src": "tours/123Test/img/FriendshipGarden.jpg",
             "interactive": false
         },
         {
-            "name": "Kaw River",
-            "path": "tours/123Test/img/KawRiver.jpg",
+            "alt": "Friendship Garden Alt",
+            "src": "tours/123Test/img/FriendshipGardenAlt.jpg",
             "interactive": false
         },
         {
-            "name": "Kennedy Space Center",
-            "path": "tours/123Test/img/KennedySpaceCenter.jpg",
+            "alt": "Kaw River",
+            "src": "tours/123Test/img/KawRiver.jpg",
             "interactive": false
         },
         {
-            "name": "Lake Travis",
-            "path": "tours/123Test/img/LakeTravis.jpg",
+            "alt": "Kennedy Space Center",
+            "src": "tours/123Test/img/KennedySpaceCenter.jpg",
             "interactive": false
         },
         {
-            "name": "Pump Organ",
-            "path": "tours/123Test/img/PumpOrgan.jpg",
+            "alt": "Lake Travis",
+            "src": "tours/123Test/img/LakeTravis.jpg",
             "interactive": false
         },
         {
-            "name": "Sunflower",
-            "path": "tours/123Test/img/Sunflower.jpg",
+            "alt": "Pump Organ",
+            "src": "tours/123Test/img/PumpOrgan.jpg",
             "interactive": false
         },
         {
-            "name": "Texas Capitol",
-            "path": "tours/123Test/img/TexasCapitol.jpg",
+            "alt": "Sunflower",
+            "src": "tours/123Test/img/Sunflower.jpg",
+            "interactive": false
+        },
+        {
+            "alt": "Texas Capitol",
+            "src": "tours/123Test/img/TexasCapitol.jpg",
             "interactive": false
         }
     ]

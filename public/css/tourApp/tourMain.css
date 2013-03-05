@@ -17,7 +17,6 @@ fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display:block;
 }
-/* Removes underlining, borders, and outlines in all link elements */
 a {
     border:none;
     outline:none;
@@ -54,7 +53,14 @@ Basic theme, tour specific styles are added in the theme stylesheet
 body {
     background-color:#444;
     font-family:Verdana, Arial, Times;
-    line-height:1;
+    line-height:1em;
+}
+#jsWarning {
+    background-color:red;
+    font-size:1.25em;
+    font-weight:bold;
+    line-height:1.5em;
+    text-align:center;
 }
 .dropShadow {
     -moz-box-shadow:5px 5px 3px #111;
@@ -64,7 +70,24 @@ body {
 .logoText {
     color:white;
     font-size:.75em;
-    margin-bottom:5px;
+}
+.infoText {
+    color:white;
+    line-height:1.25em;
+}
+.btnBarText  {
+    color:white;
+    vertical-align:middle;
+}
+.btnBarBtn {
+    font-size:.85em;
+}
+.btnBarLabel {
+    margin-left:10px;
+}
+.topLeftBorder {
+    border-top:1px solid white;
+    border-left:1px solid white;
 }
 .fourFifthsOpacity {
     filter:alpha(opacity=80);
@@ -74,12 +97,14 @@ body {
     filter:alpha(opacity=66);
     opacity:0.66;
 }
-.oneThirdOpacity {
-    filter:alpha(opacity=33);
-    opacity:0.33;
-}
 .displayNone {
     display:none;
+}
+.underline {
+    text-decoration:underline;
+}
+.clickable {
+    cursor:pointer;
 }
 #nextBtn:hover, #prevBtn:hover {
     filter:alpha(opacity=95);
@@ -91,12 +116,12 @@ Element Structure for full size screens *** Revise later: Add other media sizes,
 *************/
 
 /*******
-Main tour elements *** Remember: when putting in media queries, move all non changing properties to their own area so as not to repeat them in each media query ***
+Main tour elements *** Remember: when putting in media queries, move all non changing properties to their own areas or classes so as not to repeat them in each media query ***
 *******/
 #viewport {
     height:730px;
     left:50%;
-    margin:-365px 0 0 -525px;
+    margin:-365px 0 0 -525px; /* Center the tour on the page */
     overflow:hidden;
     position:absolute;
     top:50%;
@@ -104,56 +129,88 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
 }
 #slideMenu {
     height:500px;
-    position:absolute;
     overflow:hidden;
+    position:absolute;
     left:835px;
     top:70px;
     width:200px;
 }
 #imgDisplay {
-    background-color:white;
     height:500px;
     left:70px;
+    line-height:500px;
+    overflow:hidden;
     position:absolute;
+    text-align:center;
     top:70px;
     width:750px;
 }
-#propInfo {
-    background:url("../../img/tourApp/propInfoBg.jpg");
+#addressBox {
+    background:url("../../img/tourApp/contactBoxBg.png");
     height:100px;
     left:70px;
+    padding:7px 0 0 10px;
     position:absolute;
     top:600px;
-    width:450px;
+    width:300px;
 }
-#agentInfo {
-    background:url("../../img/tourApp/agentInfoBg.jpg");
+#contactBox {
+    background:url("../../img/tourApp/addressBoxBg.png");
     height:100px;
-    left:570px;
+    left:420px;
+    padding:7px 10px 0 0;
     position:absolute;
+    text-align:right;
     top:600px;
-    width:250px;
+    width:400px;
+}
+#contactBox img { /* Agent's picture if there is one */
+    float:left;
+    height:92px;
+    margin:-3px 0 0 4px; /* Negitive margin used to move the img back up because of the top padding on the contactBox */
 }
 #shtLogo {
     left:875px;
     position:absolute;
     top:615px;
 }
+#shtLogo p {
+    margin-bottom:5px;
+}
 #prevBtn {
-    cursor:pointer;
     left:875px;
     position:absolute;
     top:39px;
 }
 #nextBtn {
-    cursor:pointer;
     left:875px;
     position:absolute;
     top:570px;
 }
+#imgName {
+    height:26px;
+    right:230px; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
+    line-height:26px;
+    position:absolute;
+    top:120px;
+}
+#imgName p {
+    margin:0 5px;
+}
+#btnBar {
+    height:26px;
+    left:71px;
+    line-height:26px;
+    position:absolute;
+    top:544px;
+    width:749px; /* Shortend 1px to allow the imgDisplay's border to show  */
+}
+#btnBar p {
+    display:inline;
+}
 
 /*******
-Loading graphic
+Loading graphics
 *******/
 #loading div~div {
     right:0; /* Move the second mask div to the right side */
@@ -170,7 +227,7 @@ Loading graphic
     height:730px; /* Viewport height */
     position:absolute;
     width:525px; /* 1/2 of viewport width */
-    z-index:200;
+    z-index:200; /* Must be on top of everything else */
 }
 
 /*******
@@ -179,26 +236,41 @@ Slide menu
 .slide {
     background-color:#333;
     border:2px solid white;
-    cursor:pointer;
     height:100px;
-    line-height:94px; /* This is so horizontal thumbs can use vertical-align */
+    line-height:94px; /* This is so horizontal slides can use vertical-align */
     position:absolute;
     text-align:center;
     width:150px;
 }
-/* Types of thumbnail imgs, h&w of the thumbs equal the h&w of the slide minus the slide's borders */
-.loadingThumb {
+/* Types of slide imgs, h&w of the slide imgs equal the h&w of the slide minus the slide's borders */
+.loadingSlide {
     text-align:center;
     vertical-align:middle;
 }
-.stdThumb {
+.stdSlide {
     height:96px;
     width:146px;
 }
-.verThumb {
+.vertSlide {
     height:96px;
 }
-.horThumb {
+.horiSlide {
     vertical-align:middle; /* For this to work, parent must have line-height set */
     width:146px;
+}
+
+/*******
+Img display, the classes are for resizing the tour imgs
+*******/
+#tourImgDiv {
+    position:absolute;
+}
+.stdImg {
+    width:900px; /* This needs to be 20% larger than the imgDisplay width so the img has room to tween */
+}
+.vertImg {
+    width:750px; /* This needs to match the width of the imgDisplay */
+}
+.horiImg {
+    height:500px; /* This needs to match the height of the imgDisplay */
 }
