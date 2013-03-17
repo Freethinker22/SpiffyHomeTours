@@ -1,8 +1,15 @@
 {
     "pageTitle": "123 Test",
     "theme": "blackTheme.css",
-    "music": "song.mp3",
     "fsbo": false,
+    
+    "music":
+    {
+        "includeMusic": true,
+        "autoplay": true,
+        "mp3": "tours/123Test/music/song.mp3",
+        "ogg": "tours/123Test/music/song.ogg"
+    },
     
     "addressBox":
     {

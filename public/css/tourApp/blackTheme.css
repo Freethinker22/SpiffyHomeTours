@@ -1,6 +1,6 @@
 /* Black theme for the tour application */
 
-#viewport {
+#tourWrapper {
     background:#444 url("../../img/tourApp/blackTextureBg.jpg");
 }
 #imgName { /* The img name background */

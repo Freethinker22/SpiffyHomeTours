@@ -1,6 +1,6 @@
 /* Green theme for the tour application */
 
-#viewport {
+#tourWrapper {
     background:#00FF00 url("../../img/tourApp/greenTextureBg.jpg");
 }
 #imgName { /* The img name background */

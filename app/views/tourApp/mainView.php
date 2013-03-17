@@ -1,5 +1,5 @@
 <?php
-$tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the correct JSON config file
+$tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct JSON config file
 ?>
 <!DOCTYPE html> <!--This is a special view that doesn't use the framework's regular header or footer views -->
 <html>
@@ -9,7 +9,7 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
         <meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
         <meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
         <link rel="icon" href="public/img/favicon.ico" />
-        <link rel="stylesheet" type="text/css" href="public/css/tourApp/tourMain.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="public/css/tourApp/tour.css" media="screen" />
         <title>Spiffy Home Tours</title>
         
         <script type="text/javascript">var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
@@ -17,7 +17,7 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
         <script type="text/javascript" src="public/js/jsLibraries/fullSize/underscore.js"></script>
         <script type="text/javascript" src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
         <script type="text/javascript" src="public/js/tourApp/param.js"></script>
-        <script type="text/javascript" src="public/js/tourApp/tourMain.js"></script> <!-- *** Merge js files and libraries after dev is complete *** -->
+        <script type="text/javascript" src="public/js/tourApp/tour.js"></script> <!-- *** Merge JS files and libraries after dev is complete *** -->
         
         <!--[if lt IE 9]>
             <link rel="stylesheet" type="text/css" href="public/css/tourApp/ieAddendum.css" media="screen" />
@@ -35,9 +35,9 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
             <p id="jsWarning">It seems you have JavaScript disabled.  Please enable JavaScript for this page to function properly.</p>
         </noscript>
         
-        <section id="viewport" class="dropShadow">
-            <section id="loading" class="displayNone">
-<!--            <section id="loading">-->
+        <section id="tourWrapper" class="dropShadow">
+<!--            <section id="loading" class="displayNone">-->
+            <section id="loading">
                 <img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
                 <div class="loadingMask"></div>
                 <div class="loadingMask"></div>
@@ -45,26 +45,25 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
             
             <section id="slideMenu"></section>
             
-            <section id="imgDisplay" class="topLeftBorder">
-                <div id="tourImgDiv">
-                    <img id="tourImg" src="public/img/tourApp/imgLoading.gif" alt="Tour image" />
-                </div>
-            </section>
+            <section id="imgDisplay" class="topLeftBorder"></section>
             
             <section id="imgName" class="btnBarText topLeftBorder">
                 <p id="imgNameText">Image Label</p>
             </section>
                         
             <section id="btnBar" class="btnBarText">
-                <p class="btnBarLabel">Music:</p>
-                <p id="musicPlayBtn" class="btnBarBtn clickable">Play</p>
-                <p>/</p>
-                <p id="musicPauseBtn" class="btnBarBtn clickable">Pause</p>
-                
-                <p class="btnBarLabel">Slideshow:</p>
-                <p id="tourPlayBtn" class="btnBarBtn clickable underline">Play</p>
-                <p>/</p>
-                <p id="tourPauseBtn" class="btnBarBtn clickable">Pause</p>
+                <div id="musicBtns">
+                    <p>Music:</p>
+                    <p id="musicPlayBtn">Play</p>
+                    <p>/</p>
+                    <p id="musicPauseBtn">Pause</p>
+                </div>
+                <div id="tourBtns">
+                    <p>Slideshow:</p>
+                    <p id="tourPlayBtn">Play</p>
+                    <p>/</p>
+                    <p id="tourPauseBtn">Pause</p>
+                </div>
             </section>
             
             <section id="addressBox" class="dropShadow topLeftBorder"></section>
@@ -77,15 +76,9 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
             
             <img id="prevBtn" class="fourFifthsOpacity clickable" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
             <img id="nextBtn" class="fourFifthsOpacity clickable" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
-        </section> <!-- End viewport section -->   
+        </section> <!-- End tourWrapper section -->   
         
-        <!-- 
-        Underscore.js templates
-        -->
-        <script id="slideTemp" type="text/template">
-            <img src="<%- img.src %>" alt="<%- img.alt %>" class="loadingSlide" />
-        </script>
-        
+        <!-- ******* Underscore.js templates ******* -->
         <script id="addressBoxTemp" type="text/template">
             <div class="infoText">
                 <ul>
@@ -113,6 +106,24 @@ $tourDirectory = $this->tourDirectory; // Used in tourMain.js to fetch the corre
                 </ul>
             </div>
         </script>
+                
+        <!-- ******* Flash music player for old IE ******* -->
+        <!--[if lt IE 9]>
+            <script type="text/javascript">
+                var isIE8 = true;
+                var song = '';
+                var autoplay = '';
+                
+                function songForOldIe() { return song; } // These first two functions are called by the FlashMusicPlayer from inside the AS3 
+                function autoplayForOldIe() { return autoplay; }
+                function startMusic() { document.getElementById("flashMusicPlayer").start(); } // This is called from the Music obj to setup the FlashMusicPlayer by calling a function inside the AS3
+            </script>
+            <object id="flashMusicPlayer" type="application/x-shockwave-flash" data="public/js/tourApp/swf/FlashMusicPlayer.swf" style="margin-left:-9999px; float:left;"> 
+                <param name="movie" value="public/js/tourApp/swf/FlashMusicPlayer.swf" />
+                <param name="quality" value="high" />
+                <embed src="public/js/tourApp/swf/FlashMusicPlayer.swf" quality="high" />
+            </object>
+        <![endif]-->
     </body>
 </html>
 

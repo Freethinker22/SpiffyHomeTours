@@ -1,6 +1,6 @@
 /* Red theme for the tour application */
 
-#viewport {
+#tourWrapper {
     background:#FF0000 url("../../img/tourApp/redTextureBg.jpg");
 }
 #imgName { /* The img name background */

@@ -77,13 +77,6 @@ body {
 }
 .btnBarText  {
     color:white;
-    vertical-align:middle;
-}
-.btnBarBtn {
-    font-size:.85em;
-}
-.btnBarLabel {
-    margin-left:10px;
 }
 .topLeftBorder {
     border-top:1px solid white;
@@ -97,18 +90,25 @@ body {
     filter:alpha(opacity=66);
     opacity:0.66;
 }
-.displayNone {
-    display:none;
-}
-.underline {
-    text-decoration:underline;
+.absolute {
+    position:absolute;
 }
 .clickable {
     cursor:pointer;
 }
+.underline {
+    text-decoration:underline;
+}
+.displayNone {
+    display:none
+}
 #nextBtn:hover, #prevBtn:hover {
     filter:alpha(opacity=95);
     opacity:0.95;
+}
+#musicPlayBtn, #musicPauseBtn, #tourPlayBtn, #tourPauseBtn {
+    cursor:pointer;
+    font-size:.85em;
 }
 
 /*************
@@ -118,7 +118,7 @@ Element Structure for full size screens *** Revise later: Add other media sizes,
 /*******
 Main tour elements *** Remember: when putting in media queries, move all non changing properties to their own areas or classes so as not to repeat them in each media query ***
 *******/
-#viewport {
+#tourWrapper {
     height:730px;
     left:50%;
     margin:-365px 0 0 -525px; /* Center the tour on the page */
@@ -138,10 +138,8 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
 #imgDisplay {
     height:500px;
     left:70px;
-    line-height:500px;
     overflow:hidden;
     position:absolute;
-    text-align:center;
     top:70px;
     width:750px;
 }
@@ -205,8 +203,11 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
     top:544px;
     width:749px; /* Shortend 1px to allow the imgDisplay's border to show  */
 }
-#btnBar p {
+#btnBar div, p {
     display:inline;
+}
+#btnBar div p:first-child {
+    margin-left:10px; /* Spaces out the Slideshow and Music labels */
 }
 
 /*******
@@ -224,10 +225,10 @@ Loading graphics
 }
 .loadingMask {
     background-color:black;
-    height:730px; /* Viewport height */
+    height:730px; /* tourWrapper height */
     position:absolute;
-    width:525px; /* 1/2 of viewport width */
-    z-index:200; /* Must be on top of everything else */
+    width:525px; /* 1/2 of tourWrapper width */
+    z-index:200; /* Has to be on top of everything else */
 }
 
 /*******
@@ -262,9 +263,6 @@ Slide menu
 /*******
 Img display, the classes are for resizing the tour imgs
 *******/
-#tourImgDiv {
-    position:absolute;
-}
 .stdImg {
     width:900px; /* This needs to be 20% larger than the imgDisplay width so the img has room to tween */
 }

@@ -1,6 +1,6 @@
 /* Blue theme for the tour application */
 
-#viewport {
+#tourWrapper {
     background:#0000FF url("../../img/tourApp/blueTextureBg.jpg");
 }
 #imgName { /* The img name background */
