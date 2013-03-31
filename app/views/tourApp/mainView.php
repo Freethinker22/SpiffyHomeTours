@@ -35,9 +35,9 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             <p id="jsWarning">It seems you have JavaScript disabled.  Please enable JavaScript for this page to function properly.</p>
         </noscript>
         
-        <section id="tourWrapper" class="dropShadow">
-<!--            <section id="loading" class="displayNone">-->
-            <section id="loading">
+        <section id="tourWrapper" class="tourBg dropShadow">
+            <section id="loading" class="displayNone">
+<!--            <section id="loading">-->
                 <img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
                 <div class="loadingMask"></div>
                 <div class="loadingMask"></div>
@@ -45,13 +45,17 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             
             <section id="slideMenu"></section>
             
-            <section id="imgDisplay" class="topLeftBorder"></section>
+            <section id="imgDisplay" class="topLeftBorder">
+                <div id="infoBox" class="msgText eightyFivePctBg displayNone"><p class="hidden"></p></div>
+                <div id="iaPicBg" class="tourBg zeroOpacity displayNone"></div>
+                <p id="alertMsg" class="msgText eightyFivePctBg topLeftBorder displayNone"></p>
+            </section>
             
-            <section id="imgName" class="btnBarText topLeftBorder">
+            <section id="imgName" class="btnBarText sixtyPctBg topLeftBorder">
                 <p id="imgNameText">Image Label</p>
             </section>
                         
-            <section id="btnBar" class="btnBarText">
+            <section id="btnBar" class="btnBarText sixtyPctBg">
                 <div id="musicBtns">
                     <p>Music:</p>
                     <p id="musicPlayBtn">Play</p>
@@ -110,7 +114,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         <!-- ******* Flash music player for old IE ******* -->
         <!--[if lt IE 9]>
             <script type="text/javascript">
-                var isIE8 = true;
+                var isOldIe = true;
                 var song = '';
                 var autoplay = '';
                 

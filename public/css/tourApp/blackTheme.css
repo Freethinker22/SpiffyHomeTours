@@ -1,13 +1,13 @@
 /* Black theme for the tour application */
 
-#tourWrapper {
+.tourBg {
     background:#444 url("../../img/tourApp/blackTextureBg.jpg");
 }
-#imgName { /* The img name background */
+.sixtyPctBg { /* The button bar and img name background */
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2F2F2F,endColorstr=#8F2F2F2F); /* For IE < 9 */
     background-color:rgba(47, 47, 47, 0.60);
 }
-#btnBar { /* The button bar background */
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2F2F2F,endColorstr=#8F2F2F2F); /* For IE < 9 */
-    background-color:rgba(47, 47, 47, 0.60);
+.eightyFivePctBg { /* The alert msg background */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52F2F2F,endColorstr=#E52F2F2F); /* For IE < 9 */
+    background-color:rgba(47, 47, 47, 0.85);
 }

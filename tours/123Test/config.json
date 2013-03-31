@@ -6,7 +6,7 @@
     "music":
     {
         "includeMusic": true,
-        "autoplay": true,
+        "autoplay": false,
         "mp3": "tours/123Test/music/song.mp3",
         "ogg": "tours/123Test/music/song.ogg"
     },
@@ -97,83 +97,149 @@
     "images": 
     [
         {
-            "alt": "Airplane",
+            "uId": 1,
             "src": "tours/123Test/img/Airplane.jpg",
-            "interactive": false
+            "alt": "Airplane",
+            "interactive":
+            [
+                {
+                    "type": "txt",
+                    "xPct": 40,
+                    "yPct": 40,
+                    "data": "This is text that would display in a pop up text box.  These can be used to give information on a special feature or history of the house.  Click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms.  This is text that would display in a pop up text box.  These can be used to give information on a special feature or history of the house.  Click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms."
+                },
+                {
+                    "uId": 101,
+                    "type": "pic",
+                    "xPct": 20,
+                    "yPct": 20,
+                    "data": "tours/123Test/img/Sunflowers3.jpg"
+                },
+                {
+                    "uId": 102,
+                    "type": "pic",
+                    "xPct": 25,
+                    "yPct": 25,
+                    "data": "tours/123Test/img/Sunflower.jpg"
+                },
+                {
+                    "type": "nav",
+                    "xPct": 30,
+                    "yPct": 30,
+                    "data": 9
+                }
+            ]
         },
         {
-            "alt": "Allen Field House",
+            "uId": 2,
             "src": "tours/123Test/img/AllenFieldHouse.jpg",
-            "interactive": false
+            "alt": "Allen Field House",
+            "interactive": 
+            [
+                {
+                    "type": "nav",
+                    "xPct": 25,
+                    "yPct": 25,
+                    "data": 4
+                },
+                {
+                    "uId": 201,
+                    "type": "pic",
+                    "xPct": 20,
+                    "yPct": 20,
+                    "data": "tours/123Test/img/ElkRiverShort.jpg"
+                },
+                {
+                    "uId": 202,
+                    "type": "pic",
+                    "xPct": 35,
+                    "yPct": 35,
+                    "data": "tours/123Test/img/FriendshipGardenAlt.jpg"
+                }
+            ]
         },
         {
-            "alt": "Blackjack Oak",
+            "uId": 3,
             "src": "tours/123Test/img/BlackjackOak.jpg",
+            "alt": "Blackjack Oak",
             "interactive": false
         },
         {
-            "alt": "Church",
+            "uId": 4,
             "src": "tours/123Test/img/Church.jpg",
+            "alt": "Church",
             "interactive": false
         },
         {
-            "alt": "Downtown Austin",
+            "uId": 5,
             "src": "tours/123Test/img/DowntownAustin.jpg",
+            "alt": "Downtown Austin",
             "interactive": false
         },
         {
-            "alt": "Downtown KC",
+            "uId": 6,
             "src": "tours/123Test/img/DowntownKC.jpg",
+            "alt": "Downtown KC",
             "interactive": false
         },
         {
-            "alt": "Elk River Short",
+            "uId": 7,
             "src": "tours/123Test/img/ElkRiverShort.jpg",
+            "alt": "Elk River Short",
             "interactive": false
         },
         {
-            "alt": "Elk River",
+            "uId": 8,
             "src": "tours/123Test/img/ElkRiver.jpg",
+            "alt": "Elk River",
             "interactive": false
         },
         {
-            "alt": "Friendship Garden",
+            "uId": 9,
             "src": "tours/123Test/img/FriendshipGarden.jpg",
+            "alt": "Friendship Garden",
             "interactive": false
         },
         {
-            "alt": "Friendship Garden Alt",
+            "uId": 10,
             "src": "tours/123Test/img/FriendshipGardenAlt.jpg",
+            "alt": "Friendship Garden Alt",
             "interactive": false
         },
         {
-            "alt": "Kaw River",
+            "uId": 11,
             "src": "tours/123Test/img/KawRiver.jpg",
+            "alt": "Kaw River",
             "interactive": false
         },
         {
-            "alt": "Kennedy Space Center",
+            "uId": 12,
             "src": "tours/123Test/img/KennedySpaceCenter.jpg",
+            "alt": "Kennedy Space Center",
             "interactive": false
         },
         {
-            "alt": "Lake Travis",
+            "uId": 13,
             "src": "tours/123Test/img/LakeTravis.jpg",
+            "alt": "Lake Travis",
             "interactive": false
         },
         {
-            "alt": "Pump Organ",
+            "uId": 14,
             "src": "tours/123Test/img/PumpOrgan.jpg",
+            "alt": "Pump Organ",
             "interactive": false
         },
         {
-            "alt": "Sunflower",
+            "uId": 15,
             "src": "tours/123Test/img/Sunflower.jpg",
+            "alt": "Sunflower",
             "interactive": false
         },
         {
-            "alt": "Texas Capitol",
+            "uId": 16,
             "src": "tours/123Test/img/TexasCapitol.jpg",
+            "alt": "Texas Capitol",
             "interactive": false
         }
     ]

@@ -73,7 +73,11 @@ body {
 }
 .infoText {
     color:white;
-    line-height:1.25em;
+    line-height:1.25em; /*** all of these texts could be combined some how because of all the white text?? ***/
+}
+.msgText {
+    color:white;
+    font-size:.80em;
 }
 .btnBarText  {
     color:white;
@@ -81,6 +85,10 @@ body {
 .topLeftBorder {
     border-top:1px solid white;
     border-left:1px solid white;
+}
+.zeroOpacity {
+    filter:alpha(opacity=0);
+    opacity:0;
 }
 .fourFifthsOpacity {
     filter:alpha(opacity=80);
@@ -101,6 +109,13 @@ body {
 }
 .displayNone {
     display:none
+}
+.hidden {
+    visibility:hidden;
+}
+.iaBtns {
+    cursor:pointer;
+    position:absolute;
 }
 #nextBtn:hover, #prevBtn:hover {
     filter:alpha(opacity=95);
@@ -202,12 +217,40 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
     position:absolute;
     top:544px;
     width:749px; /* Shortend 1px to allow the imgDisplay's border to show  */
+    z-index:2; /* This is here so the btnBar stays on top of the interactive pictures when they're opened */
 }
-#btnBar div, p {
+#btnBar div, #btnBar p {
     display:inline;
 }
 #btnBar div p:first-child {
     margin-left:10px; /* Spaces out the Slideshow and Music labels */
+}
+#alertMsg {
+    cursor:pointer;
+    margin:-25px 0 0 -125px;
+    padding:8px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:200px;
+    z-index:1;
+}
+#infoBox {
+    cursor:pointer;
+    height:0; /* The height of the box has to initially be 0. This is because the text appended into the p element pops open the div and spoils the opening tween if not set to 0 */
+    padding:8px;
+    position:absolute;
+    width:250px;
+    z-index:1;
+}
+#iaPicBg {
+    cursor:pointer;
+    height:500px;
+    line-height:500px;
+    position:absolute;
+    text-align:center;
+    width:750px;
+    z-index:1;
 }
 
 /*******
@@ -254,21 +297,45 @@ Slide menu
 }
 .vertSlide {
     height:96px;
+    width:auto;
 }
 .horiSlide {
+    height:auto;
     vertical-align:middle; /* For this to work, parent must have line-height set */
     width:146px;
 }
 
 /*******
-Img display, the classes are for resizing the tour imgs
+Tour img size classes
 *******/
 .stdImg {
+    height:auto;
     width:900px; /* This needs to be 20% larger than the imgDisplay width so the img has room to tween */
 }
 .vertImg {
+    height:auto;
     width:750px; /* This needs to match the width of the imgDisplay */
 }
 .horiImg {
     height:500px; /* This needs to match the height of the imgDisplay */
+    width:auto;
+}
+
+/*******
+Interactive picture size classes
+*******/
+.stdIaPic {
+    vertical-align:bottom;
+    height:auto;
+    width:750px; /* This needs to match the width of the imgDisplay */
+}
+.vertIaPic {
+    vertical-align:bottom;
+    height:500px; /* This needs to match the height of the imgDisplay */
+    width:auto;
+}
+.horiIaPic {
+    vertical-align:middle;
+    height:auto;
+    width:750px; /* This needs to match the width of the imgDisplay */
 }
