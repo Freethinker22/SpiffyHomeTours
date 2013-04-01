@@ -68,16 +68,18 @@ $(function()
                 }
             },
             // Interactive pics are preloaded at the same time as their parent tour imgs so they're viewable when the tour img is on the screen
+            // *** Note: Native JS for loops are used in most situations instead of jQuery each loops to increase performance
             // *** Revise later: IaPic preloading causes the iaPics to download after their parent tour imgs, but at the same time as other tour imgs. Downloading multiple imgs at the same time might be bad for preformance?
             preloadIaPics:function(img)
             {
-                $.each(img.interactive, function(index, iaObj) // iaObj is a reference to each of the interactive array's elements, each iaObj contains properties used to setup each interactive btn
+                var iaArrLen = img.interactive.length;
+                
+                for(var i = 0; i < iaArrLen; i++)
                 {
-                    if(iaObj.type === 'pic')
-                    {
-                        Interactive.createIaPicObj(iaObj.uId, iaObj.data);
-                    }
-                });
+                    var iaObj = img.interactive[i]; // iaObj is a reference to each of the interactive array's elements, each iaObj contains properties used to setup each interactive btn
+                    
+                    if(iaObj.type === 'pic') { Interactive.createIaPicObj(iaObj.uId, iaObj.data); }
+                }
                 
                 this.preload(); // Recursive call to keep loading imgs
             },
@@ -106,9 +108,9 @@ $(function()
         {
             el: $('#slideMenu'),
             slideArray: [], // Reference to all of the Slide objs
-            startNum: Math.round(imgArrLen / 2 - 1), // The slideNum of the slide in the center that displays first
-            currSlideNum: 0, // The slideNum of current slide being displayed
+            currSlideNum: Math.round(imgArrLen / 2 - 1), // The slideNum of current slide being displayed, onload this is the slideNum of the slide in the center that displays first
             centerY: 0, // The middle of the slide menu along the Y axis
+            exTest:0,
             
             // Set up the slide menu and create place holder imgs with img names in the correct rendering order
             init:function() 
@@ -116,7 +118,6 @@ $(function()
                 var parent = this;
                 
                 this.centerY = this.el.height() / 2;
-                this.currSlideNum = this.startNum;
                 this.createSlides();
                 this.centerSlides();
                 
@@ -142,12 +143,12 @@ $(function()
                 var bottomHalf = imgArray.slice(Math.floor(imgArrLen / 2 + 1), imgArrLen);
                 var renderOrder = bottomHalf.concat(topHalf); // Order of the imgs when rendered to the screen
                 
-                $.each(renderOrder, function(index, img)
+                for(var i = 0; i < imgArrLen; i++)
                 {
-                    var slide = new Slide(img.uId, index); // Pass a new Slide obj its unique id and its position in the slideArray (slideNum)
+                    var slide = new Slide(renderOrder[i].uId, i); // Pass a new Slide obj its unique id and its position in the slideArray (slideNum)
                     parent.slideArray.push(slide); // Populate the slideArray with references to the Slide Objs
                     renderArray.push(slide.el); // Populate the renderArray with references to the Slide obj's html
-                });
+                }
                 
                 this.el.html(renderArray); // Append all of the slides at once to reduce browser reflows
             },
@@ -156,43 +157,43 @@ $(function()
             {
                 var slideStartPosY = this.el.offset().top + (this.el.height() / 2); // The middle of the slide menu along the Y axis, accounting for the offset of the slide menu from the top of the window
                 
-                $.each(this.slideArray, function(index, slide)
+                for(var i = 0; i < imgArrLen; i++) // Loop through the slideArray and set the top attr to center each slide in the SlideMenu() obj
                 {
+                    var slide = this.slideArray[i];
                     slide.el.offset({ top: slideStartPosY - (slide.el.height() / 2) });
-                });
+                }                
             },
             // After the first several imgs in the load order are downloaded, this is called from checkLoading in the Preloader
             startTour:function()
             {
-                this.reorderSlides(this.startNum);
+                this.reorderSlides(this.currSlideNum);
             },
             // Loop through the slideArray and calculate the position of each slide anytime an event happens to move the slide menu
             reorderSlides:function(slideNum)
             {
-                var parent = this;
                 var offset, xPos, yPos, zPos = 0;
                 
-                // All vars with the syntax of param.varName are set in the Param object
-                $.each(this.slideArray, function(index, slide)
+                for(var i = 0; i < imgArrLen; i++)
                 {
-                    var centerSlideY = parent.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
+                    var slide = this.slideArray[i];
+                    var centerSlideY = this.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
                     
-                    if(index < slideNum) // Slides rendered above the current slide
+                    if(i < slideNum) // Slides rendered above the current slide
                     {
-                        offset = slideNum - index; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
+                        offset = slideNum - i; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
                         xPos = offset * param.horiSpace;
                         yPos = centerSlideY - (offset * param.vertSpace) - param.centerGap;
                         zPos = param.topZ - offset;
-                        slide.el.css({ 'z-index': zPos }); // The z-index is set here and not in the tween below because it needs to be set instantly to keep the slides from appering to flicker
+                        slide.el[0].style.zIndex = zPos; // The z-index is set here and not in the tween below because it needs to be set instantly to keep the slides from appering to flicker
                         TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
                     }
-                    else if(index > slideNum) // Slides rendered below the current slide
+                    else if(i > slideNum) // Slides rendered below the current slide
                     {
-                        offset = index - slideNum;
+                        offset = i - slideNum;
                         xPos = offset * param.horiSpace;
                         yPos = centerSlideY + (offset * param.vertSpace) + param.centerGap;
                         zPos = param.topZ - offset;
-                        slide.el.css({ 'z-index': zPos });
+                        slide.el[0].style.zIndex = zPos;
                         TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
                     }
                     else // The current slide
@@ -200,11 +201,11 @@ $(function()
                         xPos = 0;
                         yPos = centerSlideY;
                         zPos = param.topZ
-                        slide.el.css({ 'z-index': zPos });
+                        slide.el[0].style.zIndex = zPos;
                         TweenLite.to(slide.el, param.slideTweenTime, { left: xPos, top:yPos, ease:Quint.easeOut });
                     }
-                });
-                
+                }
+                                
                 ImgDisplay.changeImg(slideNum); // Change the tourImg to the current slide
             },
             // Advance the slide menu by one if the next slide is loaded
@@ -304,11 +305,13 @@ $(function()
             // Change place holders and set other properties on the Slide obj
             // *** Note: This func basically lines up the img objs in the preloadArray to the slide objs in the slideArray using each img obj's unique id
             setContent:function(img, imgType, slideClass)
-            {
-                $.each(this.slideArray, function(index, slide)
+            {                
+                for(var i = 0; i < imgArrLen; i++)
                 {
-                    if(slide.uId === img.uId)
+                    if(this.slideArray[i].uId === img.uId)
                     {
+                        var slide = this.slideArray[i];
+                        
                         slide.src = img.src;
                         slide.alt = img.alt;
                         slide.interactive = img.interactive
@@ -317,8 +320,9 @@ $(function()
                         slide.type = imgType;
                         slide.img.attr({ 'src': img.src, 'alt': img.alt }).removeClass().addClass(slideClass); // Chained jQuery methods
                         slide.loaded = true;
+                        break; // Once the correct slide is found, there is no need to keep looping
                     }
-                });
+                }
             }
         };
         
@@ -575,13 +579,13 @@ $(function()
             {
                 if(this.playMode)
                 {
-                    this.tourPlayBtn.addClass('underline');
-                    this.tourPauseBtn.removeClass('underline');
+                    this.tourPlayBtn[0].className = 'underline'; // [0] is used to access the DOM element inside the jQuery obj
+                    this.tourPauseBtn[0].className = '';
                 }
                 else
                 {
-                    this.tourPlayBtn.removeClass('underline');
-                    this.tourPauseBtn.addClass('underline');
+                    this.tourPlayBtn[0].className = '';
+                    this.tourPauseBtn[0].className = 'underline';
                 }
             },
             // Setup the listeners for the mouse panning feature when the tour is put in pause mode
@@ -971,7 +975,7 @@ $(function()
             var parent = this;
             
             this.uId = uId; // A unique id is created for each tour img when it's uploaded during the tour building process, it stays the same even if the img name (alt) is changed or if the imgs are put into a different order 
-            this.slideNum = slideNum;
+            this.slideNum = slideNum; // The position of the slide inside the SlideMenu.slideArray
             this.src = 'public/img/tourApp/imgLoading.gif'; // The default values of this.src/alt are changed in SlideMenu.setContent() after its tour img is done downloading
             this.alt = 'Loading...';
             this.interactive = false;
@@ -1135,11 +1139,9 @@ $(function()
         TextBoxes.init();
     });
 });
-// *** see what happens when sunflowers3 is put into the tour imgs ***
-// *** look into turning the slideArray into an associative array so it can be accessed via slideArray[uId] in SlideMenu.setContent() and one or two other places? *** ex with associative arrays and looping
-// *** ugly jump when tweening tour img is clicked?  jumps to spot where the img would be if it were being panned by the mouse.  Not sure if there is a way to fix that but check the AS3 algorithm, it doesn't do that initally, only on mouse move?... see what other tours do for this issue... ***
-// *** experiment with using multiple classes to size the slide menu.  Change the slides to the right class based off of the offset.  Classes would be named center, 1back, 2back, etc.  Might be jerky?
+// ************** remember your on an EX branch ****************
+// *** slide menu EX ***
+// *** if iaText is opened then iaPic is opened tour img tweens if in play mode with the iaText open *** way to close iaText when iaPic is opened???
 // *** refactor CSS
-// *** see if there are easy native JS ways to do stuff instead of jQuery, don't spend too much time on it though
 // *** before RWD, hard copy version control, commit and push, and push to live server and test on multiple devices *** Watch the network panel and see what order the imgs are downloaded in ***
 // *** Look into how to make the tour responsive after the interactivity is done ***

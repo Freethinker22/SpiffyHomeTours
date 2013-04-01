@@ -227,7 +227,7 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
 }
 #alertMsg {
     cursor:pointer;
-    margin:-25px 0 0 -125px;
+    margin:-25px 0 0 -100px;
     padding:8px;
     position:absolute;
     left:50%;

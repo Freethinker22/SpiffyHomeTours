@@ -118,14 +118,14 @@
                 {
                     "uId": 102,
                     "type": "pic",
-                    "xPct": 25,
-                    "yPct": 25,
+                    "xPct": 55,
+                    "yPct": 55,
                     "data": "tours/123Test/img/Sunflower.jpg"
                 },
                 {
                     "type": "nav",
-                    "xPct": 30,
-                    "yPct": 30,
+                    "xPct": 35,
+                    "yPct": 35,
                     "data": 9
                 }
             ]
