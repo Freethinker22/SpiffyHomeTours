@@ -4,10 +4,10 @@
     background:#0000FF url("../../img/tourApp/blueTextureBg.jpg");
 }
 .sixtyPctBg { /* The button bar and img name background */
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F3C4A85,endColorstr=#8F3C4A85); /* For IE < 9 */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F3C4A85,endColorstr=#8F3C4A85); /* For old IE */
     background-color:rgba(60, 74, 133, 0.60);
 }
 .eightyFivePctBg { /* The alert msg background */
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E53C4A85,endColorstr=#E53C4A85); /* For IE < 9 */
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E53C4A85,endColorstr=#E53C4A85); /* For old IE */
     background-color:rgba(60, 74, 133, 0.85);
 }

@@ -146,35 +146,35 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
     height:500px;
     overflow:hidden;
     position:absolute;
-    left:835px;
-    top:70px;
-    width:200px;
+    left:820px;
+    top:80px;
+    width:230px;
 }
 #imgDisplay {
     height:500px;
-    left:70px;
+    left:50px;
     overflow:hidden;
     position:absolute;
-    top:70px;
+    top:80px;
     width:750px;
 }
-#addressBox {
+#addressBox {    
     background:url("../../img/tourApp/contactBoxBg.png");
     height:100px;
-    left:70px;
+    left:50px;
     padding:7px 0 0 10px;
     position:absolute;
-    top:600px;
+    top:610px;
     width:300px;
 }
 #contactBox {
     background:url("../../img/tourApp/addressBoxBg.png");
     height:100px;
-    left:420px;
+    left:400px;
     padding:7px 10px 0 0;
     position:absolute;
     text-align:right;
-    top:600px;
+    top:610px;
     width:400px;
 }
 #contactBox img { /* Agent's picture if there is one */
@@ -183,39 +183,39 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
     margin:-3px 0 0 4px; /* Negitive margin used to move the img back up because of the top padding on the contactBox */
 }
 #shtLogo {
-    left:875px;
+    left:865px;
     position:absolute;
-    top:615px;
+    top:625px;
 }
 #shtLogo p {
-    margin-bottom:5px;
+    margin-bottom:4px;
 }
 #prevBtn {
-    left:875px;
+    left:860px;
     position:absolute;
-    top:39px;
+    top:49px;
 }
 #nextBtn {
-    left:875px;
+    left:860px;
     position:absolute;
-    top:570px;
+    top:580px;
 }
 #imgName {
     height:26px;
-    right:230px; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
+    right:250px; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
     line-height:26px;
     position:absolute;
-    top:120px;
+    top:130px;
 }
 #imgName p {
     margin:0 5px;
 }
 #btnBar {
     height:26px;
-    left:71px;
+    left:51px;
     line-height:26px;
     position:absolute;
-    top:544px;
+    top:554px;
     width:749px; /* Shortend 1px to allow the imgDisplay's border to show  */
     z-index:2; /* This is here so the btnBar stays on top of the interactive pictures when they're opened */
 }

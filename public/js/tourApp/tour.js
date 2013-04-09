@@ -20,7 +20,6 @@ $(function()
         var Preloader =
         {
             preloadArray: [], // Each preloadArray element is a reference to each of the image objs in the config file
-            preloadArraySize: 0,
             loadCount: 0, // The total number of tour imgs downloaded
             startCount: 0, // When a set amount of tour imgs have finished loading, the tour is started
             
@@ -28,14 +27,14 @@ $(function()
             init:function()
             {
                 var topHalf = imgArray.slice(0, Math.floor(imgArrLen / 2 + 1));
-                var bottomHalf = imgArray.slice(Math.floor(imgArrLen / 2 + 1), imgArrLen).reverse(); 
+                var bottomHalf = imgArray.slice(Math.floor(imgArrLen / 2 + 1), imgArrLen).reverse();
                 
+                // *** Note: Native JS for loops are used in most situations instead of jQuery each loops to increase performance
                 for(var i = 0; i < Math.max(topHalf.length, bottomHalf.length); i++) // 'Zip' the two halfs of the array together into the preloadArray
                 {
                     if(i < topHalf.length) { this.preloadArray.push(topHalf[i]); }
                     if(i < bottomHalf.length) { this.preloadArray.push(bottomHalf[i]); }
                 }
-                this.preloadArraySize = this.preloadArray.length;
                 this.preload();
             },
             // Preload the imgs so they're ready to display when the tour starts
@@ -43,7 +42,7 @@ $(function()
             {
                 var parent = this;
                 
-                if(this.loadCount < this.preloadArraySize)
+                if(this.loadCount < imgArrLen)
                 {
                     var img = new Image();                    
                     var loadTimer = setInterval(function() // Use a setInterval var attached to each img to check every 1/4 second if the img is done downloading yet
@@ -68,7 +67,6 @@ $(function()
                 }
             },
             // Interactive pics are preloaded at the same time as their parent tour imgs so they're viewable when the tour img is on the screen
-            // *** Note: Native JS for loops are used in most situations instead of jQuery each loops to increase performance
             // *** Revise later: IaPic preloading causes the iaPics to download after their parent tour imgs, but at the same time as other tour imgs. Downloading multiple imgs at the same time might be bad for preformance?
             preloadIaPics:function(img)
             {
@@ -110,7 +108,6 @@ $(function()
             slideArray: [], // Reference to all of the Slide objs
             currSlideNum: Math.round(imgArrLen / 2 - 1), // The slideNum of current slide being displayed, onload this is the slideNum of the slide in the center that displays first
             centerY: 0, // The middle of the slide menu along the Y axis
-            exTest:0,
             
             // Set up the slide menu and create place holder imgs with img names in the correct rendering order
             init:function() 
@@ -152,7 +149,7 @@ $(function()
                 
                 this.el.html(renderArray); // Append all of the slides at once to reduce browser reflows
             },
-            // Center all of the slides in the middle of the slide menu so they appear to fan out on load
+            // Center all of the slides in the middle of the slide menu so they appear to fan out onload
             centerSlides:function()
             {
                 var slideStartPosY = this.el.offset().top + (this.el.height() / 2); // The middle of the slide menu along the Y axis, accounting for the offset of the slide menu from the top of the window
@@ -169,41 +166,22 @@ $(function()
                 this.reorderSlides(this.currSlideNum);
             },
             // Loop through the slideArray and calculate the position of each slide anytime an event happens to move the slide menu
+            // *** Revise later: Could use the scaling slide menu, need to test different kinds of devices using live server first
             reorderSlides:function(slideNum)
             {
+                var slide = this.slideArray[0];
+                var centerSlideY = this.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
                 var offset, xPos, yPos, zPos = 0;
                 
                 for(var i = 0; i < imgArrLen; i++)
                 {
-                    var slide = this.slideArray[i];
-                    var centerSlideY = this.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
-                    
-                    if(i < slideNum) // Slides rendered above the current slide
-                    {
-                        offset = slideNum - i; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
-                        xPos = offset * param.horiSpace;
-                        yPos = centerSlideY - (offset * param.vertSpace) - param.centerGap;
-                        zPos = param.topZ - offset;
-                        slide.el[0].style.zIndex = zPos; // The z-index is set here and not in the tween below because it needs to be set instantly to keep the slides from appering to flicker
-                        TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
-                    }
-                    else if(i > slideNum) // Slides rendered below the current slide
-                    {
-                        offset = i - slideNum;
-                        xPos = offset * param.horiSpace;
-                        yPos = centerSlideY + (offset * param.vertSpace) + param.centerGap;
-                        zPos = param.topZ - offset;
-                        slide.el[0].style.zIndex = zPos;
-                        TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
-                    }
-                    else // The current slide
-                    {
-                        xPos = 0;
-                        yPos = centerSlideY;
-                        zPos = param.topZ
-                        slide.el[0].style.zIndex = zPos;
-                        TweenLite.to(slide.el, param.slideTweenTime, { left: xPos, top:yPos, ease:Quint.easeOut });
-                    }
+                    slide = this.slideArray[i];
+                    offset = i - slideNum; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
+                    xPos = Math.abs(offset) * param.horiSpace; // Flip any negative offsets to positive integers using absolute value
+                    yPos = centerSlideY + (offset * param.vertSpace);
+                    zPos = param.topZ - Math.abs(offset); // Set the correct zPos so the slides appear to overlap one another, with the center slide on top of all other slides
+                    slide.el[0].style.zIndex = zPos; // The z-index is set here and not in the tween below because it needs to be set instantly to keep the slides from appering to flicker
+                    TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
                 }
                                 
                 ImgDisplay.changeImg(slideNum); // Change the tourImg to the current slide
@@ -370,17 +348,12 @@ $(function()
             {
                 this.slide = SlideMenu.slideArray[id]; // Reference to a specific Slide obj
                 
+                Interactive.resetIa(); // If any interactive boxes or alerts are showing when the tour img changes, close them
                 ImgName.changeName(this.slide.alt); // Change the text in the ImgName obj, resets its position if necessary
                 this.tweenOut();
                 this.setNewImg();
                 this.resetTween();
                 this.tweenIn();
-                
-                // If any interactive boxes or alerts are showing when the tour img changes, close them
-                if(Interactive.infoBoxShowing) { Interactive.removeInfo(); }
-                if(Interactive.iaPicShowing) { Interactive.removePic(); }
-                if(Alert.alertShowing) { Alert.alertOff(); }
-                
             },
             // Fade out the prev tour img
             tweenOut:function()
@@ -417,10 +390,9 @@ $(function()
                 this.tween.clear();
                 this.tween.restart();
             },
-            // Handle the movement of the current tour img, assign a random tween based on the type of tour img being tweened
+            // Handle the movement of the current tour img by calculating the start and finish points of the img tween and assign it a random tween based on the type of tour img it is
             tweenIn:function()
             {
-                var tween = this.tween;
                 var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
                 var heightDif = this.currImgHeight - this.elHeight; // Used for coordinates and the number of pixels the img is tweened up and down
                 var widthDif = this.currImgWidth - this.elWidth; // Used for coordinates and the number of pixels the img is tweened left and right 
@@ -437,29 +409,17 @@ $(function()
 
                     switch(tweenNum)
                     {
-                        case 1: // Moves image into upper left corner and back
-                            currImg.css({ 'top':0, 'left':0, 'opacity':0 });
-                            tween.to(currImg, param.fadeDelay, { opacity:1 });
-                            tween.to(currImg, tweenLength, { top:-heightDif, left:-widthDif, ease:Linear.easeNone }, '-=' + param.fadeDelay); // '-=' + param.fadeDelay moves this tween back on the timeline so it starts at the same time as the opacity fade
-                            tween.to(currImg, tweenLength, { top:0, left:0, ease:Linear.easeNone, onComplete:this.tweenDone });
+                        case 1: // Moves img into upper left corner and back
+                            this.tweenImg(currImg, tweenLength, 0, 0, -heightDif, -widthDif);
                         break;
-                        case 2: // Moves image into upper right corner and back
-                            currImg.css({ 'top':0, 'left':leftStop, 'opacity':0 });
-                            tween.to(currImg, param.fadeDelay, { opacity:1 });
-                            tween.to(currImg, tweenLength, { top:-heightDif, left:0, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                            tween.to(currImg, tweenLength, { top:0, left:leftStop, ease:Linear.easeNone, onComplete:this.tweenDone });
+                        case 2: // Moves img into upper right corner and back
+                            this.tweenImg(currImg, tweenLength, 0, leftStop, -heightDif, 0);
                         break;
-                        case 3: // Moves image into lower right corner and back
-                            currImg.css({ 'top':topStop, 'left':leftStop, 'opacity':0 });
-                            tween.to(currImg, param.fadeDelay, { opacity:1 });
-                            tween.to(currImg, tweenLength, { top:0, left:0, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                            tween.to(currImg, tweenLength, { top:topStop, left:leftStop, ease:Linear.easeNone, onComplete:this.tweenDone });
+                        case 3: // Moves img into lower right corner and back
+                            this.tweenImg(currImg, tweenLength, topStop, leftStop, 0, 0);
                         break;
-                        case 4: // Moves image into lower left corner and back
-                            currImg.css({ 'top':topStop, 'left':0, 'opacity':0 });
-                            tween.to(currImg, param.fadeDelay, { opacity:1 });
-                            tween.to(currImg, tweenLength, { top:0, left:-widthDif, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                            tween.to(currImg, tweenLength, { top:topStop, left:0, ease:Linear.easeNone, onComplete:this.tweenDone });
+                        case 4: // Moves img into lower left corner and back
+                            this.tweenImg(currImg, tweenLength, topStop, 0, 0, -widthDif);
                         break;					
                     }
                 }
@@ -468,40 +428,18 @@ $(function()
                     tweenNum = this.setTweenNum(2);
                     tweenLength = this.calcTweenLength(widthDif);
                     
-                    if(tweenNum === 1) // When leftOrRight equals 1, move the pano to the left
-                    {
-                        currImg.css({ 'top':horiCenter, 'left':0, 'opacity':0 });
-                        tween.to(currImg, param.fadeDelay, { opacity:1 });
-                        tween.to(currImg, tweenLength, { left:-widthDif, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                        tween.to(currImg, tweenLength, { left:0, ease:Linear.easeNone, onComplete:this.tweenDone });
-                    }
-                    else // When leftOrRight equals 2, move the pano to the right
-                    {
-                        currImg.css({ 'top':horiCenter, 'left':-widthDif, 'opacity':0 });
-                        tween.to(currImg, param.fadeDelay, { opacity:1 });
-                        tween.to(currImg, tweenLength, { left:0, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                        tween.to(currImg, tweenLength, { left:-widthDif, ease:Linear.easeNone, onComplete:this.tweenDone });
-                    }
+                     // When tweenNum equals 1, move the pano to the left else move it right
+                     // *** Note: For hoizontal panos, topOri and topDes are the same because they don't move vertically
+                    tweenNum === 1 ? this.tweenImg(currImg, tweenLength, horiCenter, 0, horiCenter, -widthDif) : this.tweenImg(currImg, tweenLength, horiCenter, -widthDif, horiCenter, 0);
                 }
                 else if(this.slide.type === 'vertImg')
                 {
                     tweenNum = this.setTweenNum(2);
                     tweenLength = this.calcTweenLength(heightDif);
                     
-                    if(tweenNum === 1) // When upOrDown equals 1, move the pano up
-                    {
-                        currImg.css({ 'top':0, 'left':vertCenter, 'opacity':0 });
-                        tween.to(currImg, param.fadeDelay, { opacity:1 });
-                        tween.to(currImg, tweenLength, { top:-heightDif, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                        tween.to(currImg, tweenLength, { top:0, ease:Linear.easeNone, onComplete:this.tweenDone });
-                    }
-                    else // When upOrDown equals 2, move the pano down
-                    {
-                        currImg.css({ 'top':-heightDif, 'left':vertCenter, 'opacity':0 });
-                        tween.to(currImg, param.fadeDelay, { opacity:1 });
-                        tween.to(currImg, tweenLength, { top:0, ease:Linear.easeNone }, '-=' + param.fadeDelay);
-                        tween.to(currImg, tweenLength, { top:-heightDif, ease:Linear.easeNone, onComplete:this.tweenDone });
-                    }
+                    // When tweenNum equals 1, move the pano up, else move the pano down
+                    // *** Note: For vertical panos, leftOri and leftDes are the same because they don't move horizontally
+                    tweenNum === 1 ? this.tweenImg(currImg, tweenLength, 0, vertCenter, -heightDif, vertCenter) : this.tweenImg(currImg, tweenLength, -heightDif, vertCenter, 0, vertCenter);
                 }
                 this.tweenMode = true; // Flag used to tell if the tour img is moving or not
             },
@@ -525,6 +463,17 @@ $(function()
                     this.firstTween = false;
                 }
                 return tweenNum;
+            },
+            // Tween the current tour img using the supplied arguments
+            // *** Note: top/leftOri is the point at which the tour img starts and finishes, top/leftDes is the halfway point of the tween
+            tweenImg:function(currImg, tweenLength, topOri, leftOri, topDes, leftDes)
+            {
+                var tween = this.tween;
+                
+                currImg.css({ 'top':topOri, 'left':leftOri, 'opacity':0 });
+                tween.to(currImg, param.fadeDelay, { opacity:1 });
+                tween.to(currImg, tweenLength, { top:topDes, left:leftDes, ease:Linear.easeNone }, '-=' + param.fadeDelay); // '-=' + param.fadeDelay moves this tween back on the timeline so it starts at the same time as the opacity fade
+                tween.to(currImg, tweenLength, { top:topOri, left:leftOri, ease:Linear.easeNone, onComplete:this.tweenDone });
             },
             // Proceed to the next tour img after the previous one has finished tweening if tour is in play mode
             tweenDone:function()
@@ -703,6 +652,8 @@ $(function()
             {
                 var parent = this;
                 var boxHeight = 0;
+                
+                this.resetIa();
                     
                 if(!this.infoBoxShowing)
                 {
@@ -750,6 +701,8 @@ $(function()
             {
                 var parent = this;
                 
+                this.resetIa();
+                
                 if(this.iaPicArray[uId].loaded)
                 {
                     if(!this.iaPicCloseMsgShown) // If it's the first time an iaPic has been opened, alert the user on how to close it
@@ -795,6 +748,13 @@ $(function()
                 
                 iaPic.preloadIaPic(iaPicUrl); // Start the downloading of the iaPic
                 this.iaPicArray[uId] = iaPic // Make the uId a property of the iaPicArray and have the iaPic() obj be its value, this way it can be accessed via uId in this.iaPic()
+            },
+             // If any interactive boxes or alerts are showing when the tour img changes or when another interactive event happens, close them
+            resetIa:function()
+            {
+                if(this.infoBoxShowing) { this.removeInfo(); }
+                if(this.iaPicShowing) { this.removePic(); }
+                if(Alert.alertShowing) { Alert.alertOff(); }
             }
         }
         
@@ -973,15 +933,15 @@ $(function()
         function Slide(uId, slideNum) 
         {
             var parent = this;
-            
+                        
             this.uId = uId; // A unique id is created for each tour img when it's uploaded during the tour building process, it stays the same even if the img name (alt) is changed or if the imgs are put into a different order 
             this.slideNum = slideNum; // The position of the slide inside the SlideMenu.slideArray
             this.src = 'public/img/tourApp/imgLoading.gif'; // The default values of this.src/alt are changed in SlideMenu.setContent() after its tour img is done downloading
             this.alt = 'Loading...';
             this.interactive = false;
             this.type = ''; // The type of img that the slide holds, e.g. a standard ratio img, horizontal pano, or vertical pano, used as a class name for img sizing in the ImgDisplay obj
-            this.height = 0;
-            this.width = 0;
+            this.height = 0; // Height of the tour img, not the slide obj itself
+            this.width = 0; // Width of the tour img, not the slide obj itself
             this.loaded = false; // Allow the slide to be viewable and clickable after the img is downloaded
             this.el = $('<div class="slide clickable">');
             this.img = $('<img class="loadingSlide" src="' + this.src + '" alt="' + this.alt + '">');
@@ -1016,7 +976,7 @@ $(function()
             this.setImgSize = function() // Called from ImgDisplay.setNewImg() to correct the size of the tour imgs *if* they're too large
             {
                 // *** Note: The property slide.type is a CSS class that sets the correct height or width of the img
-                // *** Note: The dimensions set in the classes are equal to the dimensions of the imgDisplay for panoramas, dimensions for standard imgs are 20% larger than the imgDisplay so standard imgs have room to tween
+                // *** The dimensions set in the classes are equal to the dimensions of the imgDisplay for panoramas, dimensions for standard imgs are 20% larger than the imgDisplay so standard imgs have room to tween
                 if(slide.type === 'stdImg')
                 {
                     this.img.addClass(slide.type);
@@ -1140,8 +1100,8 @@ $(function()
     });
 });
 // ************** remember your on an EX branch ****************
-// *** slide menu EX ***
-// *** if iaText is opened then iaPic is opened tour img tweens if in play mode with the iaText open *** way to close iaText when iaPic is opened???
+// *** create tabs, will need to move imgDisplay down and/or increase the height of the tourWrapper. tabs could be a ul list, remember agent info tab will need to not show if fsbo flag is true ***
+// *** MERGE new ex branch ***
 // *** refactor CSS
 // *** before RWD, hard copy version control, commit and push, and push to live server and test on multiple devices *** Watch the network panel and see what order the imgs are downloaded in ***
-// *** Look into how to make the tour responsive after the interactivity is done ***
+// *** Look into how to make the tour fluid/responsive after the interactivity is done using ems/percent/etc... ***
