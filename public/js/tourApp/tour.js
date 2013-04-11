@@ -166,7 +166,7 @@ $(function()
                 this.reorderSlides(this.currSlideNum);
             },
             // Loop through the slideArray and calculate the position of each slide anytime an event happens to move the slide menu
-            // *** Revise later: Could use the scaling slide menu, need to test different kinds of devices using live server first
+            // *** Revise later: Could use the scaling slide menu, need to test different kinds of devices using live server first, if that menu version is used, build the menu scrollbar like in the AS3 version
             reorderSlides:function(slideNum)
             {
                 var slide = this.slideArray[0];
@@ -1100,8 +1100,8 @@ $(function()
     });
 });
 // ************** remember your on an EX branch ****************
-// *** create tabs, will need to move imgDisplay down and/or increase the height of the tourWrapper. tabs could be a ul list, remember agent info tab will need to not show if fsbo flag is true ***
 // *** MERGE new ex branch ***
 // *** refactor CSS
 // *** before RWD, hard copy version control, commit and push, and push to live server and test on multiple devices *** Watch the network panel and see what order the imgs are downloaded in ***
 // *** Look into how to make the tour fluid/responsive after the interactivity is done using ems/percent/etc... ***
+// *** Finish tab menu, remember agent info tab will need to not show if fsbo flag is true *** Deal with tab position, borders, selected, and so on too *** issue with tabs being in the wrong spot in FF? tabs have no height in IE7

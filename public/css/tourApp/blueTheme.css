@@ -11,3 +11,9 @@
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E53C4A85,endColorstr=#E53C4A85); /* For old IE */
     background-color:rgba(60, 74, 133, 0.85);
 }
+#tabMenu li {
+    background:#4B5994 url("../../img/tourApp/blueTabBg.jpg");
+}
+#tabMenu li:hover {
+    background:#55639E url("../../img/tourApp/blueTabHoverBg.jpg");
+}

@@ -67,6 +67,10 @@ body {
     -webkit-box-shadow:5px 5px 3px #111;
     box-shadow:5px 5px 3px #111;
 }
+.tabText {
+    color:white;
+    font-size:.85em;
+}
 .logoText {
     color:white;
     font-size:.75em;
@@ -85,6 +89,11 @@ body {
 .topLeftBorder {
     border-top:1px solid white;
     border-left:1px solid white;
+}
+.topLeftRightBorder {
+    border-top:1px solid white;
+    border-left:1px solid white;
+    border-right:1px solid white;
 }
 .zeroOpacity {
     filter:alpha(opacity=0);
@@ -157,6 +166,18 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
     position:absolute;
     top:80px;
     width:750px;
+}
+#tabMenu {
+    left:50px;
+    position:absolute;
+    top:57px;
+    z-index:1;
+}
+#tabMenu li { /* The tabs' backgrounds are set in the theme stylesheets */
+    cursor:pointer;
+    display:inline;
+    margin-right:3px;
+    padding:7px;
 }
 #addressBox {    
     background:url("../../img/tourApp/contactBoxBg.png");

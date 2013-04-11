@@ -45,6 +45,16 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             
             <section id="slideMenu"></section>
             
+            <section id="tabMenu" class="tabText">
+                <ul>
+                    <li id="photoGal" class="topLeftRightBorder">Photo Gallery</li>
+                    <li id="propInfo">Property Information</li>
+                    <li id="propMap">Property Map</li>
+                    <li id="agentInfo">Agent Information</li>
+                    <li id="calc">Mortgage Calculator</li>
+                </ul>
+            </section>
+            
             <section id="imgDisplay" class="topLeftBorder">
                 <div id="infoBox" class="msgText eightyFivePctBg displayNone"><p class="hidden"></p></div>
                 <div id="iaPicBg" class="tourBg zeroOpacity displayNone"></div>

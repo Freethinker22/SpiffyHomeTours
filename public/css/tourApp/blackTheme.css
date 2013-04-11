@@ -11,3 +11,16 @@
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52F2F2F,endColorstr=#E52F2F2F); /* For old IE */
     background-color:rgba(47, 47, 47, 0.85);
 }
+#tabMenu li {
+    background:#3E3E3E url("../../img/tourApp/blackTabBg.jpg");
+}
+#tabMenu li:hover {
+    background:#484848 url("../../img/tourApp/blackTabHoverBg.jpg");
+}
+
+/* Tab colors from Theme class in AS3
+Black bg active: #202020  non-active: #3E3E3E  hover: #484848
+Blue bg active: #2D3B76  non-active: #4B5994  hover: #55639E
+Green bg active: #1F400C  non-active: #3D5E2A  hover: #476834
+Red bg active: #4A090E  non-active: #682736  hover: #723140
+*/

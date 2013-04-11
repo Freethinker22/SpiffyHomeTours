@@ -3,3 +3,9 @@
 #tooOld {
     text-align:center; /* Aligns the too old browser message in old IE */
 }
+*+html #tabMenu { /* Fixes menu from being too far down on the page in IE7 */
+    top:50px;
+}
+*+html #tabMenu li { /* Fixes tabs from not being the right height in IE7 */
+    zoom:1;
+}
