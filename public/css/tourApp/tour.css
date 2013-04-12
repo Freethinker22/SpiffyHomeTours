@@ -17,11 +17,6 @@ fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display:block;
 }
-a {
-    border:none;
-    outline:none;
-    text-decoration:none;
-}
 ol, ul {
     list-style:none;
 }
@@ -48,70 +43,57 @@ table {
 }
 
 /*************
-Basic theme, tour specific styles are added in the theme stylesheet
+Base theme, theme specific styles are added in the theme stylesheets
 *************/
 body {
     background-color:#444;
+    color:white; /* All text in the tour is white unless otherwise specified */
     font-family:Verdana, Arial, Times;
     line-height:1em;
+}
+a {
+    border:none;
+    color:white;
+    outline:none;
+    text-decoration:none;
 }
 #jsWarning {
     background-color:red;
     font-size:1.25em;
     font-weight:bold;
     line-height:1.5em;
-    text-align:center;
 }
 .dropShadow {
     -moz-box-shadow:5px 5px 3px #111;
     -webkit-box-shadow:5px 5px 3px #111;
     box-shadow:5px 5px 3px #111;
 }
-.tabText {
-    color:white;
+.pt85em {
     font-size:.85em;
 }
-.logoText {
-    color:white;
-    font-size:.75em;
-}
 .infoText {
-    color:white;
-    line-height:1.25em; /*** all of these texts could be combined some how because of all the white text?? ***/
+    line-height:1.25em;
 }
-.msgText {
-    color:white;
-    font-size:.80em;
-}
-.btnBarText  {
-    color:white;
-}
-.topLeftBorder {
+.borderTL {
     border-top:1px solid white;
     border-left:1px solid white;
 }
-.topLeftRightBorder {
+.borderTRL {
     border-top:1px solid white;
     border-left:1px solid white;
     border-right:1px solid white;
 }
-.zeroOpacity {
-    filter:alpha(opacity=0);
-    opacity:0;
-}
-.fourFifthsOpacity {
+.opacity80 {
     filter:alpha(opacity=80);
     opacity:0.80;
 }
-.twoThirdsOpacity {
+.opacity66 {
     filter:alpha(opacity=66);
     opacity:0.66;
 }
-.absolute {
-    position:absolute;
-}
-.clickable {
-    cursor:pointer;
+.opacity0 {
+    filter:alpha(opacity=0); /* Some elements need to start at zero opacity so they can be faded in */
+    opacity:0;
 }
 .underline {
     text-decoration:underline;
@@ -122,39 +104,71 @@ body {
 .hidden {
     visibility:hidden;
 }
-.iaBtns {
+.slide {
+    background-color:#333;
+    border:2px solid white;
+}
+.loadingMask {
+    background-color:black;
+}
+.clickable {
+    cursor:pointer; /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */
+}
+#nextBtn, #prevBtn, #alertMsg, #infoBox, #iaPicBg, #musicPlayBtn, #musicPauseBtn, #tourPlayBtn, #tourPauseBtn, #tabMenu li, .iaBtns {
     cursor:pointer;
-    position:absolute;
 }
 #nextBtn:hover, #prevBtn:hover {
     filter:alpha(opacity=95);
     opacity:0.95;
 }
-#musicPlayBtn, #musicPauseBtn, #tourPlayBtn, #tourPauseBtn {
-    cursor:pointer;
-    font-size:.85em;
+
+/*************
+Base structure
+Note: These rules *don't* change with the screen size
+Note: Since many elements share the same style rules, they're grouped here instead of using a class name on each one or repeating the rule multiple times 
+*************/
+#tourWrapper, #slideMenu, #imgDisplay, #imgDisplay div, #tabMenu, #addressBox, #contactBox, #shtLogo, #nextBtn, #prevBtn, #imgName, #btnBar, #alertMsg, #loading img, .loadingMask, .slide, .iaBtns {
+    position:absolute;
+}
+#tourWrapper, #slideMenu, #imgDisplay {
+    overflow:hidden;
+}
+#btnBar div, #btnBar p, #tabMenu li {
+    display:inline;
+}
+#tabMenu, #btnBar, #alertMsg, #infoBox, #iaPicBg {
+    z-index:1;    
+}
+.slide, .loadingSlide, #iaPicBg, #jsWarning {
+    text-align:center;
+}
+.loadingSlide, .horiSlide, .horiIaPic {
+    vertical-align:middle;
+}
+.stdIaPic, .vertIaPic {
+    vertical-align:bottom;
+}
+#addressBox {    
+    background:url("../../img/tourApp/contactBoxBg.png");
+}
+#contactBox {
+    background:url("../../img/tourApp/addressBoxBg.png");
+    text-align:right;
 }
 
 /*************
-Element Structure for full size screens *** Revise later: Add other media sizes, need to figure out how to recalculate the animation algorithms on resize event? ***
+Responsive structure
+Note: These rules *do* change with the screen size
 *************/
-
-/*******
-Main tour elements *** Remember: when putting in media queries, move all non changing properties to their own areas or classes so as not to repeat them in each media query ***
-*******/
 #tourWrapper {
     height:730px;
     left:50%;
-    margin:-365px 0 0 -525px; /* Center the tour on the page */
-    overflow:hidden;
-    position:absolute;
+    margin:-365px 0 0 -525px;
     top:50%;
     width:1050px;
 }
 #slideMenu {
     height:500px;
-    overflow:hidden;
-    position:absolute;
     left:820px;
     top:80px;
     width:230px;
@@ -162,39 +176,28 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
 #imgDisplay {
     height:500px;
     left:50px;
-    overflow:hidden;
-    position:absolute;
     top:80px;
     width:750px;
 }
 #tabMenu {
     left:50px;
-    position:absolute;
     top:57px;
-    z-index:1;
 }
 #tabMenu li { /* The tabs' backgrounds are set in the theme stylesheets */
-    cursor:pointer;
-    display:inline;
     margin-right:3px;
     padding:7px;
 }
 #addressBox {    
-    background:url("../../img/tourApp/contactBoxBg.png");
     height:100px;
     left:50px;
     padding:7px 0 0 10px;
-    position:absolute;
     top:610px;
     width:300px;
 }
 #contactBox {
-    background:url("../../img/tourApp/addressBoxBg.png");
     height:100px;
     left:400px;
     padding:7px 10px 0 0;
-    position:absolute;
-    text-align:right;
     top:610px;
     width:400px;
 }
@@ -205,27 +208,23 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
 }
 #shtLogo {
     left:865px;
-    position:absolute;
     top:625px;
 }
 #shtLogo p {
     margin-bottom:4px;
 }
-#prevBtn {
-    left:860px;
-    position:absolute;
-    top:49px;
-}
 #nextBtn {
     left:860px;
-    position:absolute;
     top:580px;
+}
+#prevBtn {
+    left:860px;
+    top:49px;
 }
 #imgName {
     height:26px;
     right:250px; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
-    line-height:26px;
-    position:absolute;
+    line-height:26px; /* Centers text vertically, needs to be the same as height */
     top:130px;
 }
 #imgName p {
@@ -234,48 +233,33 @@ Main tour elements *** Remember: when putting in media queries, move all non cha
 #btnBar {
     height:26px;
     left:51px;
-    line-height:26px;
-    position:absolute;
+    line-height:26px; /* Centers text vertically, needs to be the same as height */
     top:554px;
     width:749px; /* Shortend 1px to allow the imgDisplay's border to show  */
-    z-index:2; /* This is here so the btnBar stays on top of the interactive pictures when they're opened */
-}
-#btnBar div, #btnBar p {
-    display:inline;
 }
 #btnBar div p:first-child {
     margin-left:10px; /* Spaces out the Slideshow and Music labels */
 }
 #alertMsg {
-    cursor:pointer;
     margin:-25px 0 0 -100px;
     padding:8px;
-    position:absolute;
     left:50%;
     top:50%;
     width:200px;
-    z-index:1;
 }
 #infoBox {
-    cursor:pointer;
     height:0; /* The height of the box has to initially be 0. This is because the text appended into the p element pops open the div and spoils the opening tween if not set to 0 */
     padding:8px;
-    position:absolute;
     width:250px;
-    z-index:1;
 }
 #iaPicBg {
-    cursor:pointer;
     height:500px;
     line-height:500px;
-    position:absolute;
-    text-align:center;
     width:750px;
-    z-index:1;
 }
 
 /*******
-Loading graphics
+Styles for the loading mask
 *******/
 #loading div~div {
     right:0; /* Move the second mask div to the right side */
@@ -283,36 +267,24 @@ Loading graphics
 #loading img {
     left:50%;
     margin:-7px 0 0 -64px;
-    position:absolute;
     top:50%;
-    z-index:201;
+    z-index:301;
 }
 .loadingMask {
-    background-color:black;
-    height:730px; /* tourWrapper height */
-    position:absolute;
+    height:730px; /* Same as tourWrapper height */
     width:525px; /* 1/2 of tourWrapper width */
-    z-index:200; /* Has to be on top of everything else */
+    z-index:300; /* Has to be on top of all other elements */
 }
 
 /*******
-Slide menu
+Slide menu size classes
 *******/
 .slide {
-    background-color:#333;
-    border:2px solid white;
     height:100px;
-    line-height:94px; /* This is so horizontal slides can use vertical-align */
-    position:absolute;
-    text-align:center;
+    line-height:94px;
     width:150px;
 }
-/* Types of slide imgs, h&w of the slide imgs equal the h&w of the slide minus the slide's borders */
-.loadingSlide {
-    text-align:center;
-    vertical-align:middle;
-}
-.stdSlide {
+.stdSlide { /* Height and width of the slide imgs equals the h&w of the slide minus the slide's borders */
     height:96px;
     width:146px;
 }
@@ -322,7 +294,6 @@ Slide menu
 }
 .horiSlide {
     height:auto;
-    vertical-align:middle; /* For this to work, parent must have line-height set */
     width:146px;
 }
 
@@ -346,17 +317,14 @@ Tour img size classes
 Interactive picture size classes
 *******/
 .stdIaPic {
-    vertical-align:bottom;
     height:auto;
     width:750px; /* This needs to match the width of the imgDisplay */
 }
 .vertIaPic {
-    vertical-align:bottom;
     height:500px; /* This needs to match the height of the imgDisplay */
     width:auto;
 }
 .horiIaPic {
-    vertical-align:middle;
     height:auto;
     width:750px; /* This needs to match the width of the imgDisplay */
 }

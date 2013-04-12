@@ -36,8 +36,8 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         </noscript>
         
         <section id="tourWrapper" class="tourBg dropShadow">
-            <section id="loading" class="displayNone">
-<!--            <section id="loading">-->
+<!--            <section id="loading" class="displayNone">-->
+            <section id="loading">
                 <img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
                 <div class="loadingMask"></div>
                 <div class="loadingMask"></div>
@@ -45,9 +45,9 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             
             <section id="slideMenu"></section>
             
-            <section id="tabMenu" class="tabText">
+            <section id="tabMenu" class="pt85em">
                 <ul>
-                    <li id="photoGal" class="topLeftRightBorder">Photo Gallery</li>
+                    <li id="photoGal" class="borderTRL">Photo Gallery</li>
                     <li id="propInfo">Property Information</li>
                     <li id="propMap">Property Map</li>
                     <li id="agentInfo">Agent Information</li>
@@ -55,17 +55,17 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 </ul>
             </section>
             
-            <section id="imgDisplay" class="topLeftBorder">
-                <div id="infoBox" class="msgText eightyFivePctBg displayNone"><p class="hidden"></p></div>
-                <div id="iaPicBg" class="tourBg zeroOpacity displayNone"></div>
-                <p id="alertMsg" class="msgText eightyFivePctBg topLeftBorder displayNone"></p>
+            <section id="imgDisplay" class="pt85em borderTL">
+                <div id="infoBox" class="bg85Pct displayNone"><p class="hidden"></p></div>
+                <div id="iaPicBg" class="tourBg opacity0 displayNone"></div>
+                <p id="alertMsg" class="bg85Pct borderTL displayNone"></p>
             </section>
             
-            <section id="imgName" class="btnBarText sixtyPctBg topLeftBorder">
+            <section id="imgName" class="bg60Pct borderTL">
                 <p id="imgNameText">Image Label</p>
             </section>
                         
-            <section id="btnBar" class="btnBarText sixtyPctBg">
+            <section id="btnBar" class="pt85em bg60Pct">
                 <div id="musicBtns">
                     <p>Music:</p>
                     <p id="musicPlayBtn">Play</p>
@@ -80,16 +80,16 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 </div>
             </section>
             
-            <section id="addressBox" class="dropShadow topLeftBorder"></section>
+            <section id="addressBox" class="dropShadow borderTL"></section>
             
-            <section id="contactBox" class="dropShadow topLeftBorder"></section>
+            <section id="contactBox" class="dropShadow borderTL"></section>
             
-            <section id="shtLogo" class="twoThirdsOpacity">
-                <a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="logoText">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
+            <section id="shtLogo" class="opacity66">
+                <a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="pt85em">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
             </section>
             
-            <img id="prevBtn" class="fourFifthsOpacity clickable" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
-            <img id="nextBtn" class="fourFifthsOpacity clickable" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
+            <img id="prevBtn" class="opacity80" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
+            <img id="nextBtn" class="opacity80" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
         </section> <!-- End tourWrapper section -->   
         
         <!-- ******* Underscore.js templates ******* -->

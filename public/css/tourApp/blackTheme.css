@@ -3,11 +3,11 @@
 .tourBg {
     background:#444 url("../../img/tourApp/blackTextureBg.jpg");
 }
-.sixtyPctBg { /* The button bar and img name background */
+.bg60Pct { /* The button bar and img name background */
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2F2F2F,endColorstr=#8F2F2F2F); /* For old IE */
     background-color:rgba(47, 47, 47, 0.60);
 }
-.eightyFivePctBg { /* The alert msg background */
+.bg85Pct { /* The alert and info msg background */
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52F2F2F,endColorstr=#E52F2F2F); /* For old IE */
     background-color:rgba(47, 47, 47, 0.85);
 }

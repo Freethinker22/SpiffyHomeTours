@@ -966,7 +966,7 @@ $(function()
         {
             var parent = this;
             
-            this.el = $('<div class="absolute clickable">');
+            this.el = $('<div class="clickable">');
             this.img = $('<img src="' + slide.src + '" alt="' + slide.alt + '">');
             this.el.html(this.img);
             
@@ -1101,7 +1101,6 @@ $(function()
 });
 // ************** remember your on an EX branch ****************
 // *** MERGE new ex branch ***
-// *** refactor CSS
 // *** before RWD, hard copy version control, commit and push, and push to live server and test on multiple devices *** Watch the network panel and see what order the imgs are downloaded in ***
 // *** Look into how to make the tour fluid/responsive after the interactivity is done using ems/percent/etc... ***
 // *** Finish tab menu, remember agent info tab will need to not show if fsbo flag is true *** Deal with tab position, borders, selected, and so on too *** issue with tabs being in the wrong spot in FF? tabs have no height in IE7
