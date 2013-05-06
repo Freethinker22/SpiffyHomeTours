@@ -13,7 +13,7 @@
     
     "addressBox":
     {
-        "input1": "5000 Clinton Parkway",
+        "input1": "500 Clinton Parkway",
         "input2": "Lawrence, KS 66047",
         "input3": "MLS# 123456"
     },
@@ -44,7 +44,7 @@
     
     "propertyInfo":
     {
-        "address": "5000 Clinton Parkway",
+        "address": "500 Clinton Parkway",
         "city": "Lawrence",
         "state": "KS",
         "zipCode": "66047",
@@ -107,6 +107,12 @@
                     "xPct": 40,
                     "yPct": 40,
                     "data": "This is text that would display in a pop up text box.  These can be used to give information on a special feature or history of the house.  Click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms.  This is text that would display in a pop up text box.  These can be used to give information on a special feature or history of the house.  Click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms."
+                },
+                {
+                    "type": "txt",
+                    "xPct": 70,
+                    "yPct": 70,
+                    "data": "This is text that would display in a pop up text box.  These can be used to give information on a special feature or history of the house.  Click on the magnifying glass to open a detail picture.  Or the compass to navigate between rooms."
                 },
                 {
                     "uId": 101,

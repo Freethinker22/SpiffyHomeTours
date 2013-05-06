@@ -11,17 +11,10 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         <link rel="icon" href="public/img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="public/css/tourApp/tour.css" media="screen" />
         <title>Spiffy Home Tours</title>
-        
-        <script type="text/javascript">var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
-        <script type="text/javascript" src="public/js/jsLibraries/fullSize/jQuery.js"></script>
-        <script type="text/javascript" src="public/js/jsLibraries/fullSize/underscore.js"></script>
-        <script type="text/javascript" src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
-        <script type="text/javascript" src="public/js/tourApp/param.js"></script>
-        <script type="text/javascript" src="public/js/tourApp/tour.js"></script> <!-- *** Merge JS files and libraries after dev is complete *** -->
-        
         <!--[if lt IE 9]>
             <link rel="stylesheet" type="text/css" href="public/css/tourApp/ieAddendum.css" media="screen" />
             <script type="text/javascript" src="public/js/html5shim.js"></script>
+            <script type="text/javascript" src="public/js/css3-mediaqueries.js"></script>
         <![endif]-->
 
         <!--[if lt IE 8]>
@@ -34,7 +27,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         <noscript>
             <p id="jsWarning">It seems you have JavaScript disabled.  Please enable JavaScript for this page to function properly.</p>
         </noscript>
-        
+                        
         <section id="tourWrapper" class="tourBg dropShadow">
 <!--            <section id="loading" class="displayNone">-->
             <section id="loading">
@@ -43,10 +36,8 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 <div class="loadingMask"></div>
             </section>
             
-            <section id="slideMenu"></section>
-            
-            <section id="tabMenu" class="pt85em">
-                <ul>
+            <section id="tabMenu">
+                <ul class="pt85em">
                     <li id="photoGal" class="borderTRL">Photo Gallery</li>
                     <li id="propInfo">Property Information</li>
                     <li id="propMap">Property Map</li>
@@ -55,24 +46,38 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 </ul>
             </section>
             
-            <section id="imgDisplay" class="pt85em borderTL">
-                <div id="infoBox" class="bg85Pct displayNone"><p class="hidden"></p></div>
+            <section id="slideMenu"></section>
+                        
+            <section id="slideScrollbar">
+                <div class="scrollHandle"><img src="public/img/tourApp/scrollbarHandle.png" alt="Scrollbar handle" /></div>
+            </section>
+            
+            <section id="prevBtn">
+                <img class="opacity80" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
+            </section>
+            
+            <section id="nextBtn">
+                <img class="opacity80" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
+            </section>
+                        
+            <section id="imgDisplay" class="borderTL">
+                <div id="infoBox" class="bg85Pct displayNone"><p class="pt85em hidden"></p></div>
                 <div id="iaPicBg" class="tourBg opacity0 displayNone"></div>
-                <p id="alertMsg" class="bg85Pct borderTL displayNone"></p>
+                <div id="alertMsg" class="bg85Pct borderTL displayNone"><p class="pt85em"></p></div>
             </section>
             
             <section id="imgName" class="bg60Pct borderTL">
                 <p id="imgNameText">Image Label</p>
             </section>
                         
-            <section id="btnBar" class="pt85em bg60Pct">
-                <div id="musicBtns">
+            <section id="btnBar" class="bg60Pct">
+                <div id="musicBtns" class="pt85em">
                     <p>Music:</p>
                     <p id="musicPlayBtn">Play</p>
                     <p>/</p>
                     <p id="musicPauseBtn">Pause</p>
                 </div>
-                <div id="tourBtns">
+                <div id="tourBtns" class="pt85em">
                     <p>Slideshow:</p>
                     <p id="tourPlayBtn">Play</p>
                     <p>/</p>
@@ -87,11 +92,8 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             <section id="shtLogo" class="opacity66">
                 <a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="pt85em">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
             </section>
-            
-            <img id="prevBtn" class="opacity80" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
-            <img id="nextBtn" class="opacity80" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
-        </section> <!-- End tourWrapper section -->   
-        
+        </section> <!-- End tourWrapper section -->
+                
         <!-- ******* Underscore.js templates ******* -->
         <script id="addressBoxTemp" type="text/template">
             <div class="infoText">
@@ -138,8 +140,15 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 <embed src="public/js/tourApp/swf/FlashMusicPlayer.swf" quality="high" />
             </object>
         <![endif]-->
+        
+        <!-- ******* JavaScript ******* -->
+        <script type="text/javascript">var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
+        <script type="text/javascript" src="public/js/jsLibraries/fullSize/jQuery.js"></script>
+        <script type="text/javascript" src="public/js/jsLibraries/fullSize/underscore.js"></script>
+        <script type="text/javascript" src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
+        <script type="text/javascript" src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
     </body>
 </html>
 
-<!-- *** put some PHP here that updates the tours DB entry and updates the number of views it gets so that can be displayed to the client in the user panel *** -->
+<!-- *** put some PHP here that updates the tours DB entry and updates the number of views it gets so that can be displayed to the client in the user panel, could use Ajax too? *** -->
 <!-- *** remember text input box length limits. addressBox: Max 30 chars, contactBox: Max 30 chars *** -->

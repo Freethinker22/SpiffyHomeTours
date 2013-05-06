@@ -1,8 +1,6 @@
 $(function()
-{
-    var param = new Param(); // *** Parameters obj, will be included after dev is done ***
-        
-    $.getJSON('tours/' + window.tourDirectory + '/config.json', function(config) // Get the config file for a specific tour, window.tourDirectory is set in the head of mainView.php 
+{        
+    $.getJSON('tours/' + window.tourDirectory + '/config.json', function(config) // Get the config file for a specific tour, window.tourDirectory is set in mainView.php 
     {
         document.title = config.pageTitle;
         $('head title').before('<link rel="stylesheet" type="text/css" href="public/css/tourApp/' + config.theme + '" media="screen" />'); // Inject the correct theme stylesheet into the head
@@ -13,13 +11,82 @@ $(function()
         var addressBox = config.addressBox;
         var contactBox = config.contactBox;
         var music = config.music;
+        
+        /*************
+        The Param object holds all of the configurable variables for the tour application
+        *************/
+        var Param =
+        {
+            // SlideMenu obj
+            centerGap: 15, // centerGap pushes the top and bottom halves of slide array away from the center so the two slides neighboring the center slide show more
+            horiSpace: 10, // Space between slides on the X axis
+            vertSpace: 63, // Space between slides on the Y axis
+            topZ: 200, // Z-index of the upper most slide, this number must be greater than the number of slides to display
+            maxHoriRatio: .60, // Imgs with a height to width ratio less than this are considered horizontal panos and tweened as such
+            slideTweenTime: 1.25, // Slide menu animation length
+            scrollHandleTime: .50, // Slide menu scrollbar animation length
+
+            // Preloader obj
+            amtToLoad: 6, // Number of imgs to load before the tour starts
+            maskTweenTime: 4, // Number of seconds the preloader mask takes to open
+            maskOpacity: .75, // Opacity percentage preloader mask fade too when opening
+
+            // ImageDisplay obj
+            pixelsPerSec: 25, // Used to calculate the tour img's tween time
+            fadeDelay: 1.25, // The amount of time it takes a tour img to fade in or out during a transition
+            maxTweenTime: 17, // Max number of seconds that a tour img will take to tween in one direction
+            minTweenTime: 10, // Min number of seconds that a tour img will be tweening in one direction
+            
+            // Utilities
+            isTouchCapable: false,
+            
+            init:function()
+            {
+                if(('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0)) // Detect browsers with either touch events or pointer events running on touch capable devices
+                {
+                    this.isTouchCapable = true;
+                }
+            }
+        }
+        
+        /*************
+        The WindowSize object listens for a change to the browser's size and calls the functions necessary to update the tour's objs
+        *** Note: The timer is used because the resize event is fired anytime the browser resizes, the timer only goes off once the resizing has finished
+        *************/
+        var WindowSize =
+        {            
+            init:function()
+            {
+                var currFontSize = parseFloat($('body').css('font-size'));
+                var newFontSize = 0;
+                var timer;
+                
+                $(window).resize(function()
+                {
+                    clearTimeout(timer);
+                    timer = setTimeout(function() // Update all parts of the tour app that need to be reset when the browser resizes
+                    {
+                        newFontSize = parseFloat($('body').css('font-size')); // The font-size of the body tag is changed in the media queries at certain browser sizes
+                        
+                        if(newFontSize !== currFontSize) // If the media queries changed the size of the tour, update the tour's objs
+                        {
+                            ImgName.resetPos();
+                            ImgDisplay.resetSize();
+                            SlideMenu.resetSize();
+                            SlideScrollbar.resetSize();
+                            currFontSize = newFontSize;
+                        }
+                    }, 600);
+                });
+            }
+        }
                 
         /*************
         The Preloader obj handles the reordering and preloading of the tour imgs and the preloading of any interactive pics
         *************/
         var Preloader =
         {
-            preloadArray: [], // Each preloadArray element is a reference to each of the image objs in the config file
+            preloadArray: [], // Each preloadArray element is a reference to each of the img objs in the config file
             loadCount: 0, // The total number of tour imgs downloaded
             startCount: 0, // When a set amount of tour imgs have finished loading, the tour is started
             
@@ -86,12 +153,12 @@ $(function()
             {
                 this.startCount++;
                 
-                if(this.startCount === param.amtToLoad)
+                if(this.startCount === Param.amtToLoad)
                 {
                     var mask = $('.loadingMask');
                     
                     $('#loading img').remove();
-                    TweenLite.to(mask, param.maskTweenTime, { width:0, opacity:param.maskOpacity, onComplete:function() { mask.remove(); } }); // Tween open the loading masks and remove them when done
+                    TweenLite.to(mask, Param.maskTweenTime, { width:0, opacity:Param.maskOpacity, onComplete:function() { mask.remove(); } }); // Tween open the loading masks and remove them when done
                     
                     SlideMenu.startTour();// After the first several imgs in the load order are downloaded, start the tour
                     Music.init(); // Start the music when the tour starts
@@ -101,6 +168,7 @@ $(function()
         
         /*************
         The SlideMenu obj handles the setup and animations of the slide menu
+        *** Note: Any instance vars that are dependant on the browser size are set in this.setMenuVars()
         *************/
         var SlideMenu =
         {
@@ -108,17 +176,20 @@ $(function()
             slideArray: [], // Reference to all of the Slide objs
             currSlideNum: Math.round(imgArrLen / 2 - 1), // The slideNum of current slide being displayed, onload this is the slideNum of the slide in the center that displays first
             centerY: 0, // The middle of the slide menu along the Y axis
+            centerGap: 0, // centerGap pushes the top and bottom halves of slide array away from the center so the two slides neighboring the center slide show more
+            horiSpace: 0, // Space between slides on the X axis
+            vertSpace: 0, // Space between slides on the Y axis
             
-            // Set up the slide menu and create place holder imgs with img names in the correct rendering order
             init:function() 
             {
                 var parent = this;
                 
-                this.centerY = this.el.height() / 2;
+                this.setMenuVars();
+                //this.setMenuVars(WindowSize.sizeModifier());
                 this.createSlides();
                 this.centerSlides();
                 
-                // Add event listeners to the next and previous btns
+                // Event listeners for the next and previous btns
                 $('#nextBtn').click(function()
                 {
                     parent.nextSlide();
@@ -130,6 +201,26 @@ $(function()
                     parent.prevSlide();
                     ImgDisplay.pauseTour();
                 });       
+            },
+            // Set the default value of the dynamic instance vars that change when the window resizes
+            // *** Note: The value of these instance vars must be reset each time the browser is resized, otherwise their cumulative resetting messes up slide menu positioning
+            // *** These instance vars are for positioning and relative to the browser height/width
+            setMenuVars:function()
+            {
+                this.centerY = this.el.height() / 2;
+                this.centerGap = Param.centerGap;
+                this.horiSpace = Param.horiSpace;
+                this.vertSpace = Param.vertSpace;
+                this.resetMenuVars();                
+            },
+            // Reset the default values of the dynamic instance vars minus a certain percentage based on the sizeMod value
+            resetMenuVars:function()
+            {
+                var sizeMod = (1 / 16) * (16 - parseFloat($('body').css('font-size'))); // Assuming a default font-size of 16px
+                
+                this.centerGap -= (this.centerGap * sizeMod);
+                this.horiSpace -= (this.horiSpace * sizeMod);
+                this.vertSpace -= (this.vertSpace * sizeMod);
             },
             // Reorder the imgArray into the render order and create a Slide obj for each of the imgs in the imgArray
             createSlides:function()
@@ -171,96 +262,83 @@ $(function()
             {
                 var slide = this.slideArray[0];
                 var centerSlideY = this.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
+                var horiSpace = this.horiSpace;
+                var vertSpace = this.vertSpace;
                 var offset, xPos, yPos, zPos = 0;
-                
+                                
                 for(var i = 0; i < imgArrLen; i++)
                 {
                     slide = this.slideArray[i];
                     offset = i - slideNum; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
-                    xPos = Math.abs(offset) * param.horiSpace; // Flip any negative offsets to positive integers using absolute value
-                    yPos = centerSlideY + (offset * param.vertSpace);
-                    zPos = param.topZ - Math.abs(offset); // Set the correct zPos so the slides appear to overlap one another, with the center slide on top of all other slides
+                    xPos = Math.abs(offset) * horiSpace; // Flip any negative offsets to positive integers using absolute value
+                    yPos = centerSlideY + (offset * vertSpace);
+                    zPos = Param.topZ - Math.abs(offset); // Set the correct zPos so the slides appear to overlap one another, with the center slide on top of all other slides
                     slide.el[0].style.zIndex = zPos; // The z-index is set here and not in the tween below because it needs to be set instantly to keep the slides from appering to flicker
-                    TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
+                    TweenLite.to(slide.el, Param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
                 }
                                 
                 ImgDisplay.changeImg(slideNum); // Change the tourImg to the current slide
+                SlideScrollbar.setHandlePos(slideNum); // Update the position of the slide menu's scrollbar
             },
             // Advance the slide menu by one if the next slide is loaded
             nextSlide:function()
             {
-                var parent = this;
-                var currSlideNumCopy = this.currSlideNum; // Temporary slideNum so currSlideNum doesn't change if the next slide is not loaded
-                var nextSlide = function() // Calculate the slideNum of the next slide so it can be found in the slideArray and have its loaded property checked
-                {
-                    if(parent.currSlideNum === (imgArrLen - 1))
-                    {
-                        currSlideNumCopy = 0;
-                        return currSlideNumCopy;
-                    }
-                    else
-                    {
-                        currSlideNumCopy++;
-                        return currSlideNumCopy;
-                    }
-                };
+                var slideNum = 0;
                 
-                if(this.slideArray[nextSlide()].loaded) // If the next slide is not loaded, i.e. it hasn't finished downloading, don't move the slide menu
+                if(this.currSlideNum === (imgArrLen - 1)) // If the slide menu is on the last slide and nextSlide() is called again, go to the first slide
                 {
-                    if(parent.currSlideNum === (imgArrLen - 1)) // If the slide menu is on the last slide and nextSlide() is called again, go to the first slide
+                    slideNum = 0;
+                    
+                    if(this.slideArray[slideNum].loaded) // If the next slide is not loaded, i.e. it hasn't finished downloading, don't move the slide menu
                     {
-                        parent.currSlideNum = 0;
-                        parent.reorderSlides(parent.currSlideNum);
-                    }
-                    else
+                        this.currSlideNum = 0;
+                        this.reorderSlides(this.currSlideNum);
+                    }                    
+                }
+                else
+                {
+                    slideNum = this.currSlideNum + 1;
+                    
+                    if(this.slideArray[slideNum].loaded)
                     {
-                        parent.currSlideNum++;
-                        parent.reorderSlides(parent.currSlideNum);
-                    }
+                        this.currSlideNum++;
+                        this.reorderSlides(this.currSlideNum);
+                    }                    
                 }
             },
             // Reverse the slide menu by one if the prev slide is loaded
             prevSlide:function()
             {
-                var parent = this;
-                var currSlideNumCopy = this.currSlideNum; // Temporary slideNum so currSlideNum doesn't change if the prev slide is not loaded
-                var prevSlide = function() // Calculate the slideNum of the prev slide so it can be found in the slideArray and have its loaded property checked
-                {
-                    if(parent.currSlideNum === 0)
-                    {
-                        currSlideNumCopy = imgArrLen - 1;
-                        return currSlideNumCopy;
-                    }
-                    else
-                    {
-                        currSlideNumCopy--;
-                        return currSlideNumCopy;
-                    }
-                };
+                var slideNum = 0;
                 
-                if(this.slideArray[prevSlide()].loaded) // If the prev slide is not loaded, i.e. it hasn't finished downloading, don't move the slide menu
+                if(this.currSlideNum === 0) // If the slide menu is at the first slide and prevSlide() is called again, go to the last slide
                 {
-                    if(parent.currSlideNum === 0) // If the slide menu is at the first slide and prevSlide() is called again, go to the last slide
+                    slideNum = imgArrLen - 1;
+                    
+                    if(this.slideArray[slideNum].loaded)
                     {
-                        parent.currSlideNum = imgArrLen - 1;
-                        parent.reorderSlides(parent.currSlideNum);
-                    }
-                    else
+                        this.currSlideNum = imgArrLen - 1;
+                        this.reorderSlides(this.currSlideNum);
+                    }                    
+                }
+                else
+                {
+                    slideNum = this.currSlideNum - 1;
+                    
+                    if(this.slideArray[slideNum].loaded)
                     {
-                        parent.currSlideNum--;
-                        parent.reorderSlides(parent.currSlideNum);
-                    }
+                        this.currSlideNum--;
+                        this.reorderSlides(this.currSlideNum);
+                    }                    
                 }
             },
             // Advance the slide menu to that of the accompanying slideNum
             goToSlide:function(slideNum)
-            {
-                var parent = this;
-                
-                if(slideNum !== this.currSlideNum) // Do nothing if the slideNum is that of the current slide showing
+            {                
+                if(slideNum !== this.currSlideNum && this.slideArray[slideNum].loaded) // Do nothing if the slideNum is that of the current slide showing or if the tour img isn't downloaded yet
                 {
-                    parent.currSlideNum = slideNum;
-                    parent.reorderSlides(slideNum);
+                    this.currSlideNum = slideNum;
+                    this.reorderSlides(slideNum);
                 }
             },
             // Called from Preloader.preload() once the img is done downloading, determine what type of tour img it is and apply the right classes in this.setContent()
@@ -271,17 +349,17 @@ $(function()
                 {
                     this.setContent(img, 'vertImg', 'vertSlide'); // Img is a vertical panorama
                 }
-                else if((img.height / img.width) <= param.maxHoriRatio)
+                else if((img.height / img.width) <= Param.maxHoriRatio)
                 {
                     this.setContent(img, 'horiImg', 'horiSlide'); // Img is a horizontal panorama
                 }
                 else
                 {
-                    this.setContent(img, 'stdImg', 'stdSlide'); // Standard ratio image
+                    this.setContent(img, 'stdImg', 'stdSlide'); // Standard ratio img
                 }
             },
-            // Change place holders and set other properties on the Slide obj
-            // *** Note: This func basically lines up the img objs in the preloadArray to the slide objs in the slideArray using each img obj's unique id
+            // Sets properties on the Slide obj and changes out the placeholder loading gif on each of the Slide() objs 
+            // *** Note: The for loop used to line up the img objs in the preloadArray to the slide objs in the slideArray using each img obj's unique id
             setContent:function(img, imgType, slideClass)
             {                
                 for(var i = 0; i < imgArrLen; i++)
@@ -295,17 +373,125 @@ $(function()
                         slide.interactive = img.interactive
                         slide.height = img.height;
                         slide.width = img.width;
+                        slide.slideClass = slideClass;
                         slide.type = imgType;
-                        slide.img.attr({ 'src': img.src, 'alt': img.alt }).removeClass().addClass(slideClass); // Chained jQuery methods
-                        slide.loaded = true;
-                        break; // Once the correct slide is found, there is no need to keep looping
+                        slide.addImg();
+                        break; // Once the correct Slide() obj is found, there is no need to keep looping
                     }
                 }
+            },
+            // Reset the vars used for positioning of the Slide objs when the browser resizes
+            // *** Note: Calling this.reorderSlides() causes the slide menu to reposition itself and the tour img to restart which will update any other vars that need to be reset when the browser size changes
+            resetSize:function()
+            {
+                this.setMenuVars();
+                this.reorderSlides(this.currSlideNum);
             }
         };
         
         /*************
-        The ImgDisplay obj handles the changing, sizing, playing, and tweening of the current tour img
+        The SlideScrollbar allows the user to scroll through the tour imgs quickly without needing to click or touch the slide menu multiple times
+        *** Note: The scrollbar is only shown on non-touch devices, it's buggy on touch screens because of the handle's size
+        *************/
+        var SlideScrollbar = 
+        {
+            el: $('#slideScrollbar'),
+            handle: $('#slideScrollbar .scrollHandle'),
+            isDragging: false, // Flag to indicate if the scrollbar handle is being dragged
+            elHeight: 0, // Height of the scrollbar track
+            elWidth: 0, // Width of the scrollbar track
+            handleSize: 0, // Diameter of the scroll handle
+            topOffset: 0, // Used to calculate the 0,0 position of the scrollbar track
+            
+            init:function()
+            {                
+                if(!Param.isTouchCapable)
+                {
+                    var parent = this;
+                    var yPos, percent, slideNum = 0;
+                    
+                    // Eliminate multiple calls to jQuery's height/width functions
+                    this.elHeight = this.el.height();
+                    this.elWidth = this.el.width();
+                    this.handleSize = this.handle.width();
+                    this.topOffset = this.el.offset().top                    
+                    
+                    this.handle.on('mousedown', function(e)
+                    {
+                        if(e.which === 1)
+                        {
+                            parent.isDragging = true;
+
+                            $(document).on('mousemove', function(e)
+                            {
+                                yPos = e.pageY - parent.topOffset - (parent.handleSize / 2);
+                                percent = (yPos / parent.elHeight); // Percentage that the handle is along the scrollbar track
+                                slideNum = Math.round(((imgArrLen - 1) * percent)); // Based on where the handle is at, calculate which slide in the slide menu should be showing
+
+                                if(yPos > 0 && yPos < parent.elHeight - (parent.handleSize / 2)) // Prevent the handle from being dragged off the scrollbar track
+                                {
+                                    parent.handle.css({ 'top':yPos });
+                                    if(slideNum !== SlideMenu.currSlideNum) { SlideMenu.goToSlide(slideNum); }
+                                }
+                                return false; // Only needed in IE7/8 otherwise the scrollbar doesn't drag?
+                            });
+
+                            $(document).on('mouseup', function()
+                            {
+                                $(document).off('mousemove mouseup');
+                                parent.isDragging = false;
+                                parent.setHandlePos(SlideMenu.currSlideNum); // Set the positon after mouse up, it makes the handle seem elastic when the tour img doesn't change
+                            });
+                        }
+                        
+                        ImgDisplay.pauseTour();
+                        return false; // Prevent mousedown event from bubbling
+                    });                    
+                    
+                    this.initHandlePos();
+                }
+                else
+                {      
+                    this.el.addClass('displayNone'); // Hide the scrollbar from touch screen devices
+                }
+            },
+            // Set the initial position of the handle, both X and Y, the Y position is the only one changed after that
+            initHandlePos:function()
+            {
+                var xPos = -((this.handleSize / 2) - (this.elWidth / 2));
+                var yPos = (this.elHeight / 2) - (this.handleSize / 2);
+                
+                this.handle.css({ 'left':xPos, 'top':yPos }); // Center the scroll handle on the scrollbar track
+            },
+            // Update the Y position of the scrollbar handle, called from SlideMenu.reorderSlides() and from the mouseup event in this obj
+            // *** Note: If the handle is being dragged, the call from the SlideMenu is ignored because the yPos is already being updated by the move listener
+            setHandlePos:function(slideNum)
+            {                
+                if(!this.isDragging)
+                {
+                    var percent = (slideNum / (imgArrLen - 1));
+                    var yPos = percent * this.elHeight - (this.handleSize / 2);
+                    
+                    // If the slide menu is displaying the center slide, center the scrollbar handle on the track, this is needed because when there are a even number of imgs, the handle is not centered due to percent not equaling 50%
+                    if(slideNum === Math.round(imgArrLen / 2 - 1)) { yPos = (this.elHeight / 2) - (this.handleSize / 2); }
+                
+                    TweenLite.to(this.handle, Param.scrollHandleTime, { top:yPos });
+                }
+            },
+            // Reset the vars used for positioning of the scrollbar handle when the browser resizes
+            resetSize:function()
+            {
+                this.elHeight = this.el.height();
+                this.elWidth = this.el.width();
+                this.handleSize = this.handle.width();
+                this.topOffset = this.el.offset().top
+                this.initHandlePos();
+                this.setHandlePos(SlideMenu.currSlideNum);
+            }
+        }
+        
+        /*************
+        The ImgDisplay obj handles the changing, sizing, playing, tweening, and panning of the current tour img
         *** Note: Some instance vars set as empty objs and 0 at runtime and are set later after the tour imgs have downloaded
         *** Note: Methods that use, this.currImg.el multiple times, have a shorthand reference: var currImg = this.currImg.el, while other functions just use this.currImg.el once
         *************/
@@ -325,7 +511,7 @@ $(function()
             tweenMode: false, // Flag to indicate if the tour img has finished tweening
             firstTween: true, // Flag to indicate if the tween is the initial tween
             prevImgTweenedOut: true, // Flag to indicate if the prev TourImg obj is done fading out
-            movedByMouse: false, // Flag to indicate if the tour img was panned by the mouse
+            panned: false, // Flag to indicate if the tour img was panned
             tween: new TimelineLite(), // Timeline obj that all tweens occur upon
             
             init:function()
@@ -343,7 +529,7 @@ $(function()
                 this.tourPlayBtn.click(function() { if(!parent.playMode) { parent.play(); } });
                 this.tourPauseBtn.click(function() { if(parent.playMode || parent.tweenMode) { parent.pause(); } });
             },
-            // Pluck the img element out of the current slide and apply its attributes to the current tour img, size the tourImg if need be using the Slide obj's type property 
+            // Change out the current tour img and reset the ImgDisplay() obj
             changeImg:function(id)
             {
                 this.slide = SlideMenu.slideArray[id]; // Reference to a specific Slide obj
@@ -354,6 +540,8 @@ $(function()
                 this.setNewImg();
                 this.resetTween();
                 this.tweenIn();
+                
+                if(!this.playMode) { this.pauseTour(); } // *** Note: This is needed because when tour imgs are reset on resize or the SlideScrollbar() is used, they default to play mode and tween in w/o the panning being enabled
             },
             // Fade out the prev tour img
             tweenOut:function()
@@ -364,13 +552,13 @@ $(function()
                     
                     this.prevImg = this.currImg.el; // Referance the prev tourImg as the curr tourImg so the prev tourImg can be tweened out and then removed
                     this.prevImgTweenedOut = false;
-                    TweenLite.to(this.prevImg, param.fadeDelay, { opacity:0, onComplete:this.removePrevImg });
+                    TweenLite.to(this.prevImg, Param.fadeDelay, { opacity:0, onComplete:this.removePrevImg });
                 }
             },
             // Remove the prev tour img from the DOM
             removePrevImg:function()
             {
-                ImgDisplay.prevImg.remove();
+                ImgDisplay.prevImg.remove(); // *** Note: Not sure why, but obj properties in this func have to be accessed through the ImgDisplay obj and not 'this'. Maybe an issue with being a TweenLite callback?
                 ImgDisplay.prevImgTweenedOut = true;
             },
             // Setup a new TourImg obj based on the current slide in the SlideMenu and add it to the DOM
@@ -381,7 +569,7 @@ $(function()
                 this.el.append(this.currImg.el); // Add the current img to the ImdDisplay obj
                 this.currImgHeight = this.currImg.img.height(); // Set height of the tour img
                 this.currImgWidth = this.currImg.img.width(); // Set width of the tour img
-                
+                                                
                 if(!!this.slide.interactive) { this.currImg.setupInteractivity(this.currImgWidth, this.currImgHeight); } // If slide.interactive is an array and not set to false, setup the tour img's interactivity
             },
              // Clear the tween's timeline, clear any tween.stop() calls, and restart the timeline
@@ -404,7 +592,7 @@ $(function()
                 
                 if(this.slide.type === 'stdImg')
                 {
-                    tweenNum = this.setTweenNum(4);
+                    tweenNum = this.setTweenNum(4); // 4 is the number of options in the switch
                     tweenLength = this.calcTweenLength(widthDif);
 
                     switch(tweenNum)
@@ -446,10 +634,10 @@ $(function()
             // Calculate the time the tourImg takes to tween across the imgDisplay and set min/max values if needed
             calcTweenLength:function(pixelDif)
             {
-                var tweenLength = pixelDif / param.pixelsPerSec;
+                var tweenLength = pixelDif / Param.pixelsPerSec;
                 
-                if(tweenLength > param.maxTweenTime) { tweenLength = param.maxTweenTime; } // Limit the tween length
-                if(tweenLength < param.minTweenTime) { tweenLength = param.minTweenTime; } // Set a minimum tween length
+                if(tweenLength > Param.maxTweenTime) { tweenLength = Param.maxTweenTime; } // Limit the tween length
+                if(tweenLength < Param.minTweenTime) { tweenLength = Param.minTweenTime; } // Set a minimum tween length
                 return tweenLength;
             },
             // Calculate a random number that is used to choose a particular tween algorithm
@@ -471,8 +659,8 @@ $(function()
                 var tween = this.tween;
                 
                 currImg.css({ 'top':topOri, 'left':leftOri, 'opacity':0 });
-                tween.to(currImg, param.fadeDelay, { opacity:1 });
-                tween.to(currImg, tweenLength, { top:topDes, left:leftDes, ease:Linear.easeNone }, '-=' + param.fadeDelay); // '-=' + param.fadeDelay moves this tween back on the timeline so it starts at the same time as the opacity fade
+                tween.to(currImg, Param.fadeDelay, { opacity:1 });
+                tween.to(currImg, tweenLength, { top:topDes, left:leftDes, ease:Linear.easeNone }, '-=' + Param.fadeDelay); // '-=' + Param.fadeDelay moves this tween back on the timeline so it starts at the same time as the opacity fade
                 tween.to(currImg, tweenLength, { top:topOri, left:leftOri, ease:Linear.easeNone, onComplete:this.tweenDone });
             },
             // Proceed to the next tour img after the previous one has finished tweening if tour is in play mode
@@ -486,7 +674,7 @@ $(function()
             // *** Note: The play/pauseTween and play/pauseTour funcs on separated out because they're used in different situations throughout the tour program
             play:function()
             {
-                if(!this.playMode && !this.tweenMode && !this.movedByMouse) { SlideMenu.nextSlide(); } // If the tour is paused, the tour img is done tweening, the tour img hasn't been panned, and the play btn gets clicked, advance to the next tour img
+                if(!this.playMode && !this.tweenMode && !this.panned) { SlideMenu.nextSlide(); } // If the tour is paused, the tour img is done tweening, the tour img hasn't been panned, and the play btn gets clicked, advance to the next tour img
                 
                 this.playTour();
                 this.playTween();
@@ -510,18 +698,24 @@ $(function()
                 this.playMode = true;
                 this.togglePlayPause();
                 this.currImg.pointerOn();
-                this.mousePanningOff();
+                this.panningOff();
+                
+                if(this.panned) // If the tour img was panned, advance to the next img when the tour is restarted
+                {
+                    this.panned = false;
+                    SlideMenu.nextSlide();
+                }
             },
             pauseTour:function()
             {
-                if(this.playMode) // pauseTour() is called each time the slide menu is used, the logic here keeps excess funcs from being called when the tour is already in pause mode, see note in the Slide obj about refactoring this
+                if(this.playMode) // *** Revise later: pauseTour() is called each time the slide menu is used, the logic here keeps excess funcs from being called when the tour is already in pause mode, see note in the Slide obj about refactoring this
                 {
                     this.playMode = false;
                     this.togglePlayPause();
                 }
                 
                 this.currImg.pointerOff();
-                this.mousePanningOn();
+                this.panningOn();
             },
             // Add or remove underlining depending on the state of play/pause
             togglePlayPause:function()
@@ -537,56 +731,108 @@ $(function()
                     this.tourPauseBtn[0].className = 'underline';
                 }
             },
-            // Setup the listeners for the mouse panning feature when the tour is put in pause mode
-            mousePanningOn:function()
+            // Setup the listeners for the panning feature when the tour is put in pause mode
+            panningOn:function()
             {
                 var parent = this;
                 var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
                 var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
                 var topOffset = this.el.offset().top
+                var xPos, yPos = 0;
                 
-                currImg.on('mouseover', function()
-                {
-                    if(parent.tweenMode) // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over while the tour is in pause mode, the tween is stopped in favor of mouse panning
-                    {
-                        parent.pauseTween();
-                    }
+                currImg.on('mouseover touchstart', function(e)
+                {   
+                    if(e.type === 'touchstart') { e.preventDefault(); }
+                    if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
                 });
                 
-                // Calculate new X and Y positions based on where the mouse is at and apply those to the TourImg obj's position
-                currImg.on('mousemove', function(e)
+                currImg.on('mousemove touchmove', function(e) // *** Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
                 {
-                    var xPos = ((e.pageX - leftOffset) / parent.elWidth) * (parent.currImgWidth - parent.elWidth) * -1; // (e.pageX/Y - left/topOffset) calculates 0,0 of the imgDisplay
-                    var yPos = ((e.pageY - topOffset) / parent.elHeight) * (parent.currImgHeight - parent.elHeight) * -1;
+                    var evt = e;
                     
+                    if(e.type === 'touchmove')
+                    {
+                        e.preventDefault();
+                        evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                    }
+                    
+                    // Calculate new X and Y positions based on where the mouse or touch is at and apply those to the TourImg obj's position
+                    xPos = ((evt.pageX - leftOffset) / parent.elWidth) * (parent.currImgWidth - parent.elWidth) * -1;
+                    yPos = ((evt.pageY - topOffset) / parent.elHeight) * (parent.currImgHeight - parent.elHeight) * -1;
+
                     if(parent.slide.type === 'stdImg')
                     {
-                        currImg.css({ 'left':xPos, 'top':yPos });
+                        if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
+                        {
+                            if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
+                            {
+                                currImg.css({ 'left':xPos, 'top':yPos });
+                            }
+                        }
                     }
                     else if(parent.slide.type === 'horiImg')
                     {
-                        currImg.css({ 'left':xPos });
+                        if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth))
+                        {
+                            currImg.css({ 'left':xPos });
+                        }
                     }
                     else if(parent.slide.type === 'vertImg')
                     {
-                        currImg.css({ 'top':yPos });
+                        if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
+                        {
+                            currImg.css({ 'top':yPos });
+                        }
                     }
-                    
-                    if(!parent.movedByMouse) { parent.movedByMouse = true; } // Set the flag to notify mousePanningOff() to advance to the next img when tour is restarted
+
+                    if(!parent.panned) { parent.panned = true; } // Set the flag to notify this.playTour() to advance to the next img when the tour is restarted
                 });
             },
-            // Turn off the listeners for the mouse panning feature when the tour returns to play mode
-            mousePanningOff:function()
+            // Turn off the listeners for the panning feature when the tour returns to play mode
+            panningOff:function()
             {
-                var currImg = this.currImg.el; // This has to reference the current TourImg obj because it might have changed since mouse panning was turned on
+                this.currImg.el.off();            
+            },
+            // Reset the vars used for positioning of the TourImg obj when the window resizes
+            resetSize:function()
+            {
+                this.elHeight = this.el.height();
+                this.elWidth = this.el.width();
+            }
+        };
+        
+        /*************
+        The ImgName obj handles the changing and displaying of the current tour img name
+        *************/
+        var ImgName =
+        {
+            el: $('#imgName'),
+            text: $('#imgNameText'),
+            alteredPos: false,
+            
+            // Swap out the name of the previous tour img for the current one
+            changeName:function(imgName)
+            {
+                this.text.html(imgName);
+                if(this.alteredPos) { this.resetPos(); }
+            },
+            // Called from TourImg.setImgSize() if the tour img is a vertical pano and thiner than the imgDisplay, keep the ImgName obj aligned with the tour img's right side
+            changePos:function(elWidth, imgWidth)
+            {
+                var currPos = parseFloat(this.el.css('right'));
+                var offset = (elWidth - imgWidth) / 2; // Distance to move the ImgName obj
                 
-                currImg.off(); // Remove all event listeners for the currImg
+                this.el.css('right', currPos + offset); // Move the ImgName obj to its new position
+                this.alteredPos = true;
+            },
+            // Reset the ImgName to its origanal position if it was altered
+            resetPos:function()
+            {
+                // *** Note: The css() method has to be used here b/c jQuery's width() method returns the computed width which subtracts the border width due to the box-sizing being set to border-box
+                var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width'))); // Calculate the reset position
                 
-                if(this.movedByMouse) // If the tour img was panned by the mouse, advance to the next img when the tour is restarted
-                {
-                    this.movedByMouse = false;
-                    SlideMenu.nextSlide();
-                }
+                this.el.css({ 'right':reset }); // This is set from the right because the ImgName obj's changing width would mess up positioning it from the left
+                this.alteredPos = false;
             }
         };
         
@@ -596,6 +842,7 @@ $(function()
         var Alert =
         {
             alertMsg: $('#alertMsg'),
+            alertMsgText: $('#alertMsg p'),
             timer: {},
             alertShowing: false, // Flag to indicate if the alert msg box is showing
             
@@ -605,7 +852,7 @@ $(function()
                 
                 if(!this.alertShowing) // Don't show more than one msg at a time
                 {
-                    this.alertMsg.text(msg); // Add the msg to the p element in the DOM
+                    this.alertMsgText.text(msg); // Add the msg to the p element in the DOM
                     this.alertMsg.removeClass('displayNone'); // Make the msg box visible
                     this.alertMsg.on('click', function() { parent.alertOff(); }); // Allow the user to clear the msg by clicking it
                     this.timer = setTimeout(function(){ parent.alertOff(); }, duration); // Remove the msgBox after a set time if the user doesn't remove it by clicking on it
@@ -622,7 +869,9 @@ $(function()
                     onComplete:function()
                     {
                         clearTimeout(parent.timer);
-                        parent.alertMsg.addClass('displayNone').text('').off(); // *** Note: jQuery methods, addClass(), text(), and off() are chanied
+                        parent.alertMsgText.text('');
+                        parent.alertMsg.addClass('displayNone').off(); // *** Note: jQuery methods, addClass() and off() are chanied
+                        parent.alertMsg.css({ 'opacity':1 }); // This is necessary because alertOn() doesn't tween alertMsg open, the opacity has to be reset so alertMsg is visible the next time it's shown
                         parent.alertShowing = false;
                     }
                 });
@@ -641,23 +890,29 @@ $(function()
             infoBoxShowing: false, // Flag to indicate if the interactive info box is open
             iaPicShowing: false, // Flag to indicate if the interactive pic is showing
             iaPicCloseMsgShown: false, // Flag to indicate if the close msg has been shown
+            infoText: '', // Compared against the incoming text string of this.info() to see if the same iaInfo btn was clicked
             
             navigate:function(slide)
             { 
                 // *** Note: If the tour img has not fully downloaded yet, alert the user
                 slide.loaded ? SlideMenu.goToSlide(slide.slideNum) : Alert.alertOn('The image you\'re trying to navigate to has not fully downloaded yet.  Wait a sec and try again.', 5000);
-                if(!ImgDisplay.playMode) { ImgDisplay.pauseTour(); } // If the tour is not in play mode, set up the mouse panning on the current tour img when its navigated to
+                if(!ImgDisplay.playMode) { ImgDisplay.pauseTour(); } // If the tour is not in play mode, set up the panning on the current tour img when its navigated to
             },
             info:function(text)
             {
                 var parent = this;
                 var boxHeight = 0;
                 
-                this.resetIa();
-                    
-                if(!this.infoBoxShowing)
+                // *** Note: If the info box is open and an iaInfo btn is clicked, check to see if it's the same btn that opened that info box.
+                // If it's the same btn, close the info box, if it's a different iaInfo btn, swap the the old text for the new
+                if(this.infoText === text)
+                {
+                    this.removeInfo();
+                }
+                else    
                 {
                     ImgDisplay.pauseTween();
+                    this.infoText = text;
                     this.infoBoxText.text(text); // Insert the text into the p element of the info box
                     this.infoBox.removeClass('displayNone');
                     boxHeight = this.infoBoxText.height() + (parseFloat(this.infoBox.css('paddingTop')) * 2); // Calculate the distance to tween open the info box
@@ -674,16 +929,13 @@ $(function()
                         }
                     });
                 }
-                else
-                {
-                    this.removeInfo();
-                }
             },
             removeInfo:function()
             {
                 var parent = this;
                 
                 ImgDisplay.playTween();
+                this.infoText = '';
                 this.infoBoxText.text('');
                 this.infoBoxText.addClass('hidden');
                 
@@ -722,7 +974,6 @@ $(function()
                 {
                     Alert.alertOn('The image you\'re trying to view has not fully downloaded yet.  Wait a sec and try again.', 5000); // *** Note: If the iaPic has not fully downloaded yet, alert the user
                 }
-                // *** Revise later: It's not really a problem, but if the tour is in pause mode, an iaPic is opened, and then the play btn is clicked. The tour starts playing with the iaPic open. The iaPic goes away on the next transition though
             },
             removePic:function()
             {
@@ -757,42 +1008,7 @@ $(function()
                 if(Alert.alertShowing) { Alert.alertOff(); }
             }
         }
-        
-        /*************
-        The ImgName obj handles the changing and displaying of the current tour img name
-        *************/
-        var ImgName =
-        {
-            el: $('#imgName'),
-            text: $('#imgNameText'),
-            alteredPos: false,
-            
-            // Swap out the name of the previous tour img for the current one
-            changeName:function(imgName)
-            {
-                this.text.html(imgName);
-                if(this.alteredPos) { this.resetPos(); }
-            },
-            // If the tour img is a vertical pano and thiner than the imgDisplay, keep the ImgName obj aligned with the tour img's right side
-            changePos:function(elWidth, imgWidth)
-            {
-                var currPos = parseFloat(this.el.css('right'));
-                var offset = (elWidth - imgWidth) / 2; // Distance to move the ImgName obj
                 
-                this.el.css('right', currPos + offset); // Move the ImgName obj to its new position
-                this.alteredPos = true;
-            },
-            // Reset the ImgName to its origanal position if it was altered
-            resetPos:function()
-            {
-                // *** Note: The css() method has to be used here b/c jQuery's width() method returns the computed width which subtracts the border width due to the box-sizing being set to border-box
-                var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width'))); // Calculate the reset position
-                
-                this.el.css({ 'right':reset }); // This is set from the right because the ImgName obj's changing width would mess up positioning it from the left
-                this.alteredPos = false;
-            }
-        };
-        
         /*************
         The TextBoxes obj handles the setup of the info boxes on the bottom of the tourWrapper
         *************/
@@ -876,7 +1092,7 @@ $(function()
             // *** Note: Autoplay is turned off for phones because of possible slow connections and/or bandwidth restrictions
             checkAutoplay:function()
             {
-                if(music.autoplay && $(window).width() > 800)
+                if(music.autoplay && $(window).width() > 850)
                 {
                     if(this.supported) { this.audio.attr('autoplay', 'autoplay'); }
                     this.isPlaying = true;
@@ -927,25 +1143,34 @@ $(function()
         }
         
         /*************
-        Builds a new Slide obj using placeholder properties, instantiated in SlideMenu.createSlides()
-        *** Note: Placeholder properties are set in SlideMenu.setContent() when the Slide's corresponding tour img has finished downloading
+        Builds a new Slide obj, instantiated in SlideMenu.createSlides()
+        *** Note: Empty properties are set in SlideMenu.setContent() when the Slide's corresponding tour img has finished downloading
         *************/
         function Slide(uId, slideNum) 
         {
             var parent = this;
-                        
+            
+            this.el = $('<div class="slide clickable"><img class="loadingSlide" src="public/img/tourApp/imgLoading.gif" alt="Loading...">'); // The loading gif is swapped out for the slide's tour img in this.addImg()
             this.uId = uId; // A unique id is created for each tour img when it's uploaded during the tour building process, it stays the same even if the img name (alt) is changed or if the imgs are put into a different order 
             this.slideNum = slideNum; // The position of the slide inside the SlideMenu.slideArray
-            this.src = 'public/img/tourApp/imgLoading.gif'; // The default values of this.src/alt are changed in SlideMenu.setContent() after its tour img is done downloading
-            this.alt = 'Loading...';
-            this.interactive = false;
+            this.src = '';
+            this.alt = '';
+            this.slideClass = ''; // The CSS class used to resize the tour img down to slide size
             this.type = ''; // The type of img that the slide holds, e.g. a standard ratio img, horizontal pano, or vertical pano, used as a class name for img sizing in the ImgDisplay obj
             this.height = 0; // Height of the tour img, not the slide obj itself
             this.width = 0; // Width of the tour img, not the slide obj itself
+            this.interactive = false; // Flag used to indicate if the Slide's corresponding tour img has interactivity
             this.loaded = false; // Allow the slide to be viewable and clickable after the img is downloaded
-            this.el = $('<div class="slide clickable">');
-            this.img = $('<img class="loadingSlide" src="' + this.src + '" alt="' + this.alt + '">');
-            this.el.html(this.img);
+            
+            // Create the Slide's corresponding tour img and swap out the loading gif
+            // *** Note: Called from SlideMenu.setContent() once the Slide's tour img has finished downloading
+            this.addImg = function()
+            {
+                var slideImg = $('<img class="' + this.slideClass + '" src="' + this.src + '" alt="' + this.alt + '">');
+                
+                this.el.html(slideImg);
+                this.loaded = true;
+            };
             
             // When a slide is clicked on, pass its slideNum to SlideMenu.goToSlide() so it can advance the slide menu to the chosen slide, also pause the tour
             this.el.click(function()
@@ -969,7 +1194,7 @@ $(function()
             this.el = $('<div class="clickable">');
             this.img = $('<img src="' + slide.src + '" alt="' + slide.alt + '">');
             this.el.html(this.img);
-            
+                        
             // Instance methods for the TourImg obj
             this.pointerOn = function() { this.el.addClass('clickable'); };
             this.pointerOff = function() { this.el.removeClass('clickable'); };
@@ -1044,7 +1269,7 @@ $(function()
             }
             
             // Add event listeners for the TourImg obj
-            this.img.click(function() { ImgDisplay.pause(); });
+            this.img.on('click touchstart', function() { ImgDisplay.pause(); });
         }
         
         /*************
@@ -1082,7 +1307,7 @@ $(function()
                 {
                     this.el.className = 'vertIaPic';
                 }
-                else if((this.el.height / this.el.width) <= param.maxHoriRatio) // Interactive picture is a horizontal panorama
+                else if((this.el.height / this.el.width) <= Param.maxHoriRatio) // Interactive picture is a horizontal panorama
                 {
                     this.el.className = 'horiIaPic';
                 }
@@ -1093,14 +1318,18 @@ $(function()
             }
         }
        
+        Param.init();
+        WindowSize.init();
         SlideMenu.init();
+        SlideScrollbar.init();
         Preloader.init();
         ImgDisplay.init();
         TextBoxes.init();
     });
 });
+
 // ************** remember your on an EX branch ****************
-// *** MERGE new ex branch ***
-// *** before RWD, hard copy version control, commit and push, and push to live server and test on multiple devices *** Watch the network panel and see what order the imgs are downloaded in ***
-// *** Look into how to make the tour fluid/responsive after the interactivity is done using ems/percent/etc... ***
-// *** Finish tab menu, remember agent info tab will need to not show if fsbo flag is true *** Deal with tab position, borders, selected, and so on too *** issue with tabs being in the wrong spot in FF? tabs have no height in IE7
+// *** Finish tab menu, remember agent info tab will need to not show if fsbo flag is true
+// Deal with tab position, borders, selected, and so on too, Might have tab ul equal imgDisplay width, and put the bottom border on that
+// Then layout the li elements so they cover the border, then apply the TRL border to those...?  Still might have issue with tab positioning being off?
+// Test Windows 8 touch screens at Best Buy when tab menu is done
