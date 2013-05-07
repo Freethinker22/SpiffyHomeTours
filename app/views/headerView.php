@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
     <head lang="en-US">
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
         <meta name="author" content="Spiffy Home Tours" />
         <meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
         <meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
         <link rel="icon" href="public/img/favicon.ico" />
         <title><?php echo $this->controller->title; ?></title>
-        <script type="text/javascript" src="public/js/jsLibraries/jQuery.js"></script>
-        <script type="text/javascript" src="public/js/navMenu.js"></script>
+        <script src="public/js/jsLibraries/jQuery.js"></script>
+        <script src="public/js/navMenu.js"></script>
         
         <?php
         // Loop through the CSS and Javascript arrays from the page controller and build the link and script tags needed for page rendering
         foreach($this->controller->cssArray as $urlMedia)
         {
-            echo '<link rel="stylesheet" type="text/css" href="' . $urlMedia[0] . '" media="' . $urlMedia[1] . '" />';
+            echo '<link rel="stylesheet" href="' . $urlMedia[0] . '" media="' . $urlMedia[1] . '" />';
         }
         foreach($this->controller->jsArray as $scriptPath)
         {
-            echo '<script type="text/javascript" src="' . $scriptPath . '"></script>';
+            echo '<script src="' . $scriptPath . '"></script>';
         }
         ?>
         
         <!--[if lt IE 9]>
-            <link rel="stylesheet" type="text/css" href="public/css/ieAddendum.css" media="screen" />
-            <script type="text/javascript" src="public/js/html5shim.js"></script>
+            <link rel="stylesheet" href="public/css/ieAddendum.css" media="screen" />
+            <script src="public/js/html5shim.js"></script>
         <![endif]-->
 
         <!--[if lt IE 8]>

@@ -4,17 +4,17 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
 <!DOCTYPE html> <!--This is a special view that doesn't use the framework's regular header or footer views -->
 <html>
     <head lang="en-US">
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
         <meta name="author" content="Spiffy Home Tours" />
         <meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
         <meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
         <link rel="icon" href="public/img/favicon.ico" />
-        <link rel="stylesheet" type="text/css" href="public/css/tourApp/tour.css" media="screen" />
+        <link rel="stylesheet" href="public/css/tourApp/tour.css" media="screen" />
         <title>Spiffy Home Tours</title>
         <!--[if lt IE 9]>
-            <link rel="stylesheet" type="text/css" href="public/css/tourApp/ieAddendum.css" media="screen" />
-            <script type="text/javascript" src="public/js/html5shim.js"></script>
-            <script type="text/javascript" src="public/js/css3-mediaqueries.js"></script>
+            <link rel="stylesheet" href="public/css/tourApp/ieAddendum.css" media="screen" />
+            <script src="public/js/html5shim.js"></script>
+            <script src="public/js/css3-mediaqueries.js"></script>
         <![endif]-->
 
         <!--[if lt IE 8]>
@@ -125,7 +125,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 
         <!-- ******* Flash music player for old IE ******* -->
         <!--[if lt IE 9]>
-            <script type="text/javascript">
+            <script>
                 var isOldIe = true;
                 var song = '';
                 var autoplay = '';
@@ -142,11 +142,11 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         <![endif]-->
         
         <!-- ******* JavaScript ******* -->
-        <script type="text/javascript">var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
-        <script type="text/javascript" src="public/js/jsLibraries/fullSize/jQuery.js"></script>
-        <script type="text/javascript" src="public/js/jsLibraries/fullSize/underscore.js"></script>
-        <script type="text/javascript" src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
-        <script type="text/javascript" src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
+        <script>var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
+        <script src="public/js/jsLibraries/fullSize/jQuery.js"></script>
+        <script src="public/js/jsLibraries/fullSize/underscore.js"></script>
+        <script src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
+        <script src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
     </body>
 </html>
 

@@ -3,7 +3,7 @@ $(function()
     $.getJSON('tours/' + window.tourDirectory + '/config.json', function(config) // Get the config file for a specific tour, window.tourDirectory is set in mainView.php 
     {
         document.title = config.pageTitle;
-        $('head title').before('<link rel="stylesheet" type="text/css" href="public/css/tourApp/' + config.theme + '" media="screen" />'); // Inject the correct theme stylesheet into the head
+        $('head title').before('<link rel="stylesheet" href="public/css/tourApp/' + config.theme + '" media="screen" />'); // Inject the correct theme stylesheet into the head
         
         // References to data arrays in the the config file
         var imgArray = config.images;

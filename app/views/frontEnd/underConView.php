@@ -1,18 +1,18 @@
 <!DOCTYPE html> <!--This is a special view that doesn't use the framework's regular header or footer views -->
 <html>
     <head lang="en-US">
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="public/css/reset.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="public/css/theme.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="public/css/underCon.css" media="screen" />
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="public/css/reset.css" media="screen" />
+        <link rel="stylesheet" href="public/css/theme.css" media="screen" />
+        <link rel="stylesheet" href="public/css/underCon.css" media="screen" />
         <link rel="icon" href="public/img/favicon.ico" />
-        <script type="text/javascript" src="public/js/jsLibraries/jQuery.js"></script>
-        <script type="text/javascript" src="public/js/validator.js"></script>
-        <script type="text/javascript" src="public/js/frontEnd/underConPage.js"></script>
+        <script src="public/js/jsLibraries/jQuery.js"></script>
+        <script src="public/js/validator.js"></script>
+        <script src="public/js/frontEnd/underConPage.js"></script>
         <title>Under construction</title>
         <!--[if lt IE 9]>
-            <link rel="stylesheet" type="text/css" href="public/css/ieAddendum.css" media="screen" />
-            <script type="text/javascript" src="public/js/html5shim.js"></script>
+            <link rel="stylesheet" href="public/css/ieAddendum.css" media="screen" />
+            <script src="public/js/html5shim.js"></script>
         <![endif]-->
 
         <!--[if lt IE 8]>
