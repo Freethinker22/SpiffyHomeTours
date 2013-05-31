@@ -1,7 +1,7 @@
 <?php
 $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct JSON config file
 ?>
-<!DOCTYPE html> <!--This is a special view that doesn't use the framework's regular header or footer views -->
+<!DOCTYPE html> <!-- This is a special view that doesn't use the framework's regular header or footer views -->
 <html>
     <head lang="en-US">
         <meta charset="utf-8">
@@ -29,8 +29,8 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         </noscript>
                         
         <section id="tourWrapper" class="tourBg dropShadow">
-<!--            <section id="loading" class="displayNone">-->
-            <section id="loading">
+            <section id="loading" class="displayNone">
+<!--            <section id="loading">-->
                 <img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
                 <div class="loadingMask"></div>
                 <div class="loadingMask"></div>
@@ -38,7 +38,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             
             <section id="tabMenu">
                 <ul class="pt85em">
-                    <li id="photoGal" class="borderTRL">Photo Gallery</li>
+                    <li id="photoGal" class="tabBorder">Photo Gallery</li>
                     <li id="propInfo">Property Information</li>
                     <li id="propMap">Property Map</li>
                     <li id="agentInfo">Agent Information</li>
@@ -48,21 +48,23 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             
             <section id="slideMenu"></section>
                         
-            <section id="slideScrollbar">
-                <div class="scrollHandle"><img src="public/img/tourApp/scrollbarHandle.png" alt="Scrollbar handle" /></div>
+            <section id="slideScrollbar" class="scrollTrack">
+                <div id="slideScrollHandle" class="scrollHandle">
+                    <img class="fluid" src="public/img/tourApp/scrollbarHandle.png" alt="Scrollbar handle" />
+                </div>
             </section>
             
             <section id="prevBtn">
-                <img class="opacity80" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
+                <img class="fluid opacity80" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
             </section>
             
             <section id="nextBtn">
-                <img class="opacity80" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
+                <img class="fluid opacity80" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
             </section>
                         
             <section id="imgDisplay" class="borderTL">
+                <div id="tourImgMask" class="tourBg opacity0 displayNone"></div>
                 <div id="infoBox" class="bg85Pct displayNone"><p class="pt85em hidden"></p></div>
-                <div id="iaPicBg" class="tourBg opacity0 displayNone"></div>
                 <div id="alertMsg" class="bg85Pct borderTL displayNone"><p class="pt85em"></p></div>
             </section>
             
@@ -90,11 +92,115 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             <section id="contactBox" class="dropShadow borderTL"></section>
             
             <section id="shtLogo" class="opacity66">
-                <a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="pt85em">Powered By:</p><img src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
+                <a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="pt85em">Powered By:</p><img class="fluid" src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
             </section>
         </section> <!-- End tourWrapper section -->
                 
-        <!-- ******* Underscore.js templates ******* -->
+        <!-- *******
+        Underscore.js templates
+        ******* -->
+        
+        <!-- *** Scrollbar *** -->
+        <script id="scrollbarTemp" type="text/template">
+            <section id="scrollbar">
+                <div id="scrollTrack" class="scrollTrack"></div>
+                <div id="scrollUpArrow" class="scrollArrows">
+                    <img class="fluid" src="public/img/tourApp/scrollbarUpArrow.png" alt="Up arrow" />
+                </div>
+                <div id="scrollDownArrow"class="scrollArrows">
+                    <img class="fluid" src="public/img/tourApp/scrollbarDownArrow.png" alt="Down arrow" />
+                </div>
+                <div id="scrollHandle"class="scrollHandle">
+                    <img class="fluid" src="public/img/tourApp/scrollbarHandle.png" alt="Scrollbar handle" />
+                </div>
+            </section>
+        </script>
+        
+        <!-- *** Property information tab page *** -->
+        <script id="propInfoTemp" type="text/template">
+            <section class="tabContentBox">
+                <div id="leftCol" class="tabLeftCol">
+                    <h1 class="tabHeaderAlt">About</h1>
+                    <article class="borderTLBlk">
+                        <p id="aboutText">
+                        <%- prop.data.about %>
+                        </p>
+                    </article>                    
+                </div>
+                
+                <div class="tabRightCol">
+                    <h1 class="tabHeaderAlt">Details</h1>
+                    <ul class="borderTopBlk">
+                        <% _.each(prop.data.inputs, function(input) { %>
+                            <li class="tabInfoLines">
+                                <%= input %>
+                                <% /* Any JSON data that is a string of HTML needs to use <%= instead of <%- because the second one escapes HTML special chars and will mess up any HTML with double quotes in the data */ %>
+                            </li>
+                        <% }); %>
+                    </ul>
+                    <div class="borderTLBlk">
+                        <% /* Test to make sure the two info links are in the data */ %>
+                        <% if(prop.data.neighborhoodInfoUrl) { %>
+                        <p>
+                            <a href="<%- prop.data.neighborhoodInfoUrl %>" target="_blank">Neighborhood Information &gt;</a>
+                        </p>
+                        <% } %>
+                        <% if(prop.data.schoolInfoUrl) { %>
+                        <p>
+                            <a href="<%- prop.data.schoolInfoUrl %>" target="_blank">School Information &gt;</a>
+                        </p>
+                        <% } %>
+                    </div>
+                </div>
+            </section>
+        </script>
+        
+        <!-- *** Property map tab page *** -->
+        <script id="propMapTemp" type="text/template">
+            <section id="mapCanvas" class="tabContentBox"></section>
+        </script>
+        
+        <!-- *** Agent information tab page *** -->
+        <script id="agentInfoTemp" type="text/template">
+            <section class="tabContentBox">
+                <h1 class="tabHeader">
+                    <%- agent.data.name %>
+                </h1>
+                
+                <div class="tabImgs">
+                    <% if(agent.data.agentPic) { %>
+                    <div id="agentPic">
+                        <img class="fluid" src="<%- agent.data.agentPic %>" alt="Agent Pic" />
+                    </div>
+                    <% } %>
+                    <br />
+                    <% if(agent.data.logo) { %>
+                    <div id="agentLogo">
+                        <img class="fluid" src="<%- agent.data.logo %>" alt="Agency Logo" />
+                    </div>
+                    <% } %>
+                </div>
+                
+                <div class="tabInfo">
+                    <ul>
+                        <% _.each(agent.data.inputs, function(input) { %>
+                            <li class="tabInfoLines">
+                                <%= input %>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </section>
+        </script>
+        
+        <!-- *** Calculator tab page *** -->
+        <script id="calcTemp" type="text/template">
+            <section class="tabContentBox">
+                <p>Calculator Tab</p>
+            </section>
+        </script>
+        
+        <!-- *** Address information box *** -->
         <script id="addressBoxTemp" type="text/template">
             <div class="infoText">
                 <ul>
@@ -107,6 +213,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             </div>
         </script>
         
+        <!-- *** Contact information box *** -->
         <script id="contactBoxTemp" type="text/template">
             <% if(contact.data.agentPic) { %>
                 <img src="<%- contact.data.agentPic %>" alt="Agent Pic" />
@@ -123,7 +230,9 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             </div>
         </script>
                 
-        <!-- ******* Flash music player for old IE ******* -->
+        <!-- *******
+        Flash music player for old IE
+        ******* -->
         <!--[if lt IE 9]>
             <script>
                 var isOldIe = true;
@@ -141,14 +250,22 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
             </object>
         <![endif]-->
         
-        <!-- ******* JavaScript ******* -->
+        <!-- *******
+        JavaScript
+        ******* -->
         <script>var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
         <script src="public/js/jsLibraries/fullSize/jQuery.js"></script>
         <script src="public/js/jsLibraries/fullSize/underscore.js"></script>
         <script src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkz_Wk9GyccNY42pGI3VH1kIIgcABz7uA&sensor=false"></script>
         <script src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
     </body>
 </html>
 
+<!-- ******* Notes for the tour building application ******* -->
 <!-- *** put some PHP here that updates the tours DB entry and updates the number of views it gets so that can be displayed to the client in the user panel, could use Ajax too? *** -->
-<!-- *** remember text input box length limits. addressBox: Max 30 chars, contactBox: Max 30 chars *** -->
+<!-- *** text input box length limits. addressBox: Max 30 chars, contactBox: Max 30 chars *** -->
+<!-- *** text input box length limits. agent email: Max 50 chars, website: 100 chars for the agent info tab page
+<!-- *** text input box length limits. agent email: Max 40 chars for the property info tab page details, including label *** limit of 11 total inputs ***
+<!-- *** size limits for agent pic and logo agent pic: height:250, width:150  logo: height:150, width:250 maybe do some kind of size check on the server side? *** -->
+<!-- *** HTML hyperlinks put into the tab pages from the JSON file will need to be created using PHP *** -->

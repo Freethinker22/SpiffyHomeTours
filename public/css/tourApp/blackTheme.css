@@ -1,7 +1,7 @@
 /* Black theme for the tour application */
 
-.tourBg {
-    background:#444 url("../../img/tourApp/blackTextureBg.jpg");
+#tabMenu li {
+    background:#3E3E3E url("../../img/tourApp/blackTabBg.jpg");
 }
 .bg60Pct { /* The button bar and img name background */
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2F2F2F,endColorstr=#8F2F2F2F); /* For old IE */
@@ -11,11 +11,8 @@
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52F2F2F,endColorstr=#E52F2F2F); /* For old IE */
     background-color:rgba(47, 47, 47, 0.85);
 }
-#tabMenu li {
-    background:#3E3E3E url("../../img/tourApp/blackTabBg.jpg");
-}
-#tabMenu li:hover {
-    background:#484848 url("../../img/tourApp/blackTabHoverBg.jpg");
+.tourBg {
+    background:#444 url("../../img/tourApp/blackTextureBg.jpg");
 }
 
 /* Tab colors from Theme class in AS3

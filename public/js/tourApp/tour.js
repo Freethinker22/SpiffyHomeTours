@@ -8,6 +8,9 @@ $(function()
         // References to data arrays in the the config file
         var imgArray = config.images;
         var imgArrLen = imgArray.length;
+        var agentInfo = config.agentInfo;
+        var propMap = config.propMap;
+        var propInfo = config.propInfo;
         var addressBox = config.addressBox;
         var contactBox = config.contactBox;
         var music = config.music;
@@ -37,7 +40,11 @@ $(function()
             maxTweenTime: 17, // Max number of seconds that a tour img will take to tween in one direction
             minTweenTime: 10, // Min number of seconds that a tour img will be tweening in one direction
             
+            // Scrollbar ojb
+            pixelsPerClick: 16, // Amount of pixels the scroll handle is moved each time the up/down arrow is clicked
+            
             // Utilities
+            stdFadeTime: .50, // Standard fade in/out time 
             isTouchCapable: false,
             
             init:function()
@@ -95,12 +102,14 @@ $(function()
             {
                 var topHalf = imgArray.slice(0, Math.floor(imgArrLen / 2 + 1));
                 var bottomHalf = imgArray.slice(Math.floor(imgArrLen / 2 + 1), imgArrLen).reverse();
+                var topLen = topHalf.length;
+                var botLen = bottomHalf.length;
                 
                 // *** Note: Native JS for loops are used in most situations instead of jQuery each loops to increase performance
-                for(var i = 0; i < Math.max(topHalf.length, bottomHalf.length); i++) // 'Zip' the two halfs of the array together into the preloadArray
+                for(var i = 0; i < Math.max(topLen, botLen); i++) // 'Zip' the two halfs of the array together into the preloadArray
                 {
-                    if(i < topHalf.length) { this.preloadArray.push(topHalf[i]); }
-                    if(i < bottomHalf.length) { this.preloadArray.push(bottomHalf[i]); }
+                    if(i < topLen) { this.preloadArray.push(topHalf[i]); }
+                    if(i < botLen) { this.preloadArray.push(bottomHalf[i]); }
                 }
                 this.preload();
             },
@@ -185,7 +194,6 @@ $(function()
                 var parent = this;
                 
                 this.setMenuVars();
-                //this.setMenuVars(WindowSize.sizeModifier());
                 this.createSlides();
                 this.centerSlides();
                 
@@ -245,7 +253,7 @@ $(function()
             {
                 var slideStartPosY = this.el.offset().top + (this.el.height() / 2); // The middle of the slide menu along the Y axis, accounting for the offset of the slide menu from the top of the window
                 
-                for(var i = 0; i < imgArrLen; i++) // Loop through the slideArray and set the top attr to center each slide in the SlideMenu() obj
+                for(var i = imgArrLen; i--;) // Loop through the slideArray and set the top attr to center each slide in the SlideMenu() obj
                 {
                     var slide = this.slideArray[i];
                     slide.el.offset({ top: slideStartPosY - (slide.el.height() / 2) });
@@ -260,21 +268,25 @@ $(function()
             // *** Revise later: Could use the scaling slide menu, need to test different kinds of devices using live server first, if that menu version is used, build the menu scrollbar like in the AS3 version
             reorderSlides:function(slideNum)
             {
-                var slide = this.slideArray[0];
+                var slideArray = this.slideArray; // Local var references used to speed up for loop and cut down on scope chain transversal
+                var arrLen = imgArrLen;
+                var param = Param;
+                var slide = slideArray[0];
                 var centerSlideY = this.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
                 var horiSpace = this.horiSpace;
                 var vertSpace = this.vertSpace;
-                var offset, xPos, yPos, zPos = 0;
-                                
-                for(var i = 0; i < imgArrLen; i++)
+                var offset, absOffset, xPos, yPos, zPos = 0;
+                                                
+                for(var i = arrLen; i--;) // Decrement for loop for preformance
                 {
-                    slide = this.slideArray[i];
+                    slide = slideArray[i];
                     offset = i - slideNum; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
-                    xPos = Math.abs(offset) * horiSpace; // Flip any negative offsets to positive integers using absolute value
+                    absOffset = Math.abs(offset); // Flip any negative offsets to positive integers using absolute value
+                    xPos = absOffset * horiSpace;
                     yPos = centerSlideY + (offset * vertSpace);
-                    zPos = Param.topZ - Math.abs(offset); // Set the correct zPos so the slides appear to overlap one another, with the center slide on top of all other slides
+                    zPos = param.topZ - absOffset; // Set the correct zPos so the slides appear to overlap one another, with the center slide on top of all other slides
                     slide.el[0].style.zIndex = zPos; // The z-index is set here and not in the tween below because it needs to be set instantly to keep the slides from appering to flicker
-                    TweenLite.to(slide.el, Param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
+                    TweenLite.to(slide.el, param.slideTweenTime, { left:xPos, top:yPos, ease:Quint.easeOut });
                 }
                                 
                 ImgDisplay.changeImg(slideNum); // Change the tourImg to the current slide
@@ -362,7 +374,7 @@ $(function()
             // *** Note: The for loop used to line up the img objs in the preloadArray to the slide objs in the slideArray using each img obj's unique id
             setContent:function(img, imgType, slideClass)
             {                
-                for(var i = 0; i < imgArrLen; i++)
+                for(var i = imgArrLen; i--;)
                 {
                     if(this.slideArray[i].uId === img.uId)
                     {
@@ -396,7 +408,8 @@ $(function()
         var SlideScrollbar = 
         {
             el: $('#slideScrollbar'),
-            handle: $('#slideScrollbar .scrollHandle'),
+            handle: $('#slideScrollHandle'),
+            doc: $(document), // Reference to the global document var, used to cut down on scope chain transversal
             isDragging: false, // Flag to indicate if the scrollbar handle is being dragged
             elHeight: 0, // Height of the scrollbar track
             elWidth: 0, // Width of the scrollbar track
@@ -422,7 +435,7 @@ $(function()
                         {
                             parent.isDragging = true;
 
-                            $(document).on('mousemove', function(e)
+                            parent.doc.on('mousemove', function(e)
                             {
                                 yPos = e.pageY - parent.topOffset - (parent.handleSize / 2);
                                 percent = (yPos / parent.elHeight); // Percentage that the handle is along the scrollbar track
@@ -436,9 +449,9 @@ $(function()
                                 return false; // Only needed in IE7/8 otherwise the scrollbar doesn't drag?
                             });
 
-                            $(document).on('mouseup', function()
+                            parent.doc.on('mouseup', function()
                             {
-                                $(document).off('mousemove mouseup');
+                                parent.doc.off('mousemove mouseup');
                                 parent.isDragging = false;
                                 parent.setHandlePos(SlideMenu.currSlideNum); // Set the positon after mouse up, it makes the handle seem elastic when the tour img doesn't change
                             });
@@ -447,26 +460,16 @@ $(function()
                         ImgDisplay.pauseTour();
                         return false; // Prevent mousedown event from bubbling
                     });                    
-                    
-                    this.initHandlePos();
                 }
                 else
                 {      
                     this.el.addClass('displayNone'); // Hide the scrollbar from touch screen devices
                 }
             },
-            // Set the initial position of the handle, both X and Y, the Y position is the only one changed after that
-            initHandlePos:function()
-            {
-                var xPos = -((this.handleSize / 2) - (this.elWidth / 2));
-                var yPos = (this.elHeight / 2) - (this.handleSize / 2);
-                
-                this.handle.css({ 'left':xPos, 'top':yPos }); // Center the scroll handle on the scrollbar track
-            },
             // Update the Y position of the scrollbar handle, called from SlideMenu.reorderSlides() and from the mouseup event in this obj
             // *** Note: If the handle is being dragged, the call from the SlideMenu is ignored because the yPos is already being updated by the move listener
             setHandlePos:function(slideNum)
-            {                
+            {
                 if(!this.isDragging)
                 {
                     var percent = (slideNum / (imgArrLen - 1));
@@ -485,7 +488,6 @@ $(function()
                 this.elWidth = this.el.width();
                 this.handleSize = this.handle.width();
                 this.topOffset = this.el.offset().top
-                this.initHandlePos();
                 this.setHandlePos(SlideMenu.currSlideNum);
             }
         }
@@ -500,6 +502,7 @@ $(function()
             el: $('#imgDisplay'),
             tourPlayBtn: $('#tourPlayBtn'),
             tourPauseBtn: $('#tourPauseBtn'),
+            tourImgMask: $('#tourImgMask'),
             slide: {}, // Reference to the current Slide obj
             currImg: {}, // The TourImg obj currently showing
             prevImg: {}, // Reference to the prev TourImg obj
@@ -534,6 +537,7 @@ $(function()
             {
                 this.slide = SlideMenu.slideArray[id]; // Reference to a specific Slide obj
                 
+                TabMenu.hideTab(); // If any of the tabs are showing when the tour img changes, return to the photo gallery
                 Interactive.resetIa(); // If any interactive boxes or alerts are showing when the tour img changes, close them
                 ImgName.changeName(this.slide.alt); // Change the text in the ImgName obj, resets its position if necessary
                 this.tweenOut();
@@ -736,17 +740,19 @@ $(function()
             {
                 var parent = this;
                 var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
+                var tourImg = this.currImg.img; // Reference to the img element that is the tour img itself
                 var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
                 var topOffset = this.el.offset().top
                 var xPos, yPos = 0;
                 
-                currImg.on('mouseover touchstart', function(e)
+                // *** Note: Listeners for the panning have to be attached to the tour img element and not the TourImg obj, otherwise these listeners interfere with the interactive btn listeners 
+                tourImg.on('mouseover touchstart', function(e)
                 {   
                     if(e.type === 'touchstart') { e.preventDefault(); }
                     if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
                 });
                 
-                currImg.on('mousemove touchmove', function(e) // *** Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
+                tourImg.on('mousemove touchmove', function(e) // *** Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
                 {
                     var evt = e;
                     
@@ -791,7 +797,31 @@ $(function()
             // Turn off the listeners for the panning feature when the tour returns to play mode
             panningOff:function()
             {
-                this.currImg.el.off();            
+                this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
+            },
+            // The tour img mask is put on top of the tour img and serves as a container for the tab menu pages and iaPics 
+            tourImgMaskOn:function(content)
+            {
+                this.pauseTween();
+                this.tourImgMask.removeClass('displayNone'); // Un-hide the tourImgMask element
+                this.tourImgMask.html(content);
+                TweenLite.to(this.tourImgMask, Param.stdFadeTime, { opacity:1 });
+            },
+            tourImgMaskOff:function(keepData)
+            {
+                var parent = this;
+                
+                TweenLite.to(this.tourImgMask, Param.stdFadeTime,
+                {
+                    opacity:0,
+                    onComplete:function()
+                    {
+                        parent.tourImgMask.addClass('displayNone');
+                        keepData ? parent.tourImgMask.children().detach() : parent.tourImgMask.empty(); // Clear the content from the DOM but keep its data and listeners intact if keepData is true
+                    }
+                });
+                
+                this.playTween();
             },
             // Reset the vars used for positioning of the TourImg obj when the window resizes
             resetSize:function()
@@ -863,7 +893,7 @@ $(function()
             {
                 var parent = this;
                 
-                TweenLite.to(this.alertMsg, .50,
+                TweenLite.to(this.alertMsg, Param.stdFadeTime,
                 {
                     opacity:0,
                     onComplete:function()
@@ -885,7 +915,6 @@ $(function()
         {
             infoBox: $('#infoBox'),
             infoBoxText: $('#infoBox p'),
-            iaPicBg: $('#iaPicBg'),
             iaPicArray: {}, // Associative array for the interactive pictures
             infoBoxShowing: false, // Flag to indicate if the interactive info box is open
             iaPicShowing: false, // Flag to indicate if the interactive pic is showing
@@ -918,7 +947,7 @@ $(function()
                     boxHeight = this.infoBoxText.height() + (parseFloat(this.infoBox.css('paddingTop')) * 2); // Calculate the distance to tween open the info box
                     
                     // Tween open the info box and when its open, un-hide the text and add its event listener
-                    TweenLite.to(this.infoBox, .50,
+                    TweenLite.to(this.infoBox, Param.stdFadeTime,
                     { 
                         height:boxHeight,
                         onComplete:function()
@@ -939,7 +968,7 @@ $(function()
                 this.infoBoxText.text('');
                 this.infoBoxText.addClass('hidden');
                 
-                TweenLite.to(this.infoBox, .50,
+                TweenLite.to(this.infoBox, Param.stdFadeTime,
                 {
                     height:0,
                     onComplete:function()
@@ -949,9 +978,11 @@ $(function()
                     }
                 });
             },
+            // *** Note: The iaPic feature and the tab menu share the tourImgMask element that's in the ImgDisplay obj and use it as a container for inserted content
             iaPic:function(uId)
             {
                 var parent = this;
+                var iaPicWrapper = $('<div class="iaPicWrapper">'); // Used to center iaPics if they're dimensions are smaller than the ImgDisplay obj dimensions
                 
                 this.resetIa();
                 
@@ -963,36 +994,23 @@ $(function()
                         this.iaPicCloseMsgShown = true;
                     }
                     
-                    ImgDisplay.pauseTween();
-                    this.iaPicBg.html(this.iaPicArray[uId].el); // Add the iaPic img element from the iaPicArray that matches the uId parameter
-                    this.iaPicBg.removeClass('displayNone'); // Un-hide the iaPic background element
-                    this.iaPicBg.on('click', function() { parent.removePic(); }); // Add a listener so the user can close the iaPic
+                    iaPicWrapper.html(this.iaPicArray[uId].el); // Add the iaPic img element from the iaPicArray that matches the uId parameter
+                    iaPicWrapper.one('click', function() { parent.removePic(); });
+                    ImgDisplay.tourImgMaskOn(iaPicWrapper);
                     this.iaPicShowing = true;
-                    TweenLite.to(this.iaPicBg, .50, { opacity:1 });
                 }
                 else
                 {
                     Alert.alertOn('The image you\'re trying to view has not fully downloaded yet.  Wait a sec and try again.', 5000); // *** Note: If the iaPic has not fully downloaded yet, alert the user
                 }
             },
+             // Remove the iaPic img element from the DOM and remove any listeners by passing false
             removePic:function()
             {
-                var parent = this;
-                
-                ImgDisplay.playTween();
-                
-                TweenLite.to(this.iaPicBg, .50,
-                {
-                    opacity:0,
-                    onComplete:function()
-                    {
-                        parent.iaPicBg.addClass('displayNone');
-                        parent.iaPicBg.empty(); // Remove the iaPic img element from the DOM and remove its listener
-                        parent.iaPicShowing = false;
-                    }
-                });
+                ImgDisplay.tourImgMaskOff(false);
+                this.iaPicShowing = false
             },
-            // Create a new interactive picture obj, make its uId a property of the iaPicArray, and the value of that property is the IaPic() obj itself
+            // Create a new interactive picture obj, make its uId a property of the iaPicArray, and the value of that property is the IaPic() obj itself, called from Preloader.preloadIaPics()
             createIaPicObj:function(uId, iaPicUrl)
             {
                 var iaPic = new IaPic(); // Create new IaPic() obj
@@ -1033,6 +1051,189 @@ $(function()
                 el.html(template);
             }
         };
+                
+        /*************
+        The TabMenu obj sets up and controls all of the tab navigation
+        *** Note: The TabMenu obj only sets up the tabs and handles the displaying of the tab menu pages, the tab pages themselves are separate self contained objs
+        *************/
+        var TabMenu = 
+        {
+            el: $('#tabMenu'),
+            photoGal: $('#photoGal'),
+            propInfo: $('#propInfo'),
+            propMap: $('#propMap'),
+            agentInfo: $('#agentInfo'),
+            calc: $('#calc'),
+            tabShowing: false, // Flag to indicate if a tab is in use
+                        
+            init:function()
+            {
+                var parent = this;
+                
+                if(config.fsbo) { this.agentInfo.remove(); } // If the tour was built as a 'For sale by owner' tour, don't show the Agent Info tab
+                
+                // Create the instances of the tab menu pages on load but don't add them to the DOM until the corresponding tab is clicked on
+                //PropInfo.init();
+                //PropMap.init();
+                //AgentInfo.init(); // ********************************* might not need these ********************************
+                Calc.init();
+                
+                // Event listeners for the tabs
+                this.photoGal.click(function()
+                {
+                    parent.hideTab();
+                });
+                this.propInfo.click(function()
+                {
+                    parent.showTab(PropInfo.el);
+                    parent.swapBorder($(this));
+                    PropInfo.init();
+                    PropInfo.needScrollbar();
+                });
+                this.propMap.click(function()
+                {
+                    parent.showTab(PropMap.el);
+                    parent.swapBorder($(this));
+                    PropMap.showMap();
+                });
+                this.agentInfo.click(function()
+                {
+                    parent.showTab(AgentInfo.el);
+                    parent.swapBorder($(this));
+                });
+                this.calc.click(function()
+                {
+                    parent.showTab(Calc.el);
+                    parent.swapBorder($(this));
+                });
+            },
+            // Send the html content of the chosen tab menu page to the tourImgMask for display
+            // *** Note: The tab menu and the iaPic feature share the tourImgMask element that's in the ImgDisplay obj and use it as a container for inserted content
+            showTab:function(content)
+            {
+                Interactive.resetIa(); // Close any of the interactive features that might be showing when a tab is selected
+                ImgDisplay.tourImgMaskOn(content);
+                this.tabShowing = true;
+            },
+            // Tell the tourImgMask to remove the tab menu content from the DOM and return to the photo gallery
+            hideTab:function()
+            {                
+                if(this.tabShowing)
+                {
+                    ImgDisplay.tourImgMaskOff(true);
+                    this.swapBorder(this.photoGal);
+                    this.tabShowing = false;
+                }
+            },
+            // Change the border to the current active tab
+            swapBorder:function(activeTab)
+            {
+                this.photoGal.removeClass('tabBorder');
+                this.propInfo.removeClass('tabBorder');
+                this.propMap.removeClass('tabBorder');
+                this.calc.removeClass('tabBorder');
+                
+                if(!config.fsbo) { this.agentInfo.removeClass('tabBorder'); }
+                
+                activeTab.addClass('tabBorder');
+            }
+        }
+        
+        /*************
+        The PropInfo obj is a tab menu page and gets its property info from the config file, it displays that info in a underscore.js template
+        *************/
+        var PropInfo = 
+        {
+            el: _.template($('#propInfoTemp').html(), { data:propInfo }, { variable:'prop' }),
+            aboutText: {},
+            
+            init:function()
+            {
+                 this.aboutText = $('#aboutText'); // Paragraph element containing the about text
+            },
+            // Determine if the height of the about text is too tall for its parent container and add a scrollbar if it needs one
+            needScrollbar:function()
+            {
+                var aboutTextHeight = this.aboutText.height(); // How tall the about text paragraph is
+                var aboutTextParentHeight = this.aboutText.parent().height(); // Height of the about text's parent container, equal to the height of the scrollbar if it's needed
+                var scrollbarOffset = $('#leftCol .tabHeaderAlt').height(); // Distance from the top of the left column to the top of the scrollbar
+                                                                
+                if(aboutTextHeight > aboutTextParentHeight) // If the height of the about text paragraph is too tall for its container, add the scrollbar
+                {
+                    var scrollbarObj = new Scrollbar(this.aboutText, aboutTextHeight, aboutTextParentHeight, scrollbarOffset);
+                    
+                    if(!Param.isTouchCapable) // Only use a visible scrollbar for non-touch devices
+                    {
+                        this.aboutText.after(scrollbarObj.el);
+                        scrollbarObj.init();
+                    }
+                    else
+                    {
+                        scrollbarObj.touchScroll();
+                    }
+                }                                
+            }
+        }
+        
+        /*************
+        The PropMap obj is a tab menu page and is used to display a Google map obj in a underscore.js template
+        *************/
+        var PropMap =
+        {
+            el: _.template($('#propMapTemp').html()),            
+            
+            // Setup the Google maps API for the address of the property
+            showMap:function()
+            {
+                var mapOptions =
+                {
+                    zoom: 16,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var map = new google.maps.Map(document.getElementById('mapCanvas'), mapOptions);                
+                var geocoder = new google.maps.Geocoder();
+                var address = propMap.mapAddress; // *** Note: The address used here is put together is the tour building process and put in the config file as one single string
+                
+                geocoder.geocode({ 'address': address }, function(results, status)
+                {
+                    if (status === google.maps.GeocoderStatus.OK)
+                    {                        
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker(
+                        {
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                    }
+                    else
+                    {
+                        Alert.alertOn('It seems there was an issue with the map for the following reason: ' + status, 5000);
+                    }
+                });
+            }
+        }
+        
+        /*************
+        The AgentInfo obj is a tab menu page and gets its agent info from the config file, it displays that info in a underscore.js template
+        *************/
+        var AgentInfo = 
+        {
+            el: _.template($('#agentInfoTemp').html(), { data:agentInfo }, { variable:'agent' })
+        }
+        
+        /*************
+        The Calc obj is a tab menu page and sets up a mortgage calculator in a underscore.js template
+        *************/
+        var Calc =
+        {
+            el: _.template($('#calcTemp').html()),
+            
+            init:function()
+            {
+                // *** might have issues with keeping the user entered numbers when tab is closed? same with map tab too?
+                // *** issue with detach in ImgDisplay.tourImgMaskOff() not working right?
+            }
+        }
         
         /*************
         Create the audio tag and setup the music feature *after* the tour starts
@@ -1042,9 +1243,10 @@ $(function()
             musicBtns: $('#musicBtns'),
             playBtn: $('#musicPlayBtn'),
             pauseBtn: $('#musicPauseBtn'),
-            audio: {},
-            supported: false,
-            isPlaying: false,
+            win: window, // Reference to the global window var, used to cut down on scope chain transversal
+            audio: {}, // The html5 audio obj
+            supported: false, // Flag used to indicate if html5 audio is supported
+            isPlaying: false, // Flag used to indicate if the music is playing or not
 
             init:function()
             {
@@ -1066,7 +1268,7 @@ $(function()
                         this.addPlayHandler();
                         this.addPauseHandler();
                     }
-                    else if(window.isOldIe) // If the browser doesn't support HTML5 audio, use a Flash fallback for old IE
+                    else if(this.win.isOldIe) // If the browser doesn't support HTML5 audio, use a Flash fallback for old IE
                     {
                         this.audio = $('#flashMusicPlayer').get(0);
                         this.checkAutoplay();
@@ -1074,9 +1276,9 @@ $(function()
                         this.addPauseHandler();
                         
                         // *** Note: The swf embed, function, and vars are setup in the IE conditional, in mainView.php
-                        window.song = music.mp3;
-                        window.autoplay = music.autoplay;
-                        window.startMusic();
+                        this.win.song = music.mp3;
+                        this.win.autoplay = music.autoplay;
+                        this.win.startMusic();
                     }
                     else // If the browser doesn't support HTML5 audio and is not old IE, remove the music btns
                     {
@@ -1089,10 +1291,10 @@ $(function()
                 el.append($('<source>').attr({ 'src':path, 'type':type }));  
             },
             // If music is supposed to autoplay and the device is not a phone, autoplay the music
-            // *** Note: Autoplay is turned off for phones because of possible slow connections and/or bandwidth restrictions
+            // *** Note: Autoplay is turned off for touch devices because of possible slow connections and/or bandwidth restrictions
             checkAutoplay:function()
             {
-                if(music.autoplay && $(window).width() > 850)
+                if(music.autoplay && !Param.isTouchCapable)
                 {
                     if(this.supported) { this.audio.attr('autoplay', 'autoplay'); }
                     this.isPlaying = true;
@@ -1142,6 +1344,202 @@ $(function()
             }
         }
         
+        /********************************************************************
+        Constructor objects (In alphabetical order)
+        These objects are used multiple times throughout the tour application
+        ********************************************************************/
+       
+       /*************
+        Builds a new interactive picture obj, instantiated in Interactive.createIaPicObj()
+        // *** Note: Interactive pics are preloaded at the same time as their parent tour imgs so they're viewable when the tour img is on the screen
+        *************/
+        function IaPic()
+        {
+            var parent = this;
+            
+            this.el = new Image();
+            this.height = 0;
+            this.width = 0;
+            this.loaded = false;
+            // Start the download of the iaPics and check every 1/4 second to see if its finished
+            this.preloadIaPic = function(iaPicUrl)
+            {
+                var loadTimer = setInterval(function()
+                {
+                    if(parent.el.width > 0)
+                    {
+                        clearInterval(loadTimer);
+                        parent.loaded = true;
+                        parent.setSize();
+                    }
+                }, 250);
+                
+                parent.el.src = iaPicUrl;
+                parent.el.alt = 'Interactive picture';
+            }
+            // Set the size of the iaPic using CSS classes that have style rules based on the dimensions of the imgDisplay
+            this.setSize = function()
+            {
+                if(this.el.height >= this.el.width) // Interactive picture is a vertical panorama
+                {
+                    this.el.className = 'vertIaPic';
+                }
+                else if((this.el.height / this.el.width) <= Param.maxHoriRatio) // Interactive picture is a horizontal panorama
+                {
+                    this.el.className = 'horiIaPic';
+                }
+                else // Standard ratio interactive picture
+                {
+                    this.el.className = 'stdIaPic';
+                }
+            }
+        }
+        
+        // The Scollbar obj creates a customized scrollbar for content that is too tall for its parent container
+        // *** Note: The Scrollbar obj uses a template that has to be appended to the DOM before anything else can happen
+        function Scrollbar(content, contentHeight, contentParentHeight, scrollbarOffset)
+        {
+            this.el = _.template($('#scrollbarTemp').html());
+            
+            // Scrollbar instance vars are created here *after* this.el is added to the DOM, otherwise all CSS values return undefined
+            this.init = function()
+            {
+                this.track = $('#scrollTrack'); 
+                this.handle = $('#scrollHandle');
+                this.upArrow = $('#scrollUpArrow');
+                this.downArrow = $('#scrollDownArrow');
+                this.handleSize = this.handle.height(); // Diameter of the scroll handle
+                this.upArrowHeight = this.upArrow.height(); // Height of the up and down arrow btns, *assuming* both btns are the same size
+                this.trackHeight = contentParentHeight - (this.upArrowHeight * 2); // Height of the scroll track
+                this.topLimit = scrollbarOffset + this.upArrowHeight; // Top most point the handle can be moved to
+                this.botLimit = (this.topLimit + this.trackHeight) - this.handleSize; // Bottom most point the handle can be moved to
+                this.scrollAmt = contentHeight - contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // The height differance between the content and its parent container, accounts for top padding
+                this.doc = $(document); // Reference to the global document var, used to cut down on scope chain transversal
+                this.isDragging = false; // Flag to indicate if the scrollbar handle is being dragged  
+                this.setParams();
+                this.setListeners();
+            }
+            // Set the initial positions of the scrollbar elements
+            this.setParams = function()
+            {
+                var trackY = scrollbarOffset + this.upArrowHeight;
+                var handleY = scrollbarOffset + this.upArrowHeight;
+                var downArrowY = scrollbarOffset + this.trackHeight + this.upArrowHeight;
+                    
+                this.track.css({ 'height':this.trackHeight, 'top':trackY });
+                this.handle.css({ 'top':handleY });
+                this.downArrow.css({ 'top':downArrowY });                
+            }
+            // Assign event listeners to the scrollbar elements         
+            this.setListeners = function()
+            {       
+                var parent = this;
+                var handleOffset = this.upArrow.offset().top - scrollbarOffset; // Used in calculating the yPos for the scrollhandle
+                var yPos = 0;
+                    
+                this.upArrow.on('click', function(e) { parent.arrowBtns('up', e, yPos); });
+                this.downArrow.on('click', function(e) { parent.arrowBtns('down', e, yPos); });
+                this.handle.on('mousedown', function(e)
+                {
+                    if(e.which === 1)
+                    {
+                        parent.isDragging = true;
+                        parent.doc.on('mousemove', function(e)
+                        {
+                            yPos = e.pageY - handleOffset - (parent.handleSize / 2); // Location of the handle based on the location of the mouse pointer
+                            parent.setHandlePos(yPos);        
+
+                            return false; // Only needed in IE7/8 otherwise the scrollbar doesn't drag?
+                        });
+                        parent.doc.on('mouseup', function()
+                        {
+                            parent.doc.off('mousemove mouseup');
+                            parent.isDragging = false;
+                        });
+                    }
+
+                    return false; // Prevent mousedown event from bubbling
+                });
+            }
+            // Move the handle either up or down depending on which arrow was clicked
+            this.arrowBtns = function(upDown, e, yPos)
+            {
+                if(e.which === 1)
+                {
+                    yPos = parseInt(this.handle.css('top')); // Get the current top position of the handle
+                    upDown === 'up' ? yPos = yPos -= Param.pixelsPerClick : yPos = yPos += Param.pixelsPerClick; // Add to the current top position depending on which arrow was clicked
+                    this.setHandlePos(yPos);
+                }
+            }
+            // Update the top position of the handle
+            this.setHandlePos = function(yPos)
+            {
+                if(yPos > this.topLimit && yPos < this.botLimit) // Prevent the handle from moving off the scrollbar track
+                {
+                    this.handle.css({ 'top':yPos });
+                    this.setContentPos(yPos);
+                }
+                else if(yPos <= this.topLimit) // If the handle's yPos is set to go past the top/bot limits in either this.arrowBtns() or by the drag listener, set the handle to its top/bot limit and do the same with the content
+                {
+                    this.handle.css({ 'top':this.topLimit });
+                    this.setContentPos(yPos, 'top');
+                }
+                else if(yPos >= this.botLimit)
+                {
+                    this.handle.css({ 'top':this.botLimit });
+                    this.setContentPos(yPos, 'bot');
+                }
+                
+            }
+            // Scroll the content
+            // *** Note: When the scroll handle is told to go past the limits, set the content to its top or bottom most position
+            this.setContentPos = function(handleY, hitLimit)
+            {
+                var percent = (handleY - this.topLimit) / this.trackHeight; // The percentage amount of how far the handle is down the track
+                var yPos = -(this.scrollAmt * percent); // The content yPos is moved the same percentage as the handle yPos
+                
+                if(!hitLimit) { content.css({ 'top':yPos }); }
+                else { hitLimit === 'top' ? content.css({ 'top':0 }) : content.css({ 'top':-(this.scrollAmt) }); }
+            }
+            
+            // If the device has a touch screen, use touch scrolling instead of a scrollbar
+            // *** Revise later: A second touchmove after content is scrolled once returns the content to the top position, this is due to the recalculation of moveAmt
+            // *** Revise later: Touch scrolling is kinda buggy on smart phones and Nook tablet. Content scrolls too far down, but only sometimes, and is not very responsive
+            this.touchScroll = function() 
+            {
+                var evt;
+                
+                content.css({ 'top':0 }); // Changes the top value from 'auto' to a numeric value, otherwise Nan is returned in touchmove handler
+
+                content.on('touchstart', function(e)
+                {
+                    e.preventDefault();
+                    evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                    
+                    var scrollAmt = contentHeight - contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
+                    var touchPoint = evt.pageY; // Initial point of contact
+                    var moveAmt, contentYPos = 0;
+                   
+                    content.on('touchmove', function(e)
+                    {
+                        e.preventDefault();
+                        evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                        moveAmt = evt.pageY - touchPoint; // moveAmt is the distance to move the content based on where the initial contact point was
+                        contentYPos = parseInt(content.css('top')) + moveAmt; // contentYPos is the current y position of the content
+
+                        if(contentYPos <= 0 && contentYPos > - (scrollAmt * 2)) // *** scrollAmt * 2 is needed only for the iPad? ***
+                        {
+                            content.css({ 'top':moveAmt });
+                        }
+                    });
+                });
+                content.on('touchend', function()
+                {
+                    content.off('touchmove');
+                });
+            }            
+        }
+        
         /*************
         Builds a new Slide obj, instantiated in SlideMenu.createSlides()
         *** Note: Empty properties are set in SlideMenu.setContent() when the Slide's corresponding tour img has finished downloading
@@ -1182,7 +1580,7 @@ $(function()
                 }
             });
         }
-        
+                
         /*************
         Builds a new TourImg obj, instantiated in ImgDisplay.setNewImg()
         *** Note: All of the properties of a TourImg obj are based off of the accompanying Slide obj's properties passed in on init
@@ -1271,53 +1669,7 @@ $(function()
             // Add event listeners for the TourImg obj
             this.img.on('click touchstart', function() { ImgDisplay.pause(); });
         }
-        
-        /*************
-        Builds a new interactive picture obj, instantiated in Interactive.createIaPicObj()
-        // *** Note: Interactive pics are preloaded at the same time as their parent tour imgs so they're viewable when the tour img is on the screen
-        *************/
-        function IaPic()
-        {
-            var parent = this;
-            
-            this.el = new Image();
-            this.height = 0;
-            this.width = 0;
-            this.loaded = false;
-            // Start the download of the iaPics and check every 1/4 second to see if its finished
-            this.preloadIaPic = function(iaPicUrl)
-            {
-                var loadTimer = setInterval(function()
-                {
-                    if(parent.el.width > 0)
-                    {
-                        clearInterval(loadTimer);
-                        parent.loaded = true;
-                        parent.setSize();
-                    }
-                }, 250);
-                
-                parent.el.src = iaPicUrl;
-                parent.el.alt = 'Interactive picture';
-            }
-            // Set the size of the iaPic using CSS classes that have style rules based on the dimensions of the imgDisplay
-            this.setSize = function()
-            {
-                if(this.el.height >= this.el.width) // Interactive picture is a vertical panorama
-                {
-                    this.el.className = 'vertIaPic';
-                }
-                else if((this.el.height / this.el.width) <= Param.maxHoriRatio) // Interactive picture is a horizontal panorama
-                {
-                    this.el.className = 'horiIaPic';
-                }
-                else // Standard ratio interactive picture
-                {
-                    this.el.className = 'stdIaPic';
-                }
-            }
-        }
-       
+               
         Param.init();
         WindowSize.init();
         SlideMenu.init();
@@ -1325,11 +1677,16 @@ $(function()
         Preloader.init();
         ImgDisplay.init();
         TextBoxes.init();
+        TabMenu.init();
     });
 });
 
 // ************** remember your on an EX branch ****************
-// *** Finish tab menu, remember agent info tab will need to not show if fsbo flag is true
-// Deal with tab position, borders, selected, and so on too, Might have tab ul equal imgDisplay width, and put the bottom border on that
-// Then layout the li elements so they cover the border, then apply the TRL border to those...?  Still might have issue with tab positioning being off?
+// *** Finish tab menu ***
+// tab page is not fully overlapping on iPad?
+// Look into using sprites for all of the small jpegs and pngs...
+// Might have issue with the music not auto playing on new touch capable windows machines, find way to detect only mobile devices like how Param.isTouchCapable is found?
+// IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
+// IDEA: what about having an executive obj that acts as an API between objs?  Calls from one obj to another would go through the exObj or anytime something needs to happen and things need to be reset, the exObj is used?
+// IDEA: float the img name in the upper right corner with no attachment?? also make a little bigger? gets rid of needing to be perfect issues and extra lines in media queries
 // Test Windows 8 touch screens at Best Buy when tab menu is done

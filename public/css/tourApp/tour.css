@@ -1,19 +1,19 @@
 /******* Main stylesheet for the virtual tour application *******/
+/******* Except for the Reset section, the rules are laid out in the order of tag, id, class, then alphabetized inside of those groups *******/
 
 /*************
-Reset section
+Reset and utility section
 **************/
-/* Zeros margin and padding so as to add where needed instead of using defaults */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
+ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
+thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
     border:0;
     font:inherit;
     margin:0;
     padding:0;
     vertical-align:baseline;
 }
-/* Sets HTML5 tags to block level elements for older browsers that don't support them */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
     display:block;
 }
 ol, ul {
@@ -44,13 +44,6 @@ table {
 /*************
 Base theme, theme specific styles are added in the theme stylesheets
 *************/
-body {
-    background-color:#444;
-    color:white; /* All text in the tour is white unless otherwise specified */
-    font-family:Verdana, Arial, Times;
-    font-size:100%;
-    line-height:1em;
-}
 a {
     border:none;
     color:white;
@@ -61,226 +54,347 @@ audio { /* Because custom controls are used for the music and the audio element 
     width:0;
     height:0;
 }
+body {
+    background-color:#444;
+    color:white; /* All text in the tour is white unless otherwise specified */
+    font-family:Verdana, Arial, Times;
+    font-size:100%;
+    line-height:1em;
+}
 #jsWarning {
     background-color:red;
     font-size:1.25em;
     font-weight:bold;
     line-height:1.5em;
+    text-align:center;
+}
+#tabMenu ul li {
+    -moz-box-shadow:3px 3px 2px #111;
+    -webkit-box-shadow:3px 3px 2px #111;
+    box-shadow:3px 3px 2px #111;
+}
+.borderTL {
+    border-top:1px solid white;
+    border-left:1px solid white;
+}
+.borderTLBlk {
+    border-top:1px solid black;
+    border-left:1px solid black;
+}
+.borderTopBlk {
+    border-top:1px solid black;
+}
+.clickable {
+    cursor:pointer; /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */
+}
+.displayNone {
+    display:none
 }
 .dropShadow {
     -moz-box-shadow:5px 5px 3px #111;
     -webkit-box-shadow:5px 5px 3px #111;
     box-shadow:5px 5px 3px #111;
 }
-.pt85em {
-    font-size:0.85em;
+.fluid {
+    max-width:100%; /* For fluid imgs */
+}
+.hidden {
+    visibility:hidden;
 }
 .infoText {
     line-height:1.25em;
 }
-.borderTL {
-    border-top:1px solid white;
-    border-left:1px solid white;
-}
-.borderTRL {
-    border-top:1px solid white;
-    border-left:1px solid white;
-    border-right:1px solid white;
-}
-.opacity80 {
-    filter:alpha(opacity=80);
-    opacity:0.80;
-}
-.opacity66 {
-    filter:alpha(opacity=66);
-    opacity:0.66;
+.loadingMask {
+    background-color:black;
 }
 .opacity0 {
     filter:alpha(opacity=0); /* Some elements need to start at zero opacity so they can be faded in */
     opacity:0;
 }
-.underline {
-    text-decoration:underline;
+.opacity66 {
+    filter:alpha(opacity=66);
+    opacity:0.66;
 }
-.displayNone {
-    display:none
+.opacity80 {
+    filter:alpha(opacity=80);
+    opacity:0.80;
 }
-.hidden {
-    visibility:hidden;
+.pt85em {
+    font-size:0.85em;
+}
+.scrollTrack {
+    background-color:black;
+    width:1px;
 }
 .slide {
     background-color:#333;
     border:0.125em solid white;
 }
-.loadingMask {
-    background-color:black;
+.tabBorder {
+    border-top:1px solid white;
+    border-left:1px solid white;
+    margin:-1px; /* Keeps the border from changing the layout when added/removed */
 }
-.clickable {
-    cursor:pointer; /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */
+.tabHeader {
+    border-bottom:1px solid black;
+    font-size:1.75em;
+    line-height:1.5em; /* em cascade */
+    margin-bottom:.75em; /* em cascade */
 }
-#nextBtn, #prevBtn, #alertMsg, #infoBox, #iaPicBg, #musicPlayBtn, #musicPauseBtn, #tourPlayBtn, #tourPauseBtn, #tabMenu li, .iaBtns, .scrollHandle {
+.tabHeaderAlt {
+    font-size:1.75em;
+    line-height:1.5em; /* em cascade */
+}
+.tabInfoLines {
+    border-bottom:1px solid black;
+}
+.underline {
+    text-decoration:underline;
+}
+#musicPauseBtn, #musicPlayBtn, #tourPauseBtn, #tourPlayBtn {
     cursor:pointer;
 }
-#nextBtn:hover, #prevBtn:hover {
-    filter:alpha(opacity=90);
-    opacity:0.90;
-}
-#slideScrollbar {
-    background-color:black;
-}
-
 
 /*************
-Base structure : 16:10 aspect ratio for the tour wrapper
-Note: These rules *don't* change with the screen size
-Note: Since many elements share the same style rules, they're grouped here instead of using a class name on each one or repeating the rule multiple times 
+Base structure: 16:10 aspect ratio for the tour wrapper
 *************/
-#tourWrapper, #slideMenu, #slideScrollbar, #imgDisplay, #imgDisplay div, #tabMenu, #addressBox, #contactBox, #shtLogo, #nextBtn, #prevBtn, #imgName, #btnBar, #loading img, .loadingMask, .slide, .iaBtns, .scrollHandle {
-    position:absolute;
-}
-#tourWrapper, #slideMenu, #imgDisplay {
-    overflow:hidden;
-}
-#btnBar div, #btnBar p, #tabMenu li {
-    display:inline;
-}
-#tabMenu, #btnBar, #alertMsg, #infoBox, #iaPicBg {
-    z-index:2;
-}
-#nextBtn img, #prevBtn img, #shtLogo a img, .scrollHandle img {
-    max-width:100%; /* For fluid imgs */
-}
-.slide, .loadingSlide, #iaPicBg, #jsWarning {
-    text-align:center;
-}
-.loadingSlide, .horiSlide, .horiIaPic {
-    vertical-align:middle;
-}
-.stdIaPic, .vertIaPic {
-    vertical-align:bottom;
-}
-#addressBox {    
+#addressBox {
     background:url("../../img/tourApp/addressBoxBg.png");
-}
-#contactBox {
-    background:url("../../img/tourApp/contactBoxBg.png");
-    text-align:right;
-}
-
-/*************
-Responsive structure
-Note: These rules *do* change with the screen size
-*************/
-#tourWrapper {
-    height:46.875em;
-    left:50%;
-    margin:-23.4375em 0 0 -37.5em;
-    top:50%;
-    width:75em;
-}
-#slideMenu {
-    height:31.25em;
-    left:60.5em;
-    top:5em;
-    width:14.375em;
-}
-#slideScrollbar {
-    height:34.375em;
-    left:58.5em;
-    top:3.5em;
-    width:1px;
-}
-#imgDisplay {
-    height:34.375em;
-    left:3.125em;
-    top:3.5em;
-    width:53.125em;
-}
-#tabMenu {
-    left:3.125em;
-    top:2.125em;
-}
-#tabMenu li { /* The tabs' backgrounds are set in the theme stylesheets */
-    margin-right:0.1875em;
-    padding:0.4375em;
-}
-#addressBox {    
     height:6.25em;
     left:3.125em;
     padding:0.4375em 0 0 0.625em;
-    top:39em;
+    position:absolute;
+    top:39.5em;
     width:21.75em;
 }
-#contactBox {
-    height:6.25em;
-    left:30.25em;
-    padding:0.4375em 0.625em 0 0;
-    top:39em;
-    width:26em;
+#agentLogo {
+    display:inline-block;
+    width:15.625em;
 }
-#contactBox img { /* Agent's picture *if* there is one */
-    float:left;
-    height:5.75em;
-    margin:-0.1875em 0 0 0.25em; /* Negitive margin used to move the img back up because of the top padding on the contactBox */
-}
-#shtLogo {
-    left:64em;
-    top:40em;
-    width:7.8125em;
-}
-#shtLogo p {
-    margin-bottom:0.25em;
-}
-#nextBtn {
-    left:63em;
-    top:36.25em;
-    width:9.375em; /* Width of the btn img, used to constrain the img's size when fluid */
-}
-#prevBtn {
-    left:63em;
-    top:3.0625em;
+#agentPic {
+    display:inline-block;
     width:9.375em;
 }
-#imgName {
-    height:1.625em;
-    right:18.75em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
-    line-height:1.625em; /* Centers text vertically, needs to be the same as height */
-    top:8.125em;
-}
-#imgName p {
-    margin:0 0.3125em;
-}
-#btnBar {
-    height:1.625em;
-    left:3.1875em;
-    line-height:1.625em; /* Centers text vertically, needs to be the same as height */
-    top:36.25em;
-    width:53.0625em; /* Shortend 1px to allow the imgDisplay's border to show  */
-}
-#btnBar div p:first-child {
-    margin-left:0.625em; /* Spaces out the Slideshow and Music labels */
-}
 #alertMsg {
+    cursor:pointer;
     margin:-1.5625em 0 0 -6.25em;
     padding:0.5em;
     left:50%;
     top:50%;
     width:12.5em;
+    z-index:2;
 }
+#btnBar {
+    height:1.625em;
+    left:3.1875em;
+    line-height:1.625em; /* Centers text vertically, needs to be the same as height */
+    position:absolute;
+    top:36.75em;
+    width:53.0625em; /* Shortend 1px to allow the imgDisplay's border to show  */
+    z-index:2;
+}
+    #btnBar div p:first-child {
+        margin-left:0.625em; /* Spaces out the Slideshow and Music labels */
+    }
+    #btnBar div, #btnBar p {
+        display:inline;
+    }
+#contactBox {
+    background:url("../../img/tourApp/contactBoxBg.png");
+    height:6.25em;
+    left:30.25em;
+    padding:0.4375em 0.625em 0 0;
+    position:absolute;
+    text-align:right;
+    top:39.5em;
+    width:26em;
+}
+    #contactBox img { /* Agent's picture *if* there is one */
+        float:left;
+        height:5.75em;
+        margin:-0.1875em 0 0 0.25em; /* Negitive margin used to move the img back up because of the top padding on the contactBox */
+    }
+#imgDisplay {
+    height:34.375em;
+    left:3.125em;
+    overflow:hidden;
+    position:absolute;
+    top:4em;
+    width:53.125em;
+}
+    #imgDisplay > div {
+        position:absolute;
+    }
+#imgName {
+    height:1.625em;
+    position:absolute;
+    right:18.75em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
+    line-height:1.625em; /* Centers text vertically, needs to be the same as height */
+    top:8.625em;
+}
+    #imgName p {
+        margin:0 0.3125em;
+    }
 #infoBox {
+    cursor:pointer;
     height:0; /* The height of the box has to initially be 0. This is because the text appended into the p element pops open the div and spoils the opening tween if not set to 0 */
     padding:0.5em;
     width:15.625em;
+    z-index:2;
 }
-#iaPicBg {
+#nextBtn {
+    cursor:pointer;
+    left:63em;
+    position:absolute;
+    top:36.75em;
+    width:9.375em; /* Width of the btn img, used to constrain the img's size when fluid */
+}
+#prevBtn {
+    cursor:pointer;
+    left:63em;
+    position:absolute;
+    top:3.5625em;
+    width:9.375em;
+}
+#propInfoDownArrow {
+    top:27.25em;
+}
+#propInfoUpArrow {
+    top:3.5em;
+}
+#scrollbar {
+    float:left;
+}
+#scrollTrack {
+    position:absolute;
+}
+#shtLogo {
+    left:64em;
+    position:absolute;
+    top:40.5em;
+    width:7.8125em;
+}
+    #shtLogo p {
+        margin-bottom:0.25em;
+    }
+#slideMenu {
+    height:31.25em;
+    left:60.5em;
+    overflow:hidden;
+    position:absolute;
+    top:5.5em;
+    width:14.375em;
+}
+#slideScrollbar {
+    height:34.375em;
+    left:58.5em;
+    position:absolute;
+    top:4em;
+}
+#tabMenu {
+    left:3.125em;
+    position:absolute;
+    top:2em;
+    z-index:2;
+}
+    #tabMenu li { /* The tabs' backgrounds are set in the theme stylesheets */
+        cursor:pointer;
+        display:inline;
+        margin-right:0.1875em;
+        padding:0.4375em;
+    } 
+#tourImgMask {
     height:34.375em; /* This needs to match the height of the imgDisplay */
-    line-height:34.375em;
+    width:53.125em; /* This needs to match the width of the imgDisplay */
+    z-index:2;
+}
+#tourWrapper {
+    height:46.875em;
+    left:50%;
+    margin:-23.4375em 0 0 -37.5em;
+    overflow:hidden;
+    position:absolute;
+    top:50%;
+    width:75em;
+}
+.iaBtns {
+    cursor:pointer;
+    position:absolute;
+}
+.iaPicWrapper {
+    cursor:pointer;
+    height:34.375em; /* This needs to match the height of the imgDisplay */
+    line-height:34.375em; /* This needs to match the height of the imgDisplay */
+    text-align:center;
     width:53.125em; /* This needs to match the width of the imgDisplay */
 }
 .scrollHandle {
+    cursor:pointer;
     height:1.125em; /* Same as the scrollhandle img dimensions */
+    margin-left:-0.5625em; /* Equals half the width of the handle, centers the handle on the scrollbar track */
+    position:absolute;
     width:1.125em;
 }
+.scrollArrows {
+    cursor:pointer;
+    height:1.25em; /* Same as the up/down scrollbar arrow img dimensions */
+    margin-left:-0.6875em; /* Equals half the width of the handle, centers the handle on the scrollbar track */
+    position:absolute;
+    width:1.375em;
+}
+.tabContentBox { /* All tab menu pages are contained within elements of this class */
+    height:29.375em;
+    left:50%;
+    margin:-14.6875em 0 0 -24.0625em;
+    overflow:hidden;
+    position:absolute;
+    top:50%;
+    width:48.125em;
+}
+.tabImgs {
+    float:left;
+    text-align:center;
+    width:17em;
+}
+    .tabImgs img {
+        margin-bottom:0.5em;
+    }
+.tabInfo {
+    float:left;
+    width:30em;
+}
+.tabInfoLines {
+    line-height:1.75em;
+    word-wrap:break-word;
+}
+.tabLeftCol {
+    float:left;
+    margin-right:2em;
+    width:24em;
+}
+    .tabLeftCol article {
+        height:25.75em;
+        overflow:hidden;
+        width:24em;
+    }
+        .tabLeftCol article p { /* About text for the property info tab */
+            float:left;
+            margin-right:0.5em;
+            padding:1em 1em 0 1em;
+            position:relative;
+            width:21em;
+        }
+.tabRightCol {
+    float:left;
+    width:22em;
+}
+    .tabRightCol div {
+        margin-top:1.75em;
+        padding:0.5em 0 0 0.5em;
+    }
+        .tabRightCol div p {
+            line-height:1.75em;
+        }
 
 /*******
 Styles for the loading mask
@@ -291,11 +405,13 @@ Styles for the loading mask
 #loading img {
     left:50%;
     margin:-0.4375em 0 0 -4em;
+    position:absolute;
     top:50%;
     z-index:301;
 }
 .loadingMask {
     height:46.875em; /* Same as tourWrapper height */
+    position:absolute;
     width:37.75em; /* 1/2 of tourWrapper width plus a 1/4 em to prevent any gap from appearing */
     z-index:300; /* Has to be on top of all other elements */
 }
@@ -304,9 +420,20 @@ Styles for the loading mask
 Slide menu classes
 Note: The .slide class applies to the parent div which is the slide itself, the other classes apply to the imgs inside the slides
 *******/
+.horiSlide {
+    height:auto;
+    vertical-align:middle;
+    width:9.125em;
+}
+.loadingSlide {
+    text-align:center;
+    vertical-align:middle;
+}
 .slide {
     height:6em;
     line-height:5.75em; /* Slide height minus the borders */
+    position:absolute;
+    text-align:center;
     width:9.375em;
 }
 .stdSlide { /* Height and width of the slide imgs equals the h&w of the slide minus the slide's borders */
@@ -317,14 +444,14 @@ Note: The .slide class applies to the parent div which is the slide itself, the 
     height:5.75em;
     width:auto;
 }
-.horiSlide {
-    height:auto;
-    width:9.125em;
-}
 
 /*******
 Tour img size classes
 *******/
+.horiImg {
+    height:34.375em; /* This needs to match the height of the imgDisplay */
+    width:auto;
+}
 .stdImg {
     height:auto;
     width:63.75em; /* This needs to be 20% larger than the imgDisplay width so the img has room to tween */
@@ -333,25 +460,24 @@ Tour img size classes
     height:auto;
     width:53.125em; /* This needs to match the width of the imgDisplay */
 }
-.horiImg {
-    height:34.375em; /* This needs to match the height of the imgDisplay */
-    width:auto;
-}
 
 /*******
 Interactive picture size classes
 *******/
+.horiIaPic {
+    height:auto;
+    width:53.125em; /* This needs to match the width of the imgDisplay */
+    vertical-align:middle;
+}
 .stdIaPic {
     height:auto;
     width:53.125em; /* This needs to match the width of the imgDisplay */
+    vertical-align:bottom;
 }
 .vertIaPic {
     height:34.375em; /* This needs to match the height of the imgDisplay */
     width:auto;
-}
-.horiIaPic {
-    height:auto;
-    width:53.125em; /* This needs to match the width of the imgDisplay */
+    vertical-align:bottom;
 }
 
 /*************
@@ -387,12 +513,9 @@ only screen and (min-height:580px) and (max-height:634px) {
     body {
         font-size:12px;
     }
-    #tabMenu {
-        top:2.1875em;
-    }
     #btnBar {
         left:3.25em;
-        top:36.3125em;
+        top:36.8125em;
     }
     #imgName {
         right:18.6875em;
@@ -411,11 +534,8 @@ only screen and (min-height:490px) and (max-height:534px) {
     body {
         font-size:10px;
     }
-    #tabMenu {
-        top:2.0625em;
-    }
     #btnBar {
-        top:36.3125em;
+        top:36.8125em;
     }
 }
 @media
@@ -423,9 +543,6 @@ only screen and (min-width:701px) and (max-width:775px),
 only screen and (min-height:445px) and (max-height:489px) {
     body {
         font-size:9px;
-    }
-    #tabMenu {
-        top:2.25em;
     }
 }
 @media
