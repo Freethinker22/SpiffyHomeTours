@@ -132,7 +132,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                     <h1 class="tabHeaderAlt">Details</h1>
                     <ul class="borderTopBlk">
                         <% _.each(prop.data.inputs, function(input) { %>
-                            <li class="tabInfoLines">
+                            <li class="tabBotBorder tabInfoLines">
                                 <%= input %>
                                 <% /* Any JSON data that is a string of HTML needs to use <%= instead of <%- because the second one escapes HTML special chars and will mess up any HTML with double quotes in the data */ %>
                             </li>
@@ -184,7 +184,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
                 <div class="tabInfo">
                     <ul>
                         <% _.each(agent.data.inputs, function(input) { %>
-                            <li class="tabInfoLines">
+                            <li class="tabBotBorder tabInfoLines">
                                 <%= input %>
                             </li>
                         <% }); %>
@@ -196,7 +196,26 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
         <!-- *** Calculator tab page *** -->
         <script id="calcTemp" type="text/template">
             <section class="tabContentBox">
-                <p>Calculator Tab</p>
+              <h1 class="tabHeader">
+                Mortgage Calculator
+              </h1>
+              
+              <ul class="tabCalc">
+                <li class="tabBotBorder">
+                  <label for="price">Purchase Price</label>
+                  <input id="price" type="text" />
+                </li>
+                
+                <li class="tabBotBorder">
+                  <label for="downPmt">Down Payment</label>
+                  <input id="downPmt" type="text" />
+                </li>
+                
+                <li class="tabBotBorder">
+                  <label for="interestRate">Interest Rate</label>
+                  <input id="interestRate" type="text" />
+                </li>
+              </ul>
             </section>
         </script>
         

@@ -48,11 +48,11 @@ $(function()
             isTouchCapable: false,
             
             init:function()
-            {
+            {                
                 if(('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0)) // Detect browsers with either touch events or pointer events running on touch capable devices
                 {
                     this.isTouchCapable = true;
-                }
+                }                
             }
         }
         
@@ -1677,7 +1677,7 @@ $(function()
         Preloader.init();
         ImgDisplay.init();
         TextBoxes.init();
-        TabMenu.init();
+        TabMenu.init(); 
     });
 });
 

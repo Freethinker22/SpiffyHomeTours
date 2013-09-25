@@ -139,13 +139,12 @@ body {
     border-bottom:1px solid black;
     font-size:1.75em;
     line-height:1.5em; /* em cascade */
-    margin-bottom:.75em; /* em cascade */
 }
 .tabHeaderAlt {
     font-size:1.75em;
     line-height:1.5em; /* em cascade */
 }
-.tabInfoLines {
+.tabBotBorder {
     border-bottom:1px solid black;
 }
 .underline {
@@ -353,6 +352,7 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 }
 .tabImgs {
     float:left;
+    margin-top:1.25em;
     text-align:center;
     width:17em;
 }
@@ -361,12 +361,34 @@ Base structure: 16:10 aspect ratio for the tour wrapper
     }
 .tabInfo {
     float:left;
+    margin-top:1.25em;
     width:30em;
 }
 .tabInfoLines {
     line-height:1.75em;
     word-wrap:break-word;
 }
+.tabCalc {
+    margin:0 auto;
+    width:46.125em;
+}
+    .tabCalc li {
+        line-height:2.25em;
+    }
+    .tabCalc li input {
+        display:inline;
+        left:25em;
+        height:2em;
+        padding-top:0.125em;
+        position:absolute;
+/*        vertical-align:middle;*/
+        /*** how to verticaly algin input boxes in li elements??? using pos:absolute messes up their natural centering???  maybe better way that using absolute pos??? ***/
+        
+        /*** try floating the label and input while putting a height not line-height on the li? ***/
+    }
+    .tabCalc li label {
+        margin-left:0.5em;
+    }
 .tabLeftCol {
     float:left;
     margin-right:2em;
