@@ -377,23 +377,12 @@ Base structure: 16:10 aspect ratio for the tour wrapper
     }
     .tabCalc li input { /* Note: Have to use px for the input elements because of some inherit font-size issue? */
         display:inline;
-<<<<<<< HEAD
-        left:25em;
-        height:2em;
-        margin-top:0.4375em;
-        position:absolute;
-        width:13em;
-        
-        /*** size of input box won't adjust on resize??? ***/
-        /*** could use % or resize in media queries? ***/
-=======
         font-size:16px;
         left:300px;
         height:30px;
         margin-top:3px;
         position:absolute;
         width:150px;
->>>>>>> d6ef531e6aa1f02872f1e061e328bafddc8fb13a
     }
 
     /*.tabCalc li input {
