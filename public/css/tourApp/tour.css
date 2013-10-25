@@ -379,12 +379,12 @@ Base structure: 16:10 aspect ratio for the tour wrapper
         display:inline;
         left:25em;
         height:2em;
-        padding-top:0.125em;
+        margin-top:0.4375em;
         position:absolute;
-/*        vertical-align:middle;*/
-        /*** how to verticaly algin input boxes in li elements??? using pos:absolute messes up their natural centering???  maybe better way that using absolute pos??? ***/
+        width:13em;
         
-        /*** try floating the label and input while putting a height not line-height on the li? ***/
+        /*** size of input box won't adjust on resize??? ***/
+        /*** could use % or resize in media queries? ***/
     }
     .tabCalc li label {
         margin-left:0.5em;

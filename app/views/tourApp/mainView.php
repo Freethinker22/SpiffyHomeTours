@@ -199,7 +199,6 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
               <h1 class="tabHeader">
                 Mortgage Calculator
               </h1>
-              
               <ul class="tabCalc">
                 <li class="tabBotBorder">
                   <label for="price">Purchase Price</label>
