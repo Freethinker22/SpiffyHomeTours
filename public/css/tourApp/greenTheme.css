@@ -1,16 +1,19 @@
 /* Green theme for the tour application */
 
 #tabMenu li {
-    background:#3D5E2A url("../../img/tourApp/greenTabBg.jpg");
+  background:#3D5E2A url("../../img/tourApp/greenTabBg.jpg");
 }
 .bg60Pct { /* The button bar and img name background */
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2E4F1B,endColorstr=#8F2E4F1B); /* For old IE */
-    background-color:rgba(46, 79, 27, 0.60);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2E4F1B,endColorstr=#8F2E4F1B); /* For old IE */
+  background-color:rgba(46, 79, 27, 0.60);
 }
 .bg85Pct { /* The alert and info msg background */
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52E4F1B,endColorstr=#E52E4F1B); /* For old IE */
-    background-color:rgba(46, 79, 27, 0.85);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52E4F1B,endColorstr=#E52E4F1B); /* For old IE */
+  background-color:rgba(46, 79, 27, 0.85);
 }
 .tourBg {
-    background:#00FF00 url("../../img/tourApp/greenTextureBg.jpg");
+  background:#00FF00 url("../../img/tourApp/greenTextureBg.jpg");
+}
+.tabCalcBtn {
+	background:#00FF00 url("../../img/tourApp/greenTabBg.jpg");
 }

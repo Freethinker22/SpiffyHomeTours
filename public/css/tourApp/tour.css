@@ -7,443 +7,458 @@ Reset and utility section
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
 ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
 thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
-    border:0;
-    font:inherit;
-    margin:0;
-    padding:0;
-    vertical-align:baseline;
+  border:0;
+  font:inherit;
+  margin:0;
+  padding:0;
+  vertical-align:baseline;
 }
 article, aside, details, figcaption, figure, footer, header, menu, nav, section {
-    display:block;
+  display:block;
 }
 ol, ul {
-    list-style:none;
+  list-style:none;
 }
 table {
-    border-collapse:collapse;
-    border-spacing:0;
+  border-collapse:collapse;
+  border-spacing:0;
 }
 /* Keep parent containers from collapsing when they only contain floated elements */
 .clearfix:after {
-    clear:both;
-    content:".";
-    display:block;
-    font-size:0;
-    height:0;
-    visibility:hidden;
+  clear:both;
+  content:".";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
 }
 .clearfix { 
-    zoom:1; 
+  zoom:1; 
 }
 * {
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 /*************
 Base theme, theme specific styles are added in the theme stylesheets
 *************/
 a {
-    border:none;
-    color:white;
-    outline:none;
-    text-decoration:none;
+  border:none;
+  color:white;
+  outline:none;
+  text-decoration:none;
 }
 audio { /* Because custom controls are used for the music and the audio element has a default height and width, audio's dimensions have to be set to 0 or it causes a layout bug on the iPad */
-    width:0;
-    height:0;
+  width:0;
+  height:0;
 }
 body {
-    background-color:#444;
-    color:white; /* All text in the tour is white unless otherwise specified */
-    font-family:Verdana, Arial, Times;
-    font-size:100%;
-    line-height:1em;
+  background-color:#444;
+  color:white; /* All text in the tour is white unless otherwise specified */
+  font-family:Verdana, Arial, Times;
+  font-size:100%;
+  line-height:1em;
 }
 #jsWarning {
-    background-color:red;
-    font-size:1.25em;
-    font-weight:bold;
-    line-height:1.5em;
-    text-align:center;
-}
-#tabMenu ul li {
-    -moz-box-shadow:3px 3px 2px #111;
-    -webkit-box-shadow:3px 3px 2px #111;
-    box-shadow:3px 3px 2px #111;
+  background-color:red;
+  font-size:1.25em;
+  font-weight:bold;
+  line-height:1.5em;
+  text-align:center;
 }
 .borderTL {
-    border-top:1px solid white;
-    border-left:1px solid white;
+  border-top:1px solid white;
+  border-left:1px solid white;
 }
 .borderTLBlk {
-    border-top:1px solid black;
-    border-left:1px solid black;
+  border-top:1px solid black;
+  border-left:1px solid black;
 }
 .borderTopBlk {
-    border-top:1px solid black;
+  border-top:1px solid black;
 }
 .clickable {
-    cursor:pointer; /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */
+  cursor:pointer; /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */
 }
 .displayNone {
-    display:none
+  display:none
 }
 .dropShadow {
-    -moz-box-shadow:5px 5px 3px #111;
-    -webkit-box-shadow:5px 5px 3px #111;
-    box-shadow:5px 5px 3px #111;
+  -moz-box-shadow:5px 5px 3px #111;
+  -webkit-box-shadow:5px 5px 3px #111;
+  box-shadow:5px 5px 3px #111;
+}
+.dropShadowSm {
+  -moz-box-shadow:3px 3px 2px #111;
+  -webkit-box-shadow:3px 3px 2px #111;
+  box-shadow:3px 3px 2px #111;
 }
 .fluid {
-    max-width:100%; /* For fluid imgs */
+  max-width:100%; /* For fluid imgs */
 }
 .hidden {
-    visibility:hidden;
+  visibility:hidden;
 }
 .infoText {
-    line-height:1.25em;
+  line-height:1.25em;
 }
 .loadingMask {
-    background-color:black;
+  background-color:black;
 }
 .opacity0 {
-    filter:alpha(opacity=0); /* Some elements need to start at zero opacity so they can be faded in */
-    opacity:0;
+  filter:alpha(opacity=0); /* Some elements need to start at zero opacity so they can be faded in */
+  opacity:0;
 }
 .opacity66 {
-    filter:alpha(opacity=66);
-    opacity:0.66;
+  filter:alpha(opacity=66);
+  opacity:0.66;
 }
 .opacity80 {
-    filter:alpha(opacity=80);
-    opacity:0.80;
+  filter:alpha(opacity=80);
+  opacity:0.80;
 }
 .pt85em {
-    font-size:0.85em;
+  font-size:0.85em;
 }
 .scrollTrack {
-    background-color:black;
-    width:1px;
+  background-color:black;
+  width:1px;
 }
 .slide {
-    background-color:#333;
-    border:0.125em solid white;
+  background-color:#333;
+  border:0.125em solid white;
 }
 .tabBorder {
-    border-top:1px solid white;
-    border-left:1px solid white;
-    margin:-1px; /* Keeps the border from changing the layout when added/removed */
+  border-top:1px solid white;
+  border-left:1px solid white;
+  margin:-1px; /* Keeps the border from changing the layout when added/removed */
 }
 .tabHeader {
-    border-bottom:1px solid black;
-    font-size:1.75em;
-    line-height:1.5em; /* em cascade */
+  border-bottom:1px solid black;
+  font-size:1.75em;
+  line-height:1.5em; /* em cascade */
 }
 .tabHeaderAlt {
-    font-size:1.75em;
-    line-height:1.5em; /* em cascade */
+  font-size:1.75em;
+  line-height:1.5em; /* em cascade */
 }
 .tabBotBorder {
-    border-bottom:1px solid black;
+  border-bottom:1px solid black;
 }
 .underline {
-    text-decoration:underline;
+  text-decoration:underline;
 }
 #musicPauseBtn, #musicPlayBtn, #tourPauseBtn, #tourPlayBtn {
-    cursor:pointer;
+  cursor:pointer;
 }
 
 /*************
 Base structure: 16:10 aspect ratio for the tour wrapper
 *************/
 #addressBox {
-    background:url("../../img/tourApp/addressBoxBg.png");
-    height:6.25em;
-    left:3.125em;
-    padding:0.4375em 0 0 0.625em;
-    position:absolute;
-    top:39.5em;
-    width:21.75em;
+  background:url("../../img/tourApp/addressBoxBg.png");
+  height:6.25em;
+  left:3.125em;
+  padding:0.4375em 0 0 0.625em;
+  position:absolute;
+  top:39.5em;
+  width:21.75em;
 }
 #agentLogo {
-    display:inline-block;
-    width:15.625em;
+  display:inline-block;
+  width:15.625em;
 }
 #agentPic {
-    display:inline-block;
-    width:9.375em;
+  display:inline-block;
+  width:9.375em;
 }
 #alertMsg {
-    cursor:pointer;
-    margin:-1.5625em 0 0 -6.25em;
-    padding:0.5em;
-    left:50%;
-    top:50%;
-    width:12.5em;
-    z-index:2;
+  cursor:pointer;
+  margin:-1.5625em 0 0 -6.25em;
+  padding:0.5em;
+  left:50%;
+  top:50%;
+  width:12.5em;
+  z-index:2;
 }
 #btnBar {
-    height:1.625em;
-    left:3.1875em;
-    line-height:1.625em; /* Centers text vertically, needs to be the same as height */
-    position:absolute;
-    top:36.75em;
-    width:53.0625em; /* Shortend 1px to allow the imgDisplay's border to show  */
-    z-index:2;
+  height:1.625em;
+  left:3.1875em;
+  line-height:1.625em; /* Centers text vertically, needs to be the same as height */
+  position:absolute;
+  top:36.75em;
+  width:53.0625em; /* Shortend 1px to allow the imgDisplay's border to show  */
+  z-index:2;
 }
-    #btnBar div p:first-child {
-        margin-left:0.625em; /* Spaces out the Slideshow and Music labels */
-    }
-    #btnBar div, #btnBar p {
-        display:inline;
-    }
+  #btnBar div p:first-child {
+    margin-left:0.625em; /* Spaces out the Slideshow and Music labels */
+  }
+  #btnBar div, #btnBar p {
+    display:inline;
+  }
 #contactBox {
-    background:url("../../img/tourApp/contactBoxBg.png");
-    height:6.25em;
-    left:30.25em;
-    padding:0.4375em 0.625em 0 0;
-    position:absolute;
-    text-align:right;
-    top:39.5em;
-    width:26em;
+  background:url("../../img/tourApp/contactBoxBg.png");
+  height:6.25em;
+  left:30.25em;
+  padding:0.4375em 0.625em 0 0;
+  position:absolute;
+  text-align:right;
+  top:39.5em;
+  width:26em;
 }
-    #contactBox img { /* Agent's picture *if* there is one */
-        float:left;
-        height:5.75em;
-        margin:-0.1875em 0 0 0.25em; /* Negitive margin used to move the img back up because of the top padding on the contactBox */
-    }
+  #contactBox img { /* Agent's picture *if* there is one */
+    float:left;
+    height:5.75em;
+    margin:-0.1875em 0 0 0.25em; /* Negitive margin used to move the img back up because of the top padding on the contactBox */
+  }
 #imgDisplay {
-    height:34.375em;
-    left:3.125em;
-    overflow:hidden;
-    position:absolute;
-    top:4em;
-    width:53.125em;
+  height:34.375em;
+  left:3.125em;
+  overflow:hidden;
+  position:absolute;
+  top:4em;
+  width:53.125em;
 }
-    #imgDisplay > div {
-        position:absolute;
-    }
+  #imgDisplay > div {
+    position:absolute;
+  }
 #imgName {
-    height:1.625em;
-    position:absolute;
-    right:18.75em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
-    line-height:1.625em; /* Centers text vertically, needs to be the same as height */
-    top:8.625em;
+  height:1.625em;
+  position:absolute;
+  right:18.75em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
+  line-height:1.625em; /* Centers text vertically, needs to be the same as height */
+  top:8.625em;
 }
-    #imgName p {
-        margin:0 0.3125em;
-    }
+  #imgName p {
+    margin:0 0.3125em;
+  }
 #infoBox {
-    cursor:pointer;
-    height:0; /* The height of the box has to initially be 0. This is because the text appended into the p element pops open the div and spoils the opening tween if not set to 0 */
-    padding:0.5em;
-    width:15.625em;
-    z-index:2;
+  cursor:pointer;
+  height:0; /* The height of the box has to initially be 0. This is because the text appended into the p element pops open the div and spoils the opening tween if not set to 0 */
+  padding:0.5em;
+  width:15.625em;
+  z-index:2;
 }
 #nextBtn {
-    cursor:pointer;
-    left:63em;
-    position:absolute;
-    top:36.75em;
-    width:9.375em; /* Width of the btn img, used to constrain the img's size when fluid */
+  cursor:pointer;
+  left:63em;
+  position:absolute;
+  top:36.75em;
+  width:9.375em; /* Width of the btn img, used to constrain the img's size when fluid */
 }
 #prevBtn {
-    cursor:pointer;
-    left:63em;
-    position:absolute;
-    top:3.5625em;
-    width:9.375em;
+  cursor:pointer;
+  left:63em;
+  position:absolute;
+  top:3.5625em;
+  width:9.375em;
 }
 #propInfoDownArrow {
-    top:27.25em;
+  top:27.25em;
 }
 #propInfoUpArrow {
-    top:3.5em;
+  top:3.5em;
 }
 #scrollbar {
-    float:left;
+  float:left;
 }
 #scrollTrack {
-    position:absolute;
+  position:absolute;
 }
 #shtLogo {
-    left:64em;
-    position:absolute;
-    top:40.5em;
-    width:7.8125em;
+  left:64em;
+  position:absolute;
+  top:40.5em;
+  width:7.8125em;
 }
-    #shtLogo p {
-        margin-bottom:0.25em;
-    }
+  #shtLogo p {
+    margin-bottom:0.25em;
+  }
 #slideMenu {
-    height:31.25em;
-    left:60.5em;
-    overflow:hidden;
-    position:absolute;
-    top:5.5em;
-    width:14.375em;
+  height:31.25em;
+  left:60.5em;
+  overflow:hidden;
+  position:absolute;
+  top:5.5em;
+  width:14.375em;
 }
 #slideScrollbar {
-    height:34.375em;
-    left:58.5em;
-    position:absolute;
-    top:4em;
+  height:34.375em;
+  left:58.5em;
+  position:absolute;
+  top:4em;
 }
 #tabMenu {
-    left:3.125em;
-    position:absolute;
-    top:2em;
-    z-index:2;
+  left:3.125em;
+  position:absolute;
+  top:2em;
+  z-index:2;
 }
-    #tabMenu li { /* The tabs' backgrounds are set in the theme stylesheets */
-        cursor:pointer;
-        display:inline;
-        margin-right:0.1875em;
-        padding:0.4375em;
-    } 
+  #tabMenu li { /* The tabs' backgrounds are set in the theme stylesheets */
+    cursor:pointer;
+    display:inline;
+    margin-right:0.1875em;
+    padding:0.4375em;
+  } 
 #tourImgMask {
-    height:34.375em; /* This needs to match the height of the imgDisplay */
-    width:53.125em; /* This needs to match the width of the imgDisplay */
-    z-index:2;
+  height:34.375em; /* This needs to match the height of the imgDisplay */
+  width:53.125em; /* This needs to match the width of the imgDisplay */
+  z-index:2;
 }
 #tourWrapper {
-    height:46.875em;
-    left:50%;
-    margin:-23.4375em 0 0 -37.5em;
-    overflow:hidden;
-    position:absolute;
-    top:50%;
-    width:75em;
+  height:46.875em;
+  left:50%;
+  margin:-23.4375em 0 0 -37.5em;
+  overflow:hidden;
+  position:absolute;
+  top:50%;
+  width:75em;
 }
 .iaBtns {
-    cursor:pointer;
-    position:absolute;
+  cursor:pointer;
+  position:absolute;
 }
 .iaPicWrapper {
-    cursor:pointer;
-    height:34.375em; /* This needs to match the height of the imgDisplay */
-    line-height:34.375em; /* This needs to match the height of the imgDisplay */
-    text-align:center;
-    width:53.125em; /* This needs to match the width of the imgDisplay */
+  cursor:pointer;
+  height:34.375em; /* This needs to match the height of the imgDisplay */
+  line-height:34.375em; /* This needs to match the height of the imgDisplay */
+  text-align:center;
+  width:53.125em; /* This needs to match the width of the imgDisplay */
 }
 .scrollHandle {
-    cursor:pointer;
-    height:1.125em; /* Same as the scrollhandle img dimensions */
-    margin-left:-0.5625em; /* Equals half the width of the handle, centers the handle on the scrollbar track */
-    position:absolute;
-    width:1.125em;
+  cursor:pointer;
+  height:1.125em; /* Same as the scrollhandle img dimensions */
+  margin-left:-0.5625em; /* Equals half the width of the handle, centers the handle on the scrollbar track */
+  position:absolute;
+  width:1.125em;
 }
 .scrollArrows {
-    cursor:pointer;
-    height:1.25em; /* Same as the up/down scrollbar arrow img dimensions */
-    margin-left:-0.6875em; /* Equals half the width of the handle, centers the handle on the scrollbar track */
-    position:absolute;
-    width:1.375em;
+  cursor:pointer;
+  height:1.25em; /* Same as the up/down scrollbar arrow img dimensions */
+  margin-left:-0.6875em; /* Equals half the width of the handle, centers the handle on the scrollbar track */
+  position:absolute;
+  width:1.375em;
 }
 .tabContentBox { /* All tab menu pages are contained within elements of this class */
-    height:29.375em;
-    left:50%;
-    margin:-14.6875em 0 0 -24.0625em;
-    overflow:hidden;
-    position:absolute;
-    top:50%;
-    width:48.125em;
+  height:29.375em;
+  left:50%;
+  margin:-14.6875em 0 0 -24.0625em;
+  overflow:hidden;
+  position:absolute;
+  top:50%;
+  width:48.125em;
 }
 .tabImgs {
-    float:left;
-    margin-top:1.25em;
-    text-align:center;
-    width:17em;
+  float:left;
+  margin-top:1.25em;
+  text-align:center;
+  width:17em;
 }
-    .tabImgs img {
-        margin-bottom:0.5em;
-    }
+  .tabImgs img {
+    margin-bottom:0.5em;
+  }
 .tabInfo {
-    float:left;
-    margin-top:1.25em;
-    width:30em;
+  float:left;
+  margin-top:1.25em;
+  width:30em;
 }
 .tabInfoLines {
-    line-height:1.75em;
-    word-wrap:break-word;
+  line-height:1.75em;
+  word-wrap:break-word;
 }
-.tabCalc {
-    margin:0 auto;
-    width:46.125em;
-}
-    .tabCalc li {
-        line-height:2.25em;
-    }
-    .tabCalc li input { /* Note: Have to use px for the input elements because of some inherit font-size issue? */
-        display:inline;
-        font-size:16px;
-        left:300px;
-        height:30px;
-        margin-top:3px;
-        position:absolute;
-        width:150px;
-    }
 
-    /*.tabCalc li input {
-        display:inline;
-        left:25em;
-        height:10%;
-        height:2.5em;
-        margin-top:0.4375em;
-        position:absolute;
-        width:13em;
-    }*/
-    .tabCalc li label {
-        margin-left:0.5em;
-    }
+
+
+.tabCalc {
+  margin:0 auto;
+  width:46.125em;
+}
+  .tabCalc li {
+    line-height:2.25em;
+  }
+  .tabCalc li input { /* Note: Have to use px for the input elements because of some inherit font-size issue? */
+    display:inline;
+    font-size:16px;
+    height:26px;
+    margin-top:5px;
+    width:150px;
+  }
+  .tabCalc li input.short {
+    width:70px;
+  }
+  .tabCalc li label, .tabCalc li p {
+    display:inline;
+    margin-left:0.5em;
+  }
+  .tabCalc li input + span {
+    left:23.5em;
+  }
+.tabCalcRightCol {
+  left:18.75em;
+  position:absolute;
+}
+.tabCalcBtn {
+  cursor:pointer;
+  display:inline;
+  height:1.75em;
+  left:30em;
+  line-height:1.75em;
+  margin-top:0.25em;
+  text-align:center;
+  width:7.8125em;
+}
+
+
+
 .tabLeftCol {
-    float:left;
-    margin-right:2em;
+  float:left;
+  margin-right:2em;
+  width:24em;
+}
+  .tabLeftCol article {
+    height:25.75em;
+    overflow:hidden;
     width:24em;
-}
-    .tabLeftCol article {
-        height:25.75em;
-        overflow:hidden;
-        width:24em;
+  }
+    .tabLeftCol article p { /* About text for the property info tab */
+      float:left;
+      margin-right:0.5em;
+      padding:1em 1em 0 1em;
+      position:relative;
+      width:21em;
     }
-        .tabLeftCol article p { /* About text for the property info tab */
-            float:left;
-            margin-right:0.5em;
-            padding:1em 1em 0 1em;
-            position:relative;
-            width:21em;
-        }
 .tabRightCol {
-    float:left;
-    width:22em;
+  float:left;
+  width:22em;
 }
-    .tabRightCol div {
-        margin-top:1.75em;
-        padding:0.5em 0 0 0.5em;
+  .tabRightCol div {
+    margin-top:1.75em;
+    padding:0.5em 0 0 0.5em;
+  }
+    .tabRightCol div p {
+      line-height:1.75em;
     }
-        .tabRightCol div p {
-            line-height:1.75em;
-        }
 
 /*******
 Styles for the loading mask
 *******/
 #loading div~div {
-    right:0; /* Move the second mask div to the right side */
+  right:0; /* Move the second mask div to the right side */
 }
 #loading img {
-    left:50%;
-    margin:-0.4375em 0 0 -4em;
-    position:absolute;
-    top:50%;
-    z-index:301;
+  left:50%;
+  margin:-0.4375em 0 0 -4em;
+  position:absolute;
+  top:50%;
+  z-index:301;
 }
 .loadingMask {
-    height:46.875em; /* Same as tourWrapper height */
-    position:absolute;
-    width:37.75em; /* 1/2 of tourWrapper width plus a 1/4 em to prevent any gap from appearing */
-    z-index:300; /* Has to be on top of all other elements */
+  height:46.875em; /* Same as tourWrapper height */
+  position:absolute;
+  width:37.75em; /* 1/2 of tourWrapper width plus a 1/4 em to prevent any gap from appearing */
+  z-index:300; /* Has to be on top of all other elements */
 }
 
 /*******
@@ -451,63 +466,63 @@ Slide menu classes
 Note: The .slide class applies to the parent div which is the slide itself, the other classes apply to the imgs inside the slides
 *******/
 .horiSlide {
-    height:auto;
-    vertical-align:middle;
-    width:9.125em;
+  height:auto;
+  vertical-align:middle;
+  width:9.125em;
 }
 .loadingSlide {
-    text-align:center;
-    vertical-align:middle;
+  text-align:center;
+  vertical-align:middle;
 }
 .slide {
-    height:6em;
-    line-height:5.75em; /* Slide height minus the borders */
-    position:absolute;
-    text-align:center;
-    width:9.375em;
+  height:6em;
+  line-height:5.75em; /* Slide height minus the borders */
+  position:absolute;
+  text-align:center;
+  width:9.375em;
 }
 .stdSlide { /* Height and width of the slide imgs equals the h&w of the slide minus the slide's borders */
-    height:5.75em;
-    width:9.125em;
+  height:5.75em;
+  width:9.125em;
 }
 .vertSlide {
-    height:5.75em;
-    width:auto;
+  height:5.75em;
+  width:auto;
 }
 
 /*******
 Tour img size classes
 *******/
 .horiImg {
-    height:34.375em; /* This needs to match the height of the imgDisplay */
-    width:auto;
+  height:34.375em; /* This needs to match the height of the imgDisplay */
+  width:auto;
 }
 .stdImg {
-    height:auto;
-    width:63.75em; /* This needs to be 20% larger than the imgDisplay width so the img has room to tween */
+  height:auto;
+  width:63.75em; /* This needs to be 20% larger than the imgDisplay width so the img has room to tween */
 }
 .vertImg {
-    height:auto;
-    width:53.125em; /* This needs to match the width of the imgDisplay */
+  height:auto;
+  width:53.125em; /* This needs to match the width of the imgDisplay */
 }
 
 /*******
 Interactive picture size classes
 *******/
 .horiIaPic {
-    height:auto;
-    width:53.125em; /* This needs to match the width of the imgDisplay */
-    vertical-align:middle;
+  height:auto;
+  width:53.125em; /* This needs to match the width of the imgDisplay */
+  vertical-align:middle;
 }
 .stdIaPic {
-    height:auto;
-    width:53.125em; /* This needs to match the width of the imgDisplay */
-    vertical-align:bottom;
+  height:auto;
+  width:53.125em; /* This needs to match the width of the imgDisplay */
+  vertical-align:bottom;
 }
 .vertIaPic {
-    height:34.375em; /* This needs to match the height of the imgDisplay */
-    width:auto;
-    vertical-align:bottom;
+  height:34.375em; /* This needs to match the height of the imgDisplay */
+  width:auto;
+  vertical-align:bottom;
 }
 
 /*************
@@ -519,122 +534,138 @@ Revise later: The layout for phone sized screens needs to be improved instead of
 @media 
 only screen and (min-width:1151px) and (max-width:1220px),
 only screen and (min-height:725px) and (max-height:770px) {
-    body {
-        font-size:15.1px; /* 15.1 is used because using 15 even causes an img artifact in Chrome on the bottom of the imgDisplay? */
-    }
-    .tabCalc li input {
-        font-size:15px;
-        left:270px;
-        height:27px;
-        margin-top:3px;
-        width:135px;
-    }
+  body {
+    font-size:15.1px; /* 15.1 is used because using 15 even causes an img artifact in Chrome on the bottom of the imgDisplay? */
+  }
+  .tabCalc li input {
+    font-size:15px;
+    height:24px;
+    margin-top:5px;
+    width:135px;
+  }
+  .tabCalc li input.short {
+    width:65px;
+  }
 }
 @media
 only screen and (min-width:1081px) and (max-width:1150px),
 only screen and (min-height:675px) and (max-height:724px) {
-    body {
-        font-size:14px;
-    }
-    .tabCalc li input {
-        font-size:14px;
-        left:262px;
-        height:26px;
-        margin-top:3px;
-        width:131px;
-    }
+  body {
+    font-size:14px;
+  }
+  .tabCalc li input {
+    font-size:14px;
+    height:23px;
+    margin-top:4px;
+    width:131px;
+  }
+  .tabCalc li input.short {
+    width:61px;
+  }
 }
 @media
 only screen and (min-width:1001px) and (max-width:1080px),
 only screen and (min-height:635px) and (max-height:674px) {
-    body {
-        font-size:13.1px; /* 13.1 is used because using 13 even causes an img artifact in Chrome on the bottom of the imgDisplay? */
-    }
-    .tabCalc li input {
-        font-size:13px;
-        left:243px;
-        height:24px;
-        margin-top:3px;
-        width:121px;
-    }
+  body {
+    font-size:13.1px; /* 13.1 is used because using 13 even causes an img artifact in Chrome on the bottom of the imgDisplay? */
+  }
+  .tabCalc li input {
+    font-size:13px;
+    height:21px;
+    margin-top:4px;
+    width:121px;
+  }
+  .tabCalc li input.short {
+    width:57px;
+  }
 }
 @media
 only screen and (min-width:926px) and (max-width:1000px),
 only screen and (min-height:580px) and (max-height:634px) {
-    body {
-        font-size:12px;
-    }
-    #btnBar {
-        left:3.25em;
-        top:36.8125em;
-    }
-    #imgName {
-        right:18.6875em;
-    }
-    .tabCalc li input {
-        font-size:12px;
-        left:225px;
-        height:22px;
-        margin-top:2px;
-        width:112px;
-    }
+  body {
+    font-size:12px;
+  }
+  #btnBar {
+    left:3.25em;
+    top:36.8125em;
+  }
+  #imgName {
+    right:18.6875em;
+  }
+  .tabCalc li input {
+    font-size:12px;
+    height:20px;
+    margin-top:3px;
+    width:112px;
+  }
+  .tabCalc li input.short {
+    width:52px;
+  }
 }
 @media
 only screen and (min-width:851px) and (max-width:925px),
 only screen and (min-height:535px) and (max-height:579px) {
-    body {
-        font-size:11px;
-    }
-    .tabCalc li input {
-        font-size:11px;
-        left:204px;
-        height:20px;
-        margin-top:2px;
-        width:102px;
-    }
+  body {
+    font-size:11px;
+  }
+  .tabCalc li input {
+    font-size:11px;
+    height:18px;
+    margin-top:3px;
+    width:102px;
+  }
+  .tabCalc li input.short {
+    width:48px;
+  }
 }
 @media
 only screen and (min-width:776px) and (max-width:850px),
 only screen and (min-height:490px) and (max-height:534px) {
-    body {
-        font-size:10px;
-    }
-    #btnBar {
-        top:36.8125em;
-    }
-    .tabCalc li input {
-        font-size:10px;
-        left:186px;
-        height:18px;
-        margin-top:2px;
-        width:93px;
-    }
+  body {
+    font-size:10px;
+  }
+  #btnBar {
+    top:36.8125em;
+  }
+  .tabCalc li input {
+    font-size:10px;
+    height:16px;
+    margin-top:3px;
+    width:93px;
+  }
+  .tabCalc li input.short {
+    width:44px;
+  }
 }
 @media
 only screen and (min-width:701px) and (max-width:775px),
 only screen and (min-height:445px) and (max-height:489px) {
-    body {
-        font-size:9px;
-    }
-    .tabCalc li input {
-        font-size:9px;
-        left:168px;
-        height:17px;
-        margin-top:1px;
-        width:84px;
-    }
+  body {
+    font-size:9px;
+  }
+  .tabCalc li input {
+    font-size:9px;
+    height:15px;
+    margin-top:2px;
+    width:84px;
+  }
+  .tabCalc li input.short {
+    width:39px;
+  }
 }
 @media
 only screen and (max-width:700px),
 only screen and (max-height:444px){
-    body {
-        font-size:8px;
-    }
-    .tabCalc li input {
-        font-size:8px;
-        left:150px;
-        height:15px;
-        margin-top:1px;
-        width:75px;
-    }
+  body {
+    font-size:8px;
+  }
+  .tabCalc li input {
+    font-size:8px;
+    height:13px;
+    margin-top:2px;
+    width:75px;
+  }
+  .tabCalc li input.short {
+    width:35px;
+  }
 }
