@@ -1,7 +1,12 @@
 <?php
 $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct JSON config file
 ?>
-<!DOCTYPE html> <!-- This is a special view that doesn't use the framework's regular header or footer views -->
+
+<!-- ===============================================================================================
+This is a special view that doesn't use the framework's regular header or footer views
+================================================================================================ -->
+
+<!DOCTYPE html>
 <html>
 	<head lang="en-US">
 		<meta charset="utf-8">
@@ -12,15 +17,15 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
 		<link rel="stylesheet" href="public/css/tourApp/tour.css" media="screen" />
 		<title>Spiffy Home Tours</title>
 		<!--[if lt IE 9]>
-				<link rel="stylesheet" href="public/css/tourApp/ieAddendum.css" media="screen" />
-				<script src="public/js/html5shim.js"></script>
-				<script src="public/js/css3-mediaqueries.js"></script>
+			<link rel="stylesheet" href="public/css/tourApp/ieAddendum.css" media="screen" />
+			<script src="public/js/html5shim.js"></script>
+			<script src="public/js/css3-mediaqueries.js"></script>
 		<![endif]-->
 
 		<!--[if lt IE 8]>
-				<div id="tooOld" style='clear: both; height: 59px; padding:0 0 0 15px; position: relative;'>
-						<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a>
-				</div>
+			<div id="tooOld" style='clear: both; height: 59px; padding:0 0 0 15px; position: relative;'>
+					<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a>
+			</div>
 		<![endif]-->
 	</head>
 	<body>
@@ -30,7 +35,7 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
 				
 		<section id="tourWrapper" class="tourBg dropShadow">
 			<section id="loading" class="displayNone">
-				<!--<section id="loading">-->
+			  <!--<section id="loading">-->
 				<img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
 				<div class="loadingMask"></div>
 				<div class="loadingMask"></div>
@@ -96,9 +101,9 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
 			</section>
 		</section> <!-- End tourWrapper section -->
 		
-		<!-- *******
+		<!-- ===========================================================================================
 		Underscore.js templates
-		******* -->
+		============================================================================================ -->
 		
 		<!-- *** Scrollbar *** -->
 		<script id="scrollbarTemp" type="text/template">
@@ -287,9 +292,9 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
   		</div>
 		</script>
 		
-		<!-- *******
+		<!-- ===========================================================================================
 		Flash music player for old IE
-		******* -->
+		============================================================================================ -->
 		<!--[if lt IE 9]>
 			<script>
 				var isOldIe = true;
@@ -307,13 +312,13 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
 			</object>
 		<![endif]-->
 		
-		<!-- *******
+		<!-- ===========================================================================================
 		JavaScript
-		******* -->
+		============================================================================================ -->
 		<script>var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
-		<script src="public/js/jsLibraries/fullSize/jQuery.js"></script>
-		<script src="public/js/jsLibraries/fullSize/underscore.js"></script>
-		<script src="public/js/jsLibraries/fullSize/TweenMax.js"></script>
+		<script src="public/js/jsLibraries/fullSize/jQuery-1.10.2.js"></script>
+		<script src="public/js/jsLibraries/fullSize/underscore-1.5.2.js"></script>
+		<script src="public/js/jsLibraries/fullSize/TweenMax-1.11.2.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkz_Wk9GyccNY42pGI3VH1kIIgcABz7uA&sensor=false"></script>
 		<script src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
 	</body>
@@ -326,3 +331,4 @@ $tourDirectory = $this->tourDirectory; // Used in tour.js to fetch the correct J
 <!-- *** text input box length limits. agent email: Max 40 chars for the property info tab page details, including label *** limit of 11 total inputs ***
 <!-- *** size limits for agent pic and logo agent pic: height:250, width:150  logo: height:150, width:250 maybe do some kind of size check on the server side? *** -->
 <!-- *** HTML hyperlinks put into the tab pages from the JSON file will need to be created using PHP *** -->
+<!-- *** use conditional type loading for jquery 1 and 2 *** -->

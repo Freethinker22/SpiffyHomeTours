@@ -1,9 +1,9 @@
 /******* Main stylesheet for the virtual tour application *******/
 /******* Except for the Reset section, the rules are laid out in the order of tag, id, class, then alphabetized inside of those groups *******/
 
-/*************
+/* =================================================================================================
 Reset and utility section
-**************/
+================================================================================================= */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
 ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
 thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
@@ -41,9 +41,9 @@ table {
   box-sizing:border-box;
 }
 
-/*************
+/* =================================================================================================
 Base theme, theme specific styles are added in the theme stylesheets
-*************/
+================================================================================================= */
 a {
   border:none;
   color:white;
@@ -154,9 +154,9 @@ body {
   cursor:pointer;
 }
 
-/*************
+/* =================================================================================================
 Base structure: 16:10 aspect ratio for the tour wrapper
-*************/
+================================================================================================= */
 #addressBox {
   background:url("../../img/tourApp/addressBoxBg.png");
   height:6.25em;
@@ -371,6 +371,8 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 
 
 
+
+
 .tabCalc {
   margin:0 auto;
   width:46.125em;
@@ -412,6 +414,8 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 
 
 
+
+
 .tabLeftCol {
   float:left;
   margin-right:2em;
@@ -441,9 +445,9 @@ Base structure: 16:10 aspect ratio for the tour wrapper
       line-height:1.75em;
     }
 
-/*******
+/* =================================================================================================
 Styles for the loading mask
-*******/
+================================================================================================= */
 #loading div~div {
   right:0; /* Move the second mask div to the right side */
 }
@@ -461,10 +465,10 @@ Styles for the loading mask
   z-index:300; /* Has to be on top of all other elements */
 }
 
-/*******
+/* =================================================================================================
 Slide menu classes
 Note: The .slide class applies to the parent div which is the slide itself, the other classes apply to the imgs inside the slides
-*******/
+================================================================================================= */
 .horiSlide {
   height:auto;
   vertical-align:middle;
@@ -490,9 +494,9 @@ Note: The .slide class applies to the parent div which is the slide itself, the 
   width:auto;
 }
 
-/*******
+/* =================================================================================================
 Tour img size classes
-*******/
+================================================================================================= */
 .horiImg {
   height:34.375em; /* This needs to match the height of the imgDisplay */
   width:auto;
@@ -506,9 +510,9 @@ Tour img size classes
   width:53.125em; /* This needs to match the width of the imgDisplay */
 }
 
-/*******
+/* =================================================================================================
 Interactive picture size classes
-*******/
+================================================================================================= */
 .horiIaPic {
   height:auto;
   width:53.125em; /* This needs to match the width of the imgDisplay */
@@ -525,12 +529,12 @@ Interactive picture size classes
   vertical-align:bottom;
 }
 
-/*************
+/* =================================================================================================
 Media queries
 Note: Height queries are used to keep the tour from needing to be scrolled vertically
 Note: Some elements at certain break points need minor positioning tweaks to align correctly
 Revise later: The layout for phone sized screens needs to be improved instead of just scaling it down
-*************/
+================================================================================================= */
 @media 
 only screen and (min-width:1151px) and (max-width:1220px),
 only screen and (min-height:725px) and (max-height:770px) {

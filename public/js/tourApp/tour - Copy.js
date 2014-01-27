@@ -15,10 +15,9 @@ $(function()
 		var contactBox = config.contactBox;
 		var music = config.music;
 		
-
-		// =============================================================================================
-		// The Param object holds all of the configurable variables for the tour application
-		// =============================================================================================
+		/*************
+		The Param object holds all of the configurable variables for the tour application
+		*************/
 		var Param =
 		{
 			// SlideMenu obj
@@ -57,11 +56,10 @@ $(function()
 			}
 		}
 				
-
-		// =============================================================================================
-		// The WindowSize object listens for a change to the browser's size and calls the functions necessary to update the tour's objs
-		// *** Note: The timer is used because the resize event is fired anytime the browser resizes, the timer only goes off once the resizing has finished
-		// =============================================================================================
+		/*************
+		The WindowSize object listens for a change to the browser's size and calls the functions necessary to update the tour's objs
+		*** Note: The timer is used because the resize event is fired anytime the browser resizes, the timer only goes off once the resizing has finished
+		*************/
 		var WindowSize =
 		{            
 			init:function()
@@ -89,11 +87,10 @@ $(function()
 				});
 			}
 		}
-				
-
-		// =============================================================================================
-		// The Preloader obj handles the reordering and preloading of the tour imgs and the preloading of any interactive pics
-		// =============================================================================================
+								
+		/*************
+		The Preloader obj handles the reordering and preloading of the tour imgs and the preloading of any interactive pics
+		*************/
 		var Preloader =
 		{
 			preloadArray: [], // Each preloadArray element is a reference to each of the img objs in the config file
@@ -178,11 +175,10 @@ $(function()
 			}
 		};
 		 
-
-		// =============================================================================================
-		// The SlideMenu obj handles the setup and animations of the slide menu
-		// *** Note: Any instance vars that are dependant on the browser size are set in this.setMenuVars()
-		// =============================================================================================
+		/*************
+		The SlideMenu obj handles the setup and animations of the slide menu
+		*** Note: Any instance vars that are dependant on the browser size are set in this.setMenuVars()
+		*************/
 		var SlideMenu =
 		{
 			el: $('#slideMenu'),
@@ -405,11 +401,10 @@ $(function()
 			}
 		};				
 
-
-		// =============================================================================================
-		// The SlideScrollbar allows the user to scroll through the tour imgs quickly without needing to click or touch the slide menu multiple times
-		// *** Note: The scrollbar is only shown on non-touch devices, it's buggy on touch screens because of the handle's size
-		// =============================================================================================
+		/*************
+		The SlideScrollbar allows the user to scroll through the tour imgs quickly without needing to click or touch the slide menu multiple times
+		*** Note: The scrollbar is only shown on non-touch devices, it's buggy on touch screens because of the handle's size
+		*************/
 		var SlideScrollbar = 
 		{
 			el: $('#slideScrollbar'),
@@ -497,12 +492,11 @@ $(function()
 			}
 		}
 				
-
-		// =============================================================================================
-		// The ImgDisplay obj handles the changing, sizing, playing, tweening, and panning of the current tour img
-		// *** Note: Some instance vars set as empty objs and 0 at runtime and are set later after the tour imgs have downloaded
-		// *** Note: Methods that use, this.currImg.el multiple times, have a shorthand reference: var currImg = this.currImg.el, while other functions just use this.currImg.el once
-		// =============================================================================================
+		/*************
+		The ImgDisplay obj handles the changing, sizing, playing, tweening, and panning of the current tour img
+		*** Note: Some instance vars set as empty objs and 0 at runtime and are set later after the tour imgs have downloaded
+		*** Note: Methods that use, this.currImg.el multiple times, have a shorthand reference: var currImg = this.currImg.el, while other functions just use this.currImg.el once
+		*************/
 		var ImgDisplay =
 		{
 			el: $('#imgDisplay'),
@@ -521,7 +515,6 @@ $(function()
 			firstTween: true, // Flag to indicate if the tween is the initial tween
 			prevImgTweenedOut: true, // Flag to indicate if the prev TourImg obj is done fading out
 			panned: false, // Flag to indicate if the tour img was panned
-			maskInTrans: false, // Flag to indicate if the tourImgMask is in the middle of a tween
 			tween: new TimelineLite(), // Timeline obj that all tweens occur upon
 						
 			init:function()
@@ -806,78 +799,29 @@ $(function()
 			{
 				this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
 			},
-			// The tour img mask is put on top of the tour img and serves as a container for the tab menu pages and iaPics
-			// *** Note: If a tab is already open, currContentObj is a reference to that open tab obj
-			tourImgMaskOn:function(content, currContentObj)
+			// The tour img mask is put on top of the tour img and serves as a container for the tab menu pages and iaPics 
+			tourImgMaskOn:function(content)
 			{
-				var parent = this;
-
-				parent.maskInTrans = true; // Flag to keep tweens from overlapping
-
-				if(currContentObj)
-				{
-					var currContent = this.tourImgMask.children(); // Current DOM obj in the tourImgMask
-
-					TweenLite.to(currContent, Param.stdFadeTime,
-					{ 
-						opacity:0,
-						onComplete:function()
-						{
-							currContentObj.storeState(currContent.detach()); // Send the current obj's html and events to the obj's storeState() function
-							parent.maskInTrans = false;
-						}
-					});
-
-					this.tourImgMask.prepend(content); // Add the new content html to the tourImgMask AFTER the old content is already fading out
-					TweenLite.to(content, Param.stdFadeTime, { opacity:1 });
-				}
-				else
-				{
-					this.pauseTween();
-					this.tourImgMask.removeClass('displayNone'); // Un-hide the tourImgMask element
-					this.tourImgMask.html(content);
-					TweenLite.to(content, Param.stdFadeTime, { opacity:1 }); // Reset the opacity of the content if it was 0
-					TweenLite.to(this.tourImgMask, Param.stdFadeTime,
-					{
-						opacity:1,
-						onComplete:function()
-						{
-							parent.maskInTrans = false;
-						}
-					});
-				}
+				this.pauseTween();
+				this.tourImgMask.removeClass('displayNone'); // Un-hide the tourImgMask element
+				this.tourImgMask.html(content);
+				TweenLite.to(this.tourImgMask, Param.stdFadeTime, { opacity:1 });
 			},
-			// Clear the content from the DOM but keep its data and listeners intact if currContentObj is true
-			tourImgMaskOff:function(currContentObj)
+			// Clear the content from the DOM but keep its data and listeners intact if keepData is true
+			tourImgMaskOff:function(keepData)
 			{
 				var parent = this;
-
-				if(currContentObj)
+					
+				TweenLite.to(this.tourImgMask, Param.stdFadeTime,
 				{
-					var currContent = this.tourImgMask.children(); // Current DOM obj in the tourImgMask
-
-					TweenLite.to(this.tourImgMask, Param.stdFadeTime,
-					{ 
-						opacity:0,
-						onComplete:function()
-						{
-							currContentObj.storeState(currContent.detach()); // Send the current obj's html and events to the obj's storeState() function
-							parent.tourImgMask.addClass('displayNone');
-						}
-					});
-				}
-				else
-				{
-					TweenLite.to(this.tourImgMask, Param.stdFadeTime,
-					{ 
-						opacity:0,
-						onComplete:function()
-						{
-							parent.tourImgMask.empty();
-							parent.tourImgMask.addClass('displayNone');
-						}
-					});
-				}
+					opacity:0,
+					onComplete:function()
+					{
+						parent.tourImgMask.addClass('displayNone');
+						keepData ? parent.tourImgMask.children().detach() : parent.tourImgMask.empty();
+					}
+				});
+				
 				this.playTween();
 			},
 			// Reset the vars used for positioning of the TourImg obj when the window resizes
@@ -887,11 +831,10 @@ $(function()
 				this.elWidth = this.el.width();
 			}
 		};
-			
-
-		// =============================================================================================
-		// The ImgName obj handles the changing and displaying of the current tour img name
-		// =============================================================================================
+				
+		/*************
+		The ImgName obj handles the changing and displaying of the current tour img name
+		*************/
 		var ImgName =
 		{
 			el: $('#imgName'),
@@ -924,10 +867,9 @@ $(function()
 			}
 		};
 				
-
-		// =============================================================================================
-		// The Alert obj handles the displaying of messages to the user
-		// =============================================================================================
+		/*************
+		The Alert obj handles the displaying of messages to the user
+		*************/
 		var Alert =
 		{
 			alertMsg: $('#alertMsg'),
@@ -967,10 +909,9 @@ $(function()
 			}
 		}
 				
-
-		// =============================================================================================
-		// The Interactive obj handles the info box, interactive pics, and interactive navigation
-		// =============================================================================================
+		/*************
+		The Interactive obj handles the info box, interactive pics, and interactive navigation
+		*************/
 		var Interactive = 
 		{
 			infoBox: $('#infoBox'),
@@ -1086,11 +1027,10 @@ $(function()
 				if(Alert.alertShowing) { Alert.alertOff(); }
 			}
 		}
-			
-
-		// =============================================================================================
-		// The TextBoxes obj handles the setup of the info boxes on the bottom of the tourWrapper
-		// =============================================================================================
+								
+		/*************
+		The TextBoxes obj handles the setup of the info boxes on the bottom of the tourWrapper
+		*************/
 		var TextBoxes = 
 		{
 			init:function()
@@ -1112,12 +1052,52 @@ $(function()
 				el.html(template);
 			}
 		};
-				
 
-		// =============================================================================================
-		// The TabMenu obj sets up and controls all of the tab navigation
-		// *** Note: The TabMenu obj only sets up the tabs and handles the displaying of the tab menu pages, the tab pages themselves are separate self contained objs
-		// =============================================================================================
+
+		// The tour img mask is put on top of the tour img and serves as a container for the tab menu pages and iaPics 
+		// tourImgMaskOn:function(content)
+		// {
+		// 	this.pauseTween();
+		// 	this.tourImgMask.removeClass('displayNone'); // Un-hide the tourImgMask element
+		// 	this.tourImgMask.html(content);
+		// 	TweenLite.to(this.tourImgMask, Param.stdFadeTime, { opacity:1 });
+		// },
+		// // Clear the content from the DOM but keep its data and listeners intact if keepData is true
+		// tourImgMaskOff:function(keepData)
+		// {
+		// 	var parent = this;
+				
+		// 	TweenLite.to(this.tourImgMask, Param.stdFadeTime,
+		// 	{
+		// 		opacity:0,
+		// 		onComplete:function()
+		// 		{
+		// 			parent.tourImgMask.addClass('displayNone');
+		// 			keepData ? parent.tourImgMask.children().detach() : parent.tourImgMask.empty();
+		// 		}
+		// 	});
+			
+		// 	this.playTween();
+		// }
+
+
+
+
+		// inside tourImgMaskOff()
+		// if keepData is true - var objToStore = parent.tourImgMask.children().html()
+		// send that obj back to the specific tab obj from where the call came from - how to pass return obj? pass 'this' in arguments then this.ojbToStore???
+		// store that as a var and set a flag
+		// next call to that tab checks the flag and if the stored DOM obj is already there, pass that to tourImgMaskOn()
+		// inside tourImgMaskOn(), will need to fade out old DOM obj while fading in new DOM obj - make sure not to mess up iaPics
+
+
+
+
+								
+		/*************
+		The TabMenu obj sets up and controls all of the tab navigation
+		*** Note: The TabMenu obj only sets up the tabs and handles the displaying of the tab menu pages, the tab pages themselves are separate self contained objs
+		*************/
 		var TabMenu = 
 		{
 			el: $('#tabMenu'),
@@ -1127,7 +1107,6 @@ $(function()
 			agentInfo: $('#agentInfo'),
 			calc: $('#calc'),
 			tabShowing: false, // Flag to indicate if a tab is in use
-			currTab:{}, // The current tab obj that is open
 									
 			init:function()
 			{
@@ -1142,61 +1121,43 @@ $(function()
 				});
 				this.propInfo.click(function()
 				{
-					if(!PropInfo.isOn && !ImgDisplay.maskInTrans) // If the ImgDisplay mask is in transition, ignore the click (keeps tweens from overlapping)
-					{
-						parent.swapBorder($(this));
-						PropInfo.init();
-					}
+					parent.showTab(PropInfo.el);
+					parent.swapBorder($(this));
+					PropInfo.init();
+					PropInfo.needScrollbar();
 				});
 				this.propMap.click(function()
 				{
-					if(!PropMap.isOn && !ImgDisplay.maskInTrans)
-					{
-						parent.swapBorder($(this));
-						PropMap.init();
-					}
+					parent.showTab(PropMap.el);
+					parent.swapBorder($(this));
+					PropMap.showMap();
 				});
 				this.agentInfo.click(function()
 				{
-					if(!AgentInfo.isOn && !ImgDisplay.maskInTrans)
-					{
-						parent.swapBorder($(this));
-						AgentInfo.init();
-					}
+					parent.showTab(AgentInfo.el);
+					parent.swapBorder($(this));
 				});
 				this.calc.click(function()
 				{
-					if(!Calc.isOn && !ImgDisplay.maskInTrans)
-					{
-						parent.swapBorder($(this));
-						Calc.init();
-					}
+					parent.showTab(Calc.el);
+					parent.swapBorder($(this));
+					Calc.init();
 				});
 			},
 			// Send the html content of the chosen tab menu page to the tourImgMask for display
 			// *** Note: The tab menu and the iaPic feature share the tourImgMask element that's in the ImgDisplay obj and use it as a container for inserted content
-			showTab:function(tabContent, tabObj)
+			showTab:function(content)
 			{
-				if(this.tabShowing)
-				{
-					ImgDisplay.tourImgMaskOn(tabContent, this.currTab);
-					this.currTab = tabObj;
-				}
-				else
-				{
-					Interactive.resetIa(); // Close any of the interactive features that might be showing when a tab is selected
-					ImgDisplay.tourImgMaskOn(tabContent);
-					this.tabShowing = true;
-					this.currTab = tabObj; // Assign the currTab property of the TabMenu to the currently opened tab
-				}
-				tabObj.isOn = true;
+				Interactive.resetIa(); // Close any of the interactive features that might be showing when a tab is selected
+				ImgDisplay.tourImgMaskOn(content);
+				this.tabShowing = true;
 			},
-			// Tell the tourImgMask to remove the tab menu content from the DOM when returning to the photo gallery
+			// Tell the tourImgMask to remove the tab menu content from the DOM and return to the photo gallery
 			hideTab:function()
 			{                
 				if(this.tabShowing)
 				{
-					ImgDisplay.tourImgMaskOff(this.currTab);
+					ImgDisplay.tourImgMaskOff(true);
 					this.swapBorder(this.photoGal);
 					this.tabShowing = false;
 				}
@@ -1215,36 +1176,17 @@ $(function()
 			}
 		}
 				
-
-		// =============================================================================================
-		// The PropInfo obj is a tab menu page and gets its property info from the config file, it displays that info in a underscore.js template
-		// =============================================================================================
+		/*************
+		The PropInfo obj is a tab menu page and gets its property info from the config file, it displays that info in a underscore.js template
+		*************/
 		var PropInfo = 
 		{
 			el: _.template($('#propInfoTemp').html(), { data:propInfo }, { variable:'prop' }),
 			aboutText: {},
-			currState: {}, // Obj used to store and maintain the state of the tab
-			propInfoInit: false,
-			isOn: false,
 			
-			// If the propInfo tab has not been init, create the tab's content, if has been init, load the stored version of it
 			init:function()
 			{
-				if(!this.propInfoInit)
-				{
-					TabMenu.showTab(this.el, this);
-					this.setText();
-					this.propInfoInit = true;
-				}
-		 		else
-		 		{
-		 			TabMenu.showTab(this.currState, this);
-		 		}
-			},
-			setText:function()
-			{
-				this.aboutText = $('#aboutText'); // Paragraph element containing the about text
-				this.needScrollbar();
+		 		this.aboutText = $('#aboutText'); // Paragraph element containing the about text
 			},
 			// Determine if the height of the about text is too tall for its parent container and add a scrollbar if it needs one
 			needScrollbar:function()
@@ -1267,40 +1209,18 @@ $(function()
 						scrollbarObj.touchScroll();
 					}
 				}                                
-			},
-			storeState:function(currState)
-			{
-				this.currState = currState;
-				this.isOn = false;
 			}
 		}
 				
-
-		// =============================================================================================
-		// The PropMap obj is a tab menu page and is used to display a Google map obj in an underscore.js template
-		// =============================================================================================
+		/*************
+		The PropMap obj is a tab menu page and is used to display a Google map obj in a underscore.js template
+		*************/
 		var PropMap =
 		{
-			el: _.template($('#propMapTemp').html()),
-			currState: {}, // Obj used to store and maintain the state of the map
-			mapInit: false,
-			isOn: false,
+			el: _.template($('#propMapTemp').html()),            
 			
-			init:function()
-			{
-				if(!this.mapInit)
-				{
-					TabMenu.showTab(this.el, this);
-					this.createMap();
-					this.mapInit = true;
-				}
-				else
-				{
-					TabMenu.showTab(this.currState, this);
-				}
-			},
 			// Setup the Google maps API for the address of the property
-			createMap:function()
+			showMap:function()
 			{
 				var mapOptions =
 				{
@@ -1327,79 +1247,33 @@ $(function()
 						Alert.alertOn('It seems there was an issue with the map for the following reason: ' + status, 5000);
 					}
 				});
-			},
-			storeState:function(currState)
-			{
-				this.currState = currState;
-				this.isOn = false;
 			}
 		}
 				
-
-		// =============================================================================================
-		// The AgentInfo obj is a tab menu page and gets its agent info from the config file, it displays that info in a underscore.js template
-		// =============================================================================================
+		/*************
+		The AgentInfo obj is a tab menu page and gets its agent info from the config file, it displays that info in a underscore.js template
+		*************/
 		var AgentInfo = 
 		{
-			el: _.template($('#agentInfoTemp').html(), { data:agentInfo }, { variable:'agent' }),
-			currState: {}, // Obj used to store and maintain the state of the tab
-			agentInfoInit: false,
-			isOn: false,
-
-			// starting:function()
-			// {
-			// 	console.log(this.el);
-			// },
-
-			init:function()
-			{
-				if(!this.agentInfoInit)
-				{
-					TabMenu.showTab(this.el, this);
-					this.agentInfoInit = true;
-				}
-				else
-				{
-					TabMenu.showTab(this.currState, this);
-				}
-			},
-			storeState:function(currState)
-			{
-				this.currState = currState;
-				this.isOn = false;
-			}
+			el: _.template($('#agentInfoTemp').html(), { data:agentInfo }, { variable:'agent' })
 		}
+				
 
 
-		// =============================================================================================
-		// The Calc obj is a tab menu page and sets up a mortgage calculator in a underscore.js template
-		// *** Note: Some instance vars set as empty objs at runtime and are set later after the Calc obj is loaded into the DOM
-		// =============================================================================================
+
+
+
+		/*************
+		The Calc obj is a tab menu page and sets up a mortgage calculator in a underscore.js template
+		*** Note: Some instance vars set as empty objs at runtime and are set later after the Calc obj is loaded into the DOM
+		*************/
 		var Calc =
 		{
 			el: _.template($('#calcTemp').html()),
-			currState: {}, // Obj used to store and maintain the state of the tab
-			calcInit: false,
-			isOn: false,
 			inputsArr: [], // All of the number input fields in the mortgage calculator
 			inputsArrLen: {},
-
+				
 			init:function()
-			{
-				if(!this.calcInit)
-				{
-					TabMenu.showTab(this.el, this);
-					this.setupCalc();
-					this.calcInit = true;
-				}
-				else
-				{
-					TabMenu.showTab(this.currState, this);
-					this.inputsArr[0].focus();
-				}
-			},
-			// Setup the objects and assign listeners for the mortgage calculator
-			setupCalc:function()
 			{
 				var parent = this;
 
@@ -1528,27 +1402,22 @@ $(function()
 
 				for(var i = this.inputsArrLen; i--;) { this.inputsArr[i].value = ''; }
 				this.inputsArr[0].focus();
-			},
-			storeState:function(currState)
-			{
-				this.currState = currState;
-				this.isOn = false;
 			}
 		}
-			
-
-
-		// ******** better error msg, no NAN crap when missing fields.  Maybe fade in text to the right?
-		// ******** amortization chart
-
-
-
+				
+		// better error msg, no NAN crap
+		// maintain state of calc when going to other tabs
+		// fade in/out between tabs
+		// amortization chart
 
 
 
-		// =============================================================================================
-		// Create the audio tag and setup the music feature *after* the tour starts
-		// =============================================================================================
+
+
+
+		/*************
+		Create the audio tag and setup the music feature *after* the tour starts
+		*************/
 		var Music = 
 		{
 			musicBtns: $('#musicBtns'),
@@ -1655,16 +1524,15 @@ $(function()
 			}
 		}
 				
-
-		// =============================================================================================
-		// Constructor objects (In alphabetical order)
-		// These objects are used multiple times throughout the tour application
-		// =============================================================================================
+		/********************************************************************
+		Constructor objects (In alphabetical order)
+		These objects are used multiple times throughout the tour application
+		********************************************************************/
 			 
-	  // =============================================================================================
-		// Builds a new interactive picture obj, instantiated in Interactive.createIaPicObj()
+	  /*************
+		Builds a new interactive picture obj, instantiated in Interactive.createIaPicObj()
 		// *** Note: Interactive pics are preloaded at the same time as their parent tour imgs so they're viewable when the tour img is on the screen
-		// =============================================================================================
+		*************/
 		function IaPic()
 		{
 			var parent = this;
@@ -1706,12 +1574,9 @@ $(function()
 				}
 			}
 		}
-		
-
-		// =============================================================================================
+				
 		// The Scollbar obj creates a customized scrollbar for content that is too tall for its parent container
 		// *** Note: The Scrollbar obj uses a template that has to be appended to the DOM before anything else can happen
-		// =============================================================================================
 		function Scrollbar(content, contentHeight, contentParentHeight, scrollbarOffset)
 		{
 			this.el = _.template($('#scrollbarTemp').html());
@@ -1854,11 +1719,10 @@ $(function()
 			}            
 		}
 				
-
-		// =============================================================================================
-		// Builds a new Slide obj, instantiated in SlideMenu.createSlides()
-		// *** Note: Empty properties are set in SlideMenu.setContent() when the Slide's corresponding tour img has finished downloading
-		// =============================================================================================
+		/*************
+		Builds a new Slide obj, instantiated in SlideMenu.createSlides()
+		*** Note: Empty properties are set in SlideMenu.setContent() when the Slide's corresponding tour img has finished downloading
+		*************/
 		function Slide(uId, slideNum) 
 		{
 			var parent = this;
@@ -1895,12 +1759,11 @@ $(function()
 				}
 			});
 		}
-				
-
-		// =============================================================================================
-		// Builds a new TourImg obj, instantiated in ImgDisplay.setNewImg()
-		// *** Note: All of the properties of a TourImg obj are based off of the accompanying Slide obj's properties passed in on init
-		// =============================================================================================
+								
+		/*************
+		Builds a new TourImg obj, instantiated in ImgDisplay.setNewImg()
+		*** Note: All of the properties of a TourImg obj are based off of the accompanying Slide obj's properties passed in on init
+		*************/
 		function TourImg(slide)
 		{
 			var parent = this;
@@ -1993,15 +1856,13 @@ $(function()
 		Preloader.init();
 		ImgDisplay.init();
 		TextBoxes.init();
-		TabMenu.init();
+		TabMenu.init(); 
 	});
 });
 
 // ************** remember your on an EX branch ****************
 // *** Finish tab menu ***
-// *** Google web fonts for Helvetica neu???
-// *** Font awesome and CSS for ia icons???
-// propInfo text and amortization chart scroll wheel functionality???
+// calculator and map not maintaining state when navigated away from, this is because the content is detached from the tourImgMask. How to fix that???
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...
 // Might have issue with the music not auto playing on new touch capable windows machines, find way to detect only mobile devices like how Param.isTouchCapable is found?
