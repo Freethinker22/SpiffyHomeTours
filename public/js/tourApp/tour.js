@@ -1268,6 +1268,7 @@ $(function()
 					}
 				}                                
 			},
+			// Store the current state of the tab page so it can be retrieved if its used again
 			storeState:function(currState)
 			{
 				this.currState = currState;
@@ -1414,38 +1415,48 @@ $(function()
 			// Clean up the user input numbers
 			startCalc:function()
 			{
+				var error = false; // Flag to stop calculation if inputs are not filled out
+				var inputObj; // Current input field being evaluated by the for loop
+
 				for(var i = this.inputsArrLen; i--;) // Loop through the calc inputs to validate and clean out their values
-				{ 
+				{
+					inputObj = this.inputsArr.eq(i);
+
 					if(i < 4) // The first 4 inputs of the calculator are required
 					{
-						if(this.inputsArr.eq(i).val() === '')
+						if(inputObj.val() === '')
 						{
-							this.inputsArr.eq(i).css({ 'outline':'2px solid #ff0000' }); // Apply highlighting to the input field if nothing is entered
-							this.inputsArr.eq(i).data('error', 'on'); // Set a data attribute to flag the error
+							this.errorOn(inputObj);
+							error = true;
 						}
 						else
 						{
-							if(this.inputsArr.eq(i).data('error', 'on')) 
+							if(inputObj.data('error', 'on')) 
 							{
-								this.inputsArr.eq(i).css({ 'outline':'none' }); // Reset the input field and error flag
-								this.inputsArr.eq(i).css('error', 'off');
+								this.errorOff(inputObj); // Reset the input field and error flag
 							}
-							this.inputsArr.eq(i).val(this.cleanOut(this.inputsArr.eq(i).val())); // Clean up the input values
+
+							inputObj.val(this.cleanOut(inputObj.val())); // Clean up the input values
 						}
 					}
 					else
 					{
-						if(this.inputsArr.eq(i).val() === '' || this.inputsArr.eq(i).val() === 0)
+						if(inputObj.val() === '' || inputObj.val() === 0)
 						{
-							this.inputsArr.eq(i).val(0); // If optional fields are left blank, make them equal to zero because of the mortgage algorithm 
+							inputObj.val(0); // If optional fields are left blank, make them equal to zero because of the mortgage algorithm 
+							// *** Revise later: On error, the option fields say 0 and not $0.00.  Make the calculate function not depend on optional fields being numbers and not a string
 						}
 						else
 						{
-							this.inputsArr.eq(i).val(this.cleanOut(this.inputsArr.eq(i).val()));
+							inputObj.val(this.cleanOut(inputObj.val()));
 						}
 					}
 				}
-				this.calculate();
+
+				if(!error)
+				{
+					this.calculate();
+				}
 			},
 			// Calculate the totals to display, and reformat numbers for display
 			calculate:function()
@@ -1514,11 +1525,6 @@ $(function()
 
 				return parseInt(leftSideNew) === 0 ? prefix + '0.00' : prefix + leftSideNew + decimalDelimiter + rightSide;
 			},
-			// Create the amortization chart
-			amortize:function()
-			{
-				console.log('amortize');
-			},
 			// Reset the calculator
 			clearCalc:function()
 			{
@@ -1526,8 +1532,34 @@ $(function()
 				$('#loanPmt').html('$0.00');
 				$('#mortgagePmt').html('$0.00');
 
-				for(var i = this.inputsArrLen; i--;) { this.inputsArr[i].value = ''; }
-				this.inputsArr[0].focus();
+				for(var i = this.inputsArrLen; i--;)
+				{
+					this.inputsArr[i].value = '';
+
+					if(this.inputsArr.eq(i).data('error', 'on')) 
+					{
+						this.errorOff(this.inputsArr.eq(i)); // Reset the input field and error flag
+					}	
+				}
+
+				this.inputsArr[0].focus();	
+			},
+			// Highlight input errors
+			errorOn:function(inputObj)
+			{
+				inputObj.css({ 'outline':'2px solid #ff0000' }); // Apply highlighting to the input field if nothing is entered
+				inputObj.data('error', 'on'); // Set a data attribute to flag the error
+			},
+			// Turn off errors
+			errorOff:function(inputObj)
+			{
+				inputObj.css({ 'outline':'none' });
+				inputObj.css('error', 'off');
+			},
+			// Create the amortization chart
+			amortize:function()
+			{
+				console.log('amortize');
 			},
 			storeState:function(currState)
 			{
@@ -1538,8 +1570,7 @@ $(function()
 			
 
 
-		// ******** better error msg, no NAN crap when missing fields.  Maybe fade in text to the right?
-		// ******** amortization chart
+		// ******** amortization chart look at AS3 version to get started *********
 
 
 
@@ -2009,3 +2040,4 @@ $(function()
 // IDEA: what about having an executive obj that acts as an API between objs?  Calls from one obj to another would go through the exObj or anytime something needs to happen and things need to be reset, the exObj is used?
 // IDEA: float the img name in the upper right corner with no attachment?? also make a little bigger? gets rid of needing to be perfect issues and extra lines in media queries
 // Test Windows 8 touch screens at Best Buy when tab menu is done
+// Detect if device is a phone and build out a phone version of the tour
