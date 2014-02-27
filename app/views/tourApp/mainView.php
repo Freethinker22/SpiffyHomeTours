@@ -261,6 +261,23 @@ This is a special view that doesn't use the framework's regular header or footer
 				</ul>
 			</section>
 		</script>
+
+
+<!-- *** Amortization chart *** -->
+		<script id="amortizeTemp" type="text/template">
+			<section class="tabContentBox">
+				<h1 class="tabHeader">
+					Amortization Chart
+				</h1>
+				<div class="amorWrapper">
+					chart goes here
+				</div>
+			</section>
+		</script>
+
+
+
+
 		
 		<!-- *** Address information box *** -->
 		<script id="addressBoxTemp" type="text/template">

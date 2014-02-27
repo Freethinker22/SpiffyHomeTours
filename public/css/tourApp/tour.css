@@ -316,6 +316,15 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   top:50%;
   width:75em;
 }
+
+
+
+.amorWrapper {
+
+}
+
+
+
 .iaBtns {
   cursor:pointer;
   position:absolute;
@@ -368,11 +377,6 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   line-height:1.75em;
   word-wrap:break-word;
 }
-
-
-
-
-
 .tabCalc {
   margin:0 auto;
   width:46.125em;
@@ -411,11 +415,6 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   text-align:center;
   width:7.8125em;
 }
-
-
-
-
-
 .tabLeftCol {
   float:left;
   margin-right:2em;

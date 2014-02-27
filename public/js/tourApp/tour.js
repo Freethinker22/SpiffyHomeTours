@@ -1459,6 +1459,7 @@ $(function()
 				}
 			},
 			// Calculate the totals to display, and reformat numbers for display
+			// *** Revise later: Show an error if the input numbers don't make since. i.e. down pmt is larger than price, term is greater than 40 yrs, etc.
 			calculate:function()
 			{
 				var price = parseFloat($('#price').val());
@@ -1559,8 +1560,52 @@ $(function()
 			// Create the amortization chart
 			amortize:function()
 			{
-				console.log('amortize');
+				if(!Amortize.isOn && !ImgDisplay.maskInTrans)
+				{
+					Amortize.init();
+				}				
 			},
+			storeState:function(currState)
+			{
+				this.currState = currState;
+				this.isOn = false;
+			}
+		}
+
+
+		// =============================================================================================
+		// The Amortize obj is an addition to the calculator tab and is used to display a mortgage amortization chart in an underscore.js template
+		// =============================================================================================
+		var Amortize =
+		{
+			el: _.template($('#amortizeTemp').html()),
+			currState: {}, // Obj used to store and maintain the state of the chart
+			amorInit: false,
+			isOn: false,
+			
+			init:function()
+			{
+				if(!this.amorInit)
+				{
+					TabMenu.showTab(this.el, this);
+					this.createChart();
+					this.amorInit = true;
+					Alert.alertOn('Click the Mortgage Calculator button to go back.', 4000);
+				}
+				else
+				{
+					TabMenu.showTab(this.currState, this);
+				}
+			},
+
+			createChart:function()
+			{
+				// *** need to pass vars from calc to this.init and save them as local vars
+				// *** then create super efficent loop to create each chart row
+				// *** how to get each row into the chart after each loop?  Maybe wait till looping is done and load all at once?
+				// *** scrollbar?
+			},
+
 			storeState:function(currState)
 			{
 				this.currState = currState;
@@ -1569,8 +1614,6 @@ $(function()
 		}
 			
 
-
-		// ******** amortization chart look at AS3 version to get started *********
 
 
 
