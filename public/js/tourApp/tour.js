@@ -279,9 +279,9 @@ $(function()
 				var centerSlideY = this.centerY - (slide.el.height() / 2); // The point where the top left corner of the center slide would be to make it exactly centered in the the slide menu
 				var horiSpace = this.horiSpace;
 				var vertSpace = this.vertSpace;
-				var offset, absOffset, xPos, yPos, zPos = 0;
+				var offset, absOffset, xPos, yPos, zPos, i = 0;
 																				
-				for(var i = arrLen; i--;) // Decrement for loop for preformance
+				for(i = arrLen; i--;) // Decrement for loop for preformance
 				{
 					slide = slideArray[i];
 					offset = i - slideNum; // Number of slides in between the new current slide, which is the slideNum, and the index of the loop, used as a spacing multiplier
@@ -1481,18 +1481,20 @@ $(function()
 				totalMortgagePayment = (loanPayment + ((propTax + propInsur + pmi) / 12));
 
 				this.outputCalc(price, downPmt, propTax, propInsur, pmi, loanAmount, loanPayment, totalMortgagePayment);
+
+				Amortize.createChart(loanAmount, numOfMonths, loanPayment, interestRate); // Setup the amortization chart so its ready for the user
 			},
 			// Format the input numbers and display them to the user
 			outputCalc:function(price, downPmt, propTax, propInsur, pmi, loanAmount, loanPayment, totalMortgagePayment)
-			{				
-				$('#price').val(this.numFormat(price));
-				$('#downPmt').val(this.numFormat(downPmt));
-				$('#propTax').val(this.numFormat(propTax));
-				$('#propInsur').val(this.numFormat(propInsur));
-				$('#pmi').val(this.numFormat(pmi));
-				$('#loanAmt').html(this.numFormat(loanAmount));
-				$('#loanPmt').html(this.numFormat(loanPayment));
-				$('#mortgagePmt').html(this.numFormat(totalMortgagePayment));
+			{			
+				$('#price').val(this.numFormat(price, 2));
+				$('#downPmt').val(this.numFormat(downPmt, 2));
+				$('#propTax').val(this.numFormat(propTax, 2));
+				$('#propInsur').val(this.numFormat(propInsur, 2));
+				$('#pmi').val(this.numFormat(pmi, 2));
+				$('#loanAmt').html(this.numFormat(loanAmount, 2));
+				$('#loanPmt').html(this.numFormat(loanPayment, 2));
+				$('#mortgagePmt').html(this.numFormat(totalMortgagePayment, 2));
 			},
 			// Remove any extra characters from the input numbers
 			cleanOut:function(number)
@@ -1502,9 +1504,9 @@ $(function()
 				return number.replace(cleanOutPattern, '');
 			},
 			// Change the numbers to the correct currency format
-			numFormat:function(number)
+			numFormat:function(number, decimals)
 			{
-				var precision = 2;
+				var precision = decimals;
 				var decimalDelimiter = '.';
 				var commaDelimiter = ',';
 				var prefix = '$';
@@ -1515,7 +1517,12 @@ $(function()
 				var leftSideNew = '';
 				var rightSide = '00';
 
-				if(numSides.length > 1) { rightSide = numSides[1].substr(0, precision); }
+				if(numSides.length > 1)
+				{ 
+					rightSide = numSides[1].substr(0, precision);
+
+					if(rightSide.length === 1) { rightSide = rightSide + '0'; } // If input is xx.5, return xx.50
+				}
 
 				for(var i = 0; i < leftSideLen; i++)
 				{
@@ -1543,7 +1550,8 @@ $(function()
 					}	
 				}
 
-				this.inputsArr[0].focus();	
+				this.inputsArr[0].focus();
+				this.allowAmor = false;	
 			},
 			// Highlight input errors
 			errorOn:function(inputObj)
@@ -1560,7 +1568,7 @@ $(function()
 			// Create the amortization chart
 			amortize:function()
 			{
-				if(!Amortize.isOn && !ImgDisplay.maskInTrans)
+				if(Amortize.isReady && !Amortize.isOn && !ImgDisplay.maskInTrans)
 				{
 					Amortize.init();
 				}				
@@ -1582,7 +1590,14 @@ $(function()
 			currState: {}, // Obj used to store and maintain the state of the chart
 			amorInit: false,
 			isOn: false,
+			isReady: false, // Flag to allow the amortize button in the Calculator obj to show the amortization chart
+
+
+
+			amorChart: {}, // Container for amortization rows
 			
+
+
 			init:function()
 			{
 				if(!this.amorInit)
@@ -1598,12 +1613,50 @@ $(function()
 				}
 			},
 
-			createChart:function()
+			showChart:function()
 			{
+				this.el.html(this.amorChart);
+				// Add chart created in createChart to this.el
+			},
+
+			createChart:function(loanAmount, numOfMonths, loanPayment, interestRate)
+			{
+				var prin = loanAmount; // Loan remaining
+				var intPercent = (interestRate / 100) / 12; // Interest rate in percent form
+				var intPd, prinPd, totalIntPd = 0; // Interest, principal, and total interest paid
+				
+				this.amorChart = $('<div id="amorChart">');
+
+				for(i = numOfMonths; i--;) // Decrement for loop for preformance
+				{
+
+
+					// Amortization calculations
+					intPd = prin * intPercent;
+					prinPd = loanPayment - intPd;
+					totalIntPd = intPd + totalIntPd;
+					prin -= prinPd;
+
+					var amorRow = $('<div><span>Month: ' + i + '</span></div>'); // **** how to get these rows into amorChart and displayed???? *****
+					this.amorChart.append(amorRow);
+
+
+					//var slideImg = $('<img class="' + this.slideClass + '" src="' + this.src + '" alt="' + this.alt + '">');
+
+
+					//console.log('Month: ' + i + ' Principal: ' + Calc.numFormat(prin, 2) + ' To Principal: ' + Calc.numFormat(prinPd, 2) + ' To Interest: ' + Calc.numFormat(intPd, 2) + ' Total Int Paid: ' + Calc.numFormat(totalIntPd, 2));
+				}
+
+
+				
+
+
 				// *** need to pass vars from calc to this.init and save them as local vars
 				// *** then create super efficent loop to create each chart row
 				// *** how to get each row into the chart after each loop?  Maybe wait till looping is done and load all at once?
 				// *** scrollbar?
+
+				this.isReady = true;
 			},
 
 			storeState:function(currState)
@@ -1613,6 +1666,10 @@ $(function()
 			}
 		}
 			
+
+
+
+
 
 
 
