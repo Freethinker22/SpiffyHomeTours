@@ -269,9 +269,17 @@ This is a special view that doesn't use the framework's regular header or footer
 				<h1 class="tabHeader">
 					Amortization Chart
 				</h1>
-				<div class="amorWrapper">
-					chart goes here
-				</div>
+
+				<ul id="amorLabels">
+					<li>Payment Number</li>
+					<li>Payment Amount</li>
+					<li>Interest Portion</li>
+					<li>Principal Portion</li>
+					<li>Interest Paid</li>
+					<li>Principal Balance</li>
+				</ul>
+					
+				<div id="amorWrapper"></div>
 			</section>
 		</script>
 

@@ -183,6 +183,46 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   width:12.5em;
   z-index:2;
 }
+
+
+
+#amorChart {
+  position: relative;
+}
+
+#amorLabels {
+  padding: 0.3125em 0.625em;
+}
+
+#amorLabels li {
+  display: inline-block;
+  font-size: 0.875em;
+  padding: 0 1em;
+  text-align: center;
+  width: 7.8125em;
+}
+
+.amorRow {
+  font-size: 0.875em; /* this needs to move unless CSS is going to be refactored to make more since? */
+}
+
+#amorWrapper {
+  height:23.5em;
+  overflow:hidden;
+  padding: 0 0.625em;
+  width:100%;
+}
+
+#amorWrapper #scrollbar {
+  left:100%;
+  position:relative;
+  z-index:2;
+}
+
+
+
+
+
 #btnBar {
   height:1.625em;
   left:3.1875em;
@@ -316,14 +356,6 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   top:50%;
   width:75em;
 }
-
-
-
-.amorWrapper {
-
-}
-
-
 
 .iaBtns {
   cursor:pointer;

@@ -1224,8 +1224,8 @@ $(function()
 			el: _.template($('#propInfoTemp').html(), { data:propInfo }, { variable:'prop' }),
 			aboutText: {},
 			currState: {}, // Obj used to store and maintain the state of the tab
-			propInfoInit: false,
-			isOn: false,
+			propInfoInit: false, // Flag to determine if the PropInfo tab has already been initialized
+			isOn: false, // Flag to determine if the object is showing
 			
 			// If the propInfo tab has not been init, create the tab's content, if has been init, load the stored version of it
 			init:function()
@@ -1284,16 +1284,16 @@ $(function()
 		{
 			el: _.template($('#propMapTemp').html()),
 			currState: {}, // Obj used to store and maintain the state of the map
-			mapInit: false,
-			isOn: false,
+			propMapInit: false, // Flag to determine if the PropMap tab has already been initialized
+			isOn: false, // Flag to determine if the object is showing
 			
 			init:function()
 			{
-				if(!this.mapInit)
+				if(!this.propMapInit)
 				{
 					TabMenu.showTab(this.el, this);
 					this.createMap();
-					this.mapInit = true;
+					this.propMapInit = true;
 				}
 				else
 				{
@@ -1344,13 +1344,8 @@ $(function()
 		{
 			el: _.template($('#agentInfoTemp').html(), { data:agentInfo }, { variable:'agent' }),
 			currState: {}, // Obj used to store and maintain the state of the tab
-			agentInfoInit: false,
-			isOn: false,
-
-			// starting:function()
-			// {
-			// 	console.log(this.el);
-			// },
+			agentInfoInit: false, // Flag to determine if the agentInfo tab has already been initialized
+			isOn: false, // Flag to determine if the object is showing
 
 			init:function()
 			{
@@ -1380,8 +1375,8 @@ $(function()
 		{
 			el: _.template($('#calcTemp').html()),
 			currState: {}, // Obj used to store and maintain the state of the tab
-			calcInit: false,
-			isOn: false,
+			calcInit: false, // Flag to determine if the Calc tab has already been initialized
+			isOn: false, // Flag to determine if the object is showing
 			inputsArr: [], // All of the number input fields in the mortgage calculator
 			inputsArrLen: {},
 
@@ -1551,7 +1546,8 @@ $(function()
 				}
 
 				this.inputsArr[0].focus();
-				this.allowAmor = false;	
+				this.allowAmor = false;
+				Amortize.clearChart();
 			},
 			// Highlight input errors
 			errorOn:function(inputObj)
@@ -1568,7 +1564,7 @@ $(function()
 			// Create the amortization chart
 			amortize:function()
 			{
-				if(Amortize.isReady && !Amortize.isOn && !ImgDisplay.maskInTrans)
+				if(Amortize.chartReady && !Amortize.isOn && !ImgDisplay.maskInTrans)
 				{
 					Amortize.init();
 				}				
@@ -1588,83 +1584,110 @@ $(function()
 		{
 			el: _.template($('#amortizeTemp').html()),
 			currState: {}, // Obj used to store and maintain the state of the chart
-			amorInit: false,
-			isOn: false,
-			isReady: false, // Flag to allow the amortize button in the Calculator obj to show the amortization chart
-
-
-
-			amorChart: {}, // Container for amortization rows
+			amorWrapper: {}, // Wrapper div for amorChart
+			amorChart: {}, // Container div amortization rows
+			amorInit: false, // Flag to determine if the amortization chart has already been initialized
+			isOn: false, // Flag to determine if the object is showing
+			chartReady: false, // Flag to allow the amortize button in the Calculator obj to show the amortization chart
+			msgShown: false, // Flag to determine if the alert has already been shown
 			
-
-
 			init:function()
 			{
 				if(!this.amorInit)
 				{
 					TabMenu.showTab(this.el, this);
-					this.createChart();
+					this.showChart();
 					this.amorInit = true;
-					Alert.alertOn('Click the Mortgage Calculator button to go back.', 4000);
+
+					if(!this.msgShown)
+					{
+						Alert.alertOn('Click the Mortgage Calculator button to go back.', 4000);
+						this.msgShown = true;
+					}
 				}
 				else
 				{
 					TabMenu.showTab(this.currState, this);
 				}
 			},
-
+			// Add the chart created in createChart
 			showChart:function()
 			{
-				this.el.html(this.amorChart);
-				// Add chart created in createChart to this.el
+				this.amorWrapper = $('#amorWrapper');
+				this.amorWrapper.html(this.amorChart);
+				this.addScrollbar();	
 			},
-
+			// Add a scollbar obj to the amortization chart
+			// Revise later: Add a function to check the need for a scollbar, only a problem if someone put 1 or 2 years into the loan term input
+			addScrollbar:function() 
+			{
+				var amorChartHeight = this.amorChart.height(); // How tall the amorChart is
+				var amorChartParentHeight = this.amorChart.parent().height(); // Height of the about amorChart's parent container, equal to the height of the scrollbar
+				var scrollbarObj = new Scrollbar(this.amorChart, amorChartHeight, amorChartParentHeight, 0);
+				
+				this.amorWrapper.prepend(scrollbarObj.el);
+				scrollbarObj.init();
+			},
+			// Check to see if the chart already exists and create a new one
 			createChart:function(loanAmount, numOfMonths, loanPayment, interestRate)
+			{
+				if(!this.chartReady)
+				{
+					this.setUpChart(loanAmount, numOfMonths, loanPayment, interestRate);
+				}
+				else
+				{
+					this.clearChart();
+					this.setUpChart(loanAmount, numOfMonths, loanPayment, interestRate);
+				}
+			},
+			// Use vars passed in from Calculator to create an amortization chart
+			setUpChart:function(loanAmount, numOfMonths, loanPayment, interestRate) 
 			{
 				var prin = loanAmount; // Loan remaining
 				var intPercent = (interestRate / 100) / 12; // Interest rate in percent form
+				var month = 1;
 				var intPd, prinPd, totalIntPd = 0; // Interest, principal, and total interest paid
-				
-				this.amorChart = $('<div id="amorChart">');
+
+				this.amorChart = $('<div id="amorChart"></div>');
 
 				for(i = numOfMonths; i--;) // Decrement for loop for preformance
 				{
-
-
-					// Amortization calculations
+					// Amortization algorithm
 					intPd = prin * intPercent;
 					prinPd = loanPayment - intPd;
 					totalIntPd = intPd + totalIntPd;
 					prin -= prinPd;
 
-					var amorRow = $('<div><span>Month: ' + i + '</span></div>'); // **** how to get these rows into amorChart and displayed???? *****
+					var amorRow = $('<div class="amorRow"><span>' + month + ' ' +  Calc.numFormat(loanPayment, 2) + ' ' +  Calc.numFormat(intPd, 2) + ' ' +  Calc.numFormat(prinPd, 2) + ' ' +  Calc.numFormat(totalIntPd, 2) + ' ' +  Calc.numFormat(prin, 2) + '</span></div>');
 					this.amorChart.append(amorRow);
 
-
-					//var slideImg = $('<img class="' + this.slideClass + '" src="' + this.src + '" alt="' + this.alt + '">');
-
-
-					//console.log('Month: ' + i + ' Principal: ' + Calc.numFormat(prin, 2) + ' To Principal: ' + Calc.numFormat(prinPd, 2) + ' To Interest: ' + Calc.numFormat(intPd, 2) + ' Total Int Paid: ' + Calc.numFormat(totalIntPd, 2));
+					month++;
 				}
 
-
-				
-
-
-				// *** need to pass vars from calc to this.init and save them as local vars
-				// *** then create super efficent loop to create each chart row
-				// *** how to get each row into the chart after each loop?  Maybe wait till looping is done and load all at once?
-				// *** scrollbar?
-
-				this.isReady = true;
+				this.chartReady = true;
 			},
-
+			// Called when an existing amorChart needs to be recalculated or the Calc obj is cleared
+			clearChart:function()
+			{
+				if(this.amorInit)
+				{
+					this.amorWrapper.empty();
+					this.amorInit = false;
+					this.chartReady = false;
+				}
+			},
 			storeState:function(currState)
 			{
 				this.currState = currState;
 				this.isOn = false;
 			}
 		}
+
+		// *** space numbers to match rows
+		// *** if ending numbers are less than 0 make them 0
+		// *** zebra striping on the rows, maybe make the bg white with black text?
+		// *** resize functions for amorchart and all other tabs?
 			
 
 
