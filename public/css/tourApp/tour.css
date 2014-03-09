@@ -191,25 +191,27 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 }
 
 #amorLabels {
-  padding: 0.3125em 0.625em;
+  padding:0.3125em 0.625em;
 }
 
 #amorLabels li {
-  display: inline-block;
-  font-size: 0.875em;
-  padding: 0 1em;
-  text-align: center;
-  width: 7.8125em;
+  display:inline-block;
+  font-size:0.875em;
+  padding:0 1em;
+  text-align:center;
+  width:7.8125em;
 }
-
-.amorRow {
-  font-size: 0.875em; /* this needs to move unless CSS is going to be refactored to make more since? */
+.amorColumn { /*** this needs to move unless CSS is going to be refactored to make more since? ***/
+  display:inline-block;
+  font-size:0.875em;
+  text-align:center;
+  width:7.8125em;
 }
 
 #amorWrapper {
   height:23.5em;
   overflow:hidden;
-  padding: 0 0.625em;
+  padding:0 0.625em;
   width:100%;
 }
 

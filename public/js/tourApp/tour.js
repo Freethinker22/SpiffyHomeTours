@@ -1659,7 +1659,9 @@ $(function()
 					totalIntPd = intPd + totalIntPd;
 					prin -= prinPd;
 
-					var amorRow = $('<div class="amorRow"><span>' + month + ' ' +  Calc.numFormat(loanPayment, 2) + ' ' +  Calc.numFormat(intPd, 2) + ' ' +  Calc.numFormat(prinPd, 2) + ' ' +  Calc.numFormat(totalIntPd, 2) + ' ' +  Calc.numFormat(prin, 2) + '</span></div>');
+					var amorRow = 
+					$('<ul class="amorRow"><li class="amorColumn">' + month + '</li> <li class="amorColumn">' +  Calc.numFormat(loanPayment, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(intPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prinPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(totalIntPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prin, 2) + '</li></ul>');
+
 					this.amorChart.append(amorRow);
 
 					month++;
@@ -1684,7 +1686,6 @@ $(function()
 			}
 		}
 
-		// *** space numbers to match rows
 		// *** if ending numbers are less than 0 make them 0
 		// *** zebra striping on the rows, maybe make the bg white with black text?
 		// *** resize functions for amorchart and all other tabs?
