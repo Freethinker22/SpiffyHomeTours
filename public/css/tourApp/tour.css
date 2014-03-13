@@ -201,6 +201,7 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   text-align:center;
   width:7.8125em;
 }
+
 .amorColumn { /*** this needs to move unless CSS is going to be refactored to make more since? ***/
   display:inline-block;
   font-size:0.875em;
@@ -208,10 +209,16 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   width:7.8125em;
 }
 
+.amorRow {
+  padding:1px 0;
+}
+
 #amorWrapper {
+  border-bottom:1px solid black;
+  border-top:1px solid black;
   height:23.5em;
   overflow:hidden;
-  padding:0 0.625em;
+  padding:0 2.5em 0 0.625em;
   width:100%;
 }
 

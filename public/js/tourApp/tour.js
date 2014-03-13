@@ -1499,6 +1499,7 @@ $(function()
 				return number.replace(cleanOutPattern, '');
 			},
 			// Change the numbers to the correct currency format
+			// *** Revise later: Formatter doesn't handle values less than $1.00 very well
 			numFormat:function(number, decimals)
 			{
 				var precision = decimals;
@@ -1526,7 +1527,7 @@ $(function()
 					leftSideNew = leftSide.substr(-i - 1, 1) + leftSideNew;
 				}
 
-				return parseInt(leftSideNew) === 0 ? prefix + '0.00' : prefix + leftSideNew + decimalDelimiter + rightSide;
+				return parseInt(leftSideNew) <= 0 ? prefix + '0.00' : prefix + leftSideNew + decimalDelimiter + rightSide;
 			},
 			// Reset the calculator
 			clearCalc:function()
@@ -1642,12 +1643,16 @@ $(function()
 				}
 			},
 			// Use vars passed in from Calculator to create an amortization chart
+			// *** Revise later: Sometimes the last one or two rows has some calculation issues
+			// *** Probably a more preformant way to generate the html than using jQuery?
 			setUpChart:function(loanAmount, numOfMonths, loanPayment, interestRate) 
 			{
+				var loanPmt = Calc.numFormat(loanPayment, 2); // Formatted version of the loanPayment
 				var prin = loanAmount; // Loan remaining
 				var intPercent = (interestRate / 100) / 12; // Interest rate in percent form
 				var month = 1;
 				var intPd, prinPd, totalIntPd = 0; // Interest, principal, and total interest paid
+				var amorRow = {}; // Obj to hold the dynamically generated html
 
 				this.amorChart = $('<div id="amorChart"></div>');
 
@@ -1658,12 +1663,9 @@ $(function()
 					prinPd = loanPayment - intPd;
 					totalIntPd = intPd + totalIntPd;
 					prin -= prinPd;
-
-					var amorRow = 
-					$('<ul class="amorRow"><li class="amorColumn">' + month + '</li> <li class="amorColumn">' +  Calc.numFormat(loanPayment, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(intPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prinPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(totalIntPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prin, 2) + '</li></ul>');
+					amorRow = $('<ul class="amorRow"><li class="amorColumn">' + month + '</li> <li class="amorColumn">' +  loanPmt + '</li> <li class="amorColumn">' +  Calc.numFormat(intPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prinPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(totalIntPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prin, 2) + '</li></ul>');
 
 					this.amorChart.append(amorRow);
-
 					month++;
 				}
 
@@ -1686,9 +1688,7 @@ $(function()
 			}
 		}
 
-		// *** if ending numbers are less than 0 make them 0
-		// *** zebra striping on the rows, maybe make the bg white with black text?
-		// *** resize functions for amorchart and all other tabs?
+		// *** resize functions for amorchart and all other tabs ***
 			
 
 
