@@ -44,6 +44,19 @@ table {
 /* =================================================================================================
 Base theme, theme specific styles are added in the theme stylesheets
 ================================================================================================= */
+
+/* Webfont: Lato-Light */
+@font-face {
+    font-family: 'Lato';
+    src: url('../../fonts/Lato-Regular.eot'); /* IE9 Compat Modes */
+    src: url('../../fonts/Lato-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../../fonts/Lato-Regular.woff') format('woff'), /* Modern Browsers */
+         url('../../fonts/Lato-Regular.ttf') format('truetype'); 
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
 a {
   border:none;
   color:white;
@@ -57,8 +70,9 @@ audio { /* Because custom controls are used for the music and the audio element 
 body {
   background-color:#444;
   color:white; /* All text in the tour is white unless otherwise specified */
-  font-family:Verdana, Arial, Times;
+  font-family:'Lato', Verdana, Arial, sans;
   font-size:100%;
+  letter-spacing:0.3px;
   line-height:1em;
 }
 #jsWarning {
