@@ -83,6 +83,9 @@ $(function()
 							ImgDisplay.resetSize();
 							SlideMenu.resetSize();
 							SlideScrollbar.resetSize();
+							PropInfo.resetSize();
+							PropMap.resetSize();
+							Amortize.resetSize();
 							currFontSize = newFontSize;
 						}
 					}, 600);
@@ -1114,6 +1117,13 @@ $(function()
 		};
 				
 
+
+
+
+
+
+
+
 		// =============================================================================================
 		// The TabMenu obj sets up and controls all of the tab navigation
 		// *** Note: The TabMenu obj only sets up the tabs and handles the displaying of the tab menu pages, the tab pages themselves are separate self contained objs
@@ -1273,6 +1283,12 @@ $(function()
 			{
 				this.currState = currState;
 				this.isOn = false;
+			},
+			// Clear the current state of the tab when the browser resizes
+			resetSize:function()
+			{
+				this.currState = {};
+				this.propInfoInit = false;
 			}
 		}
 				
@@ -1333,6 +1349,12 @@ $(function()
 			{
 				this.currState = currState;
 				this.isOn = false;
+			},
+			// Clear the current state of the map when the browser resizes
+			resetSize:function()
+			{
+				this.currState = {};
+				this.propMapInit = false;
 			}
 		}
 				
@@ -1591,6 +1613,10 @@ $(function()
 			isOn: false, // Flag to determine if the object is showing
 			chartReady: false, // Flag to allow the amortize button in the Calculator obj to show the amortization chart
 			msgShown: false, // Flag to determine if the alert has already been shown
+			loanAmount: 0, // Vars from the calc are stored incase of resizing, keeps the values stored in the obj and not the function
+			numOfMonths: 0,
+			loanPayment: 0,
+			interestRate: 0,
 			
 			init:function()
 			{
@@ -1626,41 +1652,54 @@ $(function()
 				var amorChartParentHeight = this.amorChart.parent().height(); // Height of the about amorChart's parent container, equal to the height of the scrollbar
 				var scrollbarObj = new Scrollbar(this.amorChart, amorChartHeight, amorChartParentHeight, 0);
 				
-				this.amorWrapper.prepend(scrollbarObj.el);
-				scrollbarObj.init();
+				if(!Param.isTouchCapable) // Only use a visible scrollbar for non-touch devices
+				{
+					this.amorWrapper.prepend(scrollbarObj.el);
+					scrollbarObj.init();
+				}
+				else
+				{
+					scrollbarObj.touchScroll();
+				}
 			},
-			// Check to see if the chart already exists and create a new one
+			// Called from Calc.calculate to create the amorChart so its ready when the user want to see it
+			// *** Note: If the user has already amortized values in the calc, the else part of this function recreates the chart with the new values
 			createChart:function(loanAmount, numOfMonths, loanPayment, interestRate)
 			{
+				this.loanAmount = loanAmount;
+				this.numOfMonths = numOfMonths;
+				this.loanPayment = loanPayment;
+				this.interestRate = interestRate;
+
 				if(!this.chartReady)
 				{
-					this.setUpChart(loanAmount, numOfMonths, loanPayment, interestRate);
+					this.setUpChart();
 				}
 				else
 				{
 					this.clearChart();
-					this.setUpChart(loanAmount, numOfMonths, loanPayment, interestRate);
+					this.setUpChart();
 				}
 			},
 			// Use vars passed in from Calculator to create an amortization chart
 			// *** Revise later: Sometimes the last one or two rows has some calculation issues
 			// *** Probably a more preformant way to generate the html than using jQuery?
-			setUpChart:function(loanAmount, numOfMonths, loanPayment, interestRate) 
+			setUpChart:function() 
 			{
-				var loanPmt = Calc.numFormat(loanPayment, 2); // Formatted version of the loanPayment
-				var prin = loanAmount; // Loan remaining
-				var intPercent = (interestRate / 100) / 12; // Interest rate in percent form
+				var loanPmt = Calc.numFormat(this.loanPayment, 2); // Formatted version of the loanPayment
+				var prin = this.loanAmount; // Loan remaining
+				var intPercent = (this.interestRate / 100) / 12; // Interest rate in percent form
 				var month = 1;
 				var intPd, prinPd, totalIntPd = 0; // Interest, principal, and total interest paid
 				var amorRow = {}; // Obj to hold the dynamically generated html
 
 				this.amorChart = $('<div id="amorChart"></div>');
 
-				for(i = numOfMonths; i--;) // Decrement for loop for preformance
+				for(i = this.numOfMonths; i--;) // Decrement for loop for preformance
 				{
 					// Amortization algorithm
 					intPd = prin * intPercent;
-					prinPd = loanPayment - intPd;
+					prinPd = this.loanPayment - intPd;
 					totalIntPd = intPd + totalIntPd;
 					prin -= prinPd;
 					amorRow = $('<ul class="amorRow"><li class="amorColumn">' + month + '</li> <li class="amorColumn">' +  loanPmt + '</li> <li class="amorColumn">' +  Calc.numFormat(intPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prinPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(totalIntPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prin, 2) + '</li></ul>');
@@ -1685,20 +1724,17 @@ $(function()
 			{
 				this.currState = currState;
 				this.isOn = false;
+			},
+			// Reset the amortization chart when the window is resized
+			resetSize:function()
+			{
+				if(this.chartReady)
+				{
+					this.clearChart();
+					this.setUpChart();
+				}
 			}
 		}
-
-		// *** resize functions for amorchart and all other tabs ***
-			
-
-
-
-
-
-
-
-
-
 
 
 		// =============================================================================================
@@ -1919,7 +1955,7 @@ $(function()
 							yPos = e.pageY - handleOffset - (parent.handleSize / 2); // Location of the handle based on the location of the mouse pointer
 							parent.setHandlePos(yPos);        
 
-							return false; // Only needed in IE7/8 otherwise the scrollbar doesn't drag?
+							return false; // Only needed in IE8 otherwise the scrollbar doesn't drag?
 						});
 						parent.doc.on('mouseup', function()
 						{
@@ -2152,14 +2188,10 @@ $(function()
 	});
 });
 
-// ************** remember your on an EX branch ****************
-// *** Finish tab menu ***
-// *** Google web fonts for Helvetica neu???
 // *** Font awesome and CSS for ia icons???
 // propInfo text and amortization chart scroll wheel functionality???
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...
-// Might have issue with the music not auto playing on new touch capable windows machines, find way to detect only mobile devices like how Param.isTouchCapable is found?
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
 // IDEA: what about having an executive obj that acts as an API between objs?  Calls from one obj to another would go through the exObj or anytime something needs to happen and things need to be reset, the exObj is used?
 // IDEA: float the img name in the upper right corner with no attachment?? also make a little bigger? gets rid of needing to be perfect issues and extra lines in media queries

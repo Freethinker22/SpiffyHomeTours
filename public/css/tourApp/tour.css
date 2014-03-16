@@ -44,18 +44,17 @@ table {
 /* =================================================================================================
 Base theme, theme specific styles are added in the theme stylesheets
 ================================================================================================= */
-/* Webfont: Open Sans Light */
+/* Webfont: Open Sans Regular */
 @font-face {
-    font-family: 'open_sanslight';
-    src: url('../../fonts/OpenSans-Light-webfont.eot');
-    src: url('../../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../../fonts/OpenSans-Light-webfont.woff') format('woff'),
-         url('../../fonts/OpenSans-Light-webfont.ttf') format('truetype'),
-         url('../../fonts/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+    font-family: 'open_sansregular';
+    src: url('../../fonts/OpenSans-Regular-webfont.eot');
+    src: url('../../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../../fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../../fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
-
 a {
   border:none;
   color:white;
@@ -69,10 +68,8 @@ audio { /* Because custom controls are used for the music and the audio element 
 body {
   background-color:#444;
   color:white; /* All text in the tour is white unless otherwise specified */
-  font-family:'open_sanslight', Verdana, Arial, sans;
+  font-family:'open_sansregular', Verdana, Arial, sans;
   font-size:100%;
-  letter-spacing:0.3px;
-/*  line-height:1em;*/
 }
 #jsWarning {
   background-color:red;
@@ -196,36 +193,19 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   width:12.5em;
   z-index:2;
 }
-
-
-
 #amorChart {
   position: relative;
 }
-
 #amorLabels {
   padding:0.3125em 0.625em;
 }
-
-#amorLabels li {
-  display:inline-block;
-  font-size:0.875em;
-  padding:0 1em;
-  text-align:center;
-  width:7.8125em;
-}
-
-.amorColumn { /*** this needs to move unless CSS is going to be refactored to make more since? ***/
-  display:inline-block;
-  font-size:0.875em;
-  text-align:center;
-  width:7.8125em;
-}
-
-.amorRow {
-  padding:1px 0;
-}
-
+  #amorLabels li {
+    display:inline-block;
+    font-size:0.875em;
+    padding:0 1em;
+    text-align:center;
+    width:7.8125em;
+  }
 #amorWrapper {
   border-bottom:1px solid black;
   border-top:1px solid black;
@@ -234,17 +214,11 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   padding:0 2.5em 0 0.625em;
   width:100%;
 }
-
-#amorWrapper #scrollbar {
-  left:100%;
-  position:relative;
-  z-index:2;
-}
-
-
-
-
-
+  #amorWrapper #scrollbar {
+    left:100%;
+    position:relative;
+    z-index:2;
+  }
 #btnBar {
   height:1.625em;
   left:3.1875em;
@@ -379,6 +353,15 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   width:75em;
 }
 
+.amorColumn {
+  display:inline-block;
+  font-size:0.875em;
+  text-align:center;
+  width:7.8125em;
+}
+.amorRow {
+  padding:1px 0;
+}
 .iaBtns {
   cursor:pointer;
   position:absolute;
