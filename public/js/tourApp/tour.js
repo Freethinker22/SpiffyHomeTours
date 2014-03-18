@@ -1945,6 +1945,8 @@ $(function()
 						
 				this.upArrow.on('click', function(e) { parent.arrowBtns('up', e, yPos); });
 				this.downArrow.on('click', function(e) { parent.arrowBtns('down', e, yPos); });
+
+				// ************************* any reason why this is not in its own function? *********************
 				this.handle.on('mousedown', function(e)
 				{
 					if(e.which === 1)
@@ -1966,7 +1968,24 @@ $(function()
 
 					return false; // Prevent mousedown event from bubbling
 				});
+
+
+				// *** Note: This listener uses mousewheel.js for its functionality
+				content.on('mousewheel', function(e) { parent.scrollWheel(e, yPos); });
 			}
+
+
+
+
+
+
+			// ******* put mousedown function here *********
+
+			
+
+
+			
+
 			// Move the handle either up or down depending on which arrow was clicked
 			this.arrowBtns = function(upDown, e, yPos)
 			{
@@ -1976,6 +1995,12 @@ $(function()
 					upDown === 'up' ? yPos = yPos -= Param.pixelsPerClick : yPos = yPos += Param.pixelsPerClick; // Add to the current top position depending on which arrow was clicked
 					this.setHandlePos(yPos);
 				}
+			}
+			// Get the current top position of the handle and subtract or add the set amount of pixels
+			this.scrollWheel = function(e, yPos)
+			{
+				e.deltaY > 0 ? yPos = parseInt(this.handle.css('top')) - Param.pixelsPerClick : yPos = parseInt(this.handle.css('top')) + Param.pixelsPerClick;
+				this.setHandlePos(yPos);
 			}
 			// Update the top position of the handle
 			this.setHandlePos = function(yPos)
@@ -2188,8 +2213,8 @@ $(function()
 	});
 });
 
+// better image scaling on agent info page
 // *** Font awesome and CSS for ia icons???
-// propInfo text and amortization chart scroll wheel functionality???
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img

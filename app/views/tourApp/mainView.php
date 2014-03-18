@@ -344,6 +344,7 @@ This is a special view that doesn't use the framework's regular header or footer
 		<script src="public/js/jsLibraries/fullSize/jQuery-1.10.2.js"></script>
 		<script src="public/js/jsLibraries/fullSize/underscore-1.5.2.js"></script>
 		<script src="public/js/jsLibraries/fullSize/TweenMax-1.11.2.js"></script>
+		<script src="public/js/vendor/mousewheel.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkz_Wk9GyccNY42pGI3VH1kIIgcABz7uA&sensor=false"></script>
 		<script src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
 	</body>
