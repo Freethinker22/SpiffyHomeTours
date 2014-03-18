@@ -275,7 +275,7 @@ This is a special view that doesn't use the framework's regular header or footer
 					<li>Payment Amount</li>
 					<li>Interest Portion</li>
 					<li>Principal Portion</li>
-					<li>Interest Paid</li>
+					<li>Interest <br /> Paid</li>
 					<li>Principal Balance</li>
 				</ul>
 					

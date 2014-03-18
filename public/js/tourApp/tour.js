@@ -41,8 +41,8 @@ $(function()
 			maxTweenTime: 17, // Max number of seconds that a tour img will take to tween in one direction
 			minTweenTime: 10, // Min number of seconds that a tour img will be tweening in one direction
 			
-			// Scrollbar ojb
-			pixelsPerClick: 16, // Amount of pixels the scroll handle is moved each time the up/down arrow is clicked
+			// Scrollbar obj
+			pixelsPerClick: 14, // Amount of pixels the scroll handle is moved each time the up/down arrow is clicked
 			
 			// Utilities
 			stdFadeTime: .50, // Standard fade in/out time 
@@ -1460,8 +1460,8 @@ $(function()
 					{
 						if(inputObj.val() === '' || inputObj.val() === 0)
 						{
-							inputObj.val(0); // If optional fields are left blank, make them equal to zero because of the mortgage algorithm 
-							// *** Revise later: On error, the option fields say 0 and not $0.00.  Make the calculate function not depend on optional fields being numbers and not a string
+							var zero = 0;
+							inputObj.val(zero.toFixed(2)); // If optional fields are left blank, make them equal to 0.00 and not '0.00' because of the mortgage algorithm 
 						}
 						else
 						{
@@ -1682,11 +1682,11 @@ $(function()
 				}
 			},
 			// Use vars passed in from Calculator to create an amortization chart
-			// *** Revise later: Sometimes the last one or two rows has some calculation issues
+			// *** Revise later: Sometimes the last one or two rows have some calculation issues
 			// *** Probably a more preformant way to generate the html than using jQuery?
 			setUpChart:function() 
 			{
-				var loanPmt = Calc.numFormat(this.loanPayment, 2); // Formatted version of the loanPayment
+				var loanPmt = Calc.numFormat(this.loanPayment, 2);// Formatted version of the loanPayment
 				var prin = this.loanAmount; // Loan remaining
 				var intPercent = (this.interestRate / 100) / 12; // Interest rate in percent form
 				var month = 1;
@@ -1702,7 +1702,7 @@ $(function()
 					prinPd = this.loanPayment - intPd;
 					totalIntPd = intPd + totalIntPd;
 					prin -= prinPd;
-					amorRow = $('<ul class="amorRow"><li class="amorColumn">' + month + '</li> <li class="amorColumn">' +  loanPmt + '</li> <li class="amorColumn">' +  Calc.numFormat(intPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prinPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(totalIntPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(prin, 2) + '</li></ul>');
+					amorRow = $('<ul class="amorRow"><li class="amorColumn">' + month + '</li> <li class="amorColumn">' + loanPmt + '</li> <li class="amorColumn">' + Calc.numFormat(intPd, 2) + '</li> <li class="amorColumn">' + Calc.numFormat(prinPd, 2) + '</li> <li class="amorColumn">' +  Calc.numFormat(totalIntPd, 2) + '</li> <li class="amorColumn">' + Calc.numFormat(prin, 2) + '</li></ul>');
 
 					this.amorChart.append(amorRow);
 					month++;
@@ -1938,54 +1938,41 @@ $(function()
 			}
 			// Assign event listeners to the scrollbar elements         
 			this.setListeners = function()
-			{       
+			{
 				var parent = this;
-				var handleOffset = this.upArrow.offset().top - scrollbarOffset; // Used in calculating the yPos for the scrollhandle
 				var yPos = 0;
 						
 				this.upArrow.on('click', function(e) { parent.arrowBtns('up', e, yPos); });
 				this.downArrow.on('click', function(e) { parent.arrowBtns('down', e, yPos); });
-
-				// ************************* any reason why this is not in its own function? *********************
-				this.handle.on('mousedown', function(e)
-				{
-					if(e.which === 1)
-					{
-						parent.isDragging = true;
-						parent.doc.on('mousemove', function(e)
-						{
-							yPos = e.pageY - handleOffset - (parent.handleSize / 2); // Location of the handle based on the location of the mouse pointer
-							parent.setHandlePos(yPos);        
-
-							return false; // Only needed in IE8 otherwise the scrollbar doesn't drag?
-						});
-						parent.doc.on('mouseup', function()
-						{
-							parent.doc.off('mousemove mouseup');
-							parent.isDragging = false;
-						});
-					}
-
-					return false; // Prevent mousedown event from bubbling
-				});
-
+				this.handle.on('mousedown', function(e) { parent.dragHandle(e, yPos); });
 
 				// *** Note: This listener uses mousewheel.js for its functionality
 				content.on('mousewheel', function(e) { parent.scrollWheel(e, yPos); });
 			}
+			// Move the handle when dragged
+			this.dragHandle = function(e, yPos)
+			{
+				var parent = this;
+				var handleOffset = this.upArrow.offset().top - scrollbarOffset; // Used in calculating the yPos for the scrollhandle
 
+				if(e.which === 1)
+				{
+					parent.isDragging = true;
+					parent.doc.on('mousemove', function(e)
+					{
+						yPos = e.pageY - handleOffset - (parent.handleSize / 2); // Location of the handle based on the location of the mouse pointer
+						parent.setHandlePos(yPos);        
 
-
-
-
-
-			// ******* put mousedown function here *********
-
-			
-
-
-			
-
+						return false; // Only needed in IE8 otherwise the scrollbar doesn't drag?
+					});
+					parent.doc.on('mouseup', function()
+					{
+						parent.doc.off('mousemove mouseup');
+						parent.isDragging = false;
+					});
+				}
+				return false; // Prevent mousedown event from bubbling
+			}
 			// Move the handle either up or down depending on which arrow was clicked
 			this.arrowBtns = function(upDown, e, yPos)
 			{
@@ -1996,13 +1983,14 @@ $(function()
 					this.setHandlePos(yPos);
 				}
 			}
-			// Get the current top position of the handle and subtract or add the set amount of pixels
+			// Get the current top position of the handle and add or subtract the set amount of pixels
 			this.scrollWheel = function(e, yPos)
 			{
 				e.deltaY > 0 ? yPos = parseInt(this.handle.css('top')) - Param.pixelsPerClick : yPos = parseInt(this.handle.css('top')) + Param.pixelsPerClick;
 				this.setHandlePos(yPos);
 			}
-			// Update the top position of the handle
+			// Update the top position of the handle and update the position of the content
+			// *** Note: This function is the interface for the scrollbar handle, arrows, and mouse wheel scrolling
 			this.setHandlePos = function(yPos)
 			{
 				if(yPos > this.topLimit && yPos < this.botLimit) // Prevent the handle from moving off the scrollbar track
@@ -2021,7 +2009,7 @@ $(function()
 					this.setContentPos(yPos, 'bot');
 				}
 			}
-			// Scroll the content
+			// Update the position of the content
 			// *** Note: When the scroll handle is told to go past the limits, set the content to its top or bottom most position
 			this.setContentPos = function(handleY, hitLimit)
 			{
@@ -2030,8 +2018,7 @@ $(function()
 				
 				if(!hitLimit) { content.css({ 'top':yPos }); }
 				else { hitLimit === 'top' ? content.css({ 'top':0 }) : content.css({ 'top':-(this.scrollAmt) }); }
-			}
-						
+			}	
 			// If the device has a touch screen, use touch scrolling instead of a scrollbar
 			// *** Revise later: A second touchmove after content is scrolled once returns the content to the top position, this is due to the recalculation of moveAmt
 			// *** Revise later: Touch scrolling is kinda buggy on smart phones and Nook tablet. Content scrolls too far down, but only sometimes, and is not very responsive
