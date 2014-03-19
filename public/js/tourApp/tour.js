@@ -1944,7 +1944,7 @@ $(function()
 						
 				this.upArrow.on('click', function(e) { parent.arrowBtns('up', e, yPos); });
 				this.downArrow.on('click', function(e) { parent.arrowBtns('down', e, yPos); });
-				this.handle.on('mousedown', function(e) { parent.dragHandle(e, yPos); });
+				this.handle.on('mousedown', function(e) { parent.dragHandle(e, yPos); return false; }); // Return, prevents mousedown event from bubbling. Needed for FF and Safari
 
 				// *** Note: This listener uses mousewheel.js for its functionality
 				content.on('mousewheel', function(e) { parent.scrollWheel(e, yPos); });
@@ -1971,7 +1971,6 @@ $(function()
 						parent.isDragging = false;
 					});
 				}
-				return false; // Prevent mousedown event from bubbling
 			}
 			// Move the handle either up or down depending on which arrow was clicked
 			this.arrowBtns = function(upDown, e, yPos)
@@ -2205,7 +2204,6 @@ $(function()
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
-// IDEA: what about having an executive obj that acts as an API between objs?  Calls from one obj to another would go through the exObj or anytime something needs to happen and things need to be reset, the exObj is used?
 // IDEA: float the img name in the upper right corner with no attachment?? also make a little bigger? gets rid of needing to be perfect issues and extra lines in media queries
 // Test Windows 8 touch screens at Best Buy when tab menu is done
 // Detect if device is a phone and build out a phone version of the tour
