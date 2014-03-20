@@ -2145,14 +2145,16 @@ $(function()
 				{
 					if(iaObj.type === 'txt') // Pop up text box interactivity
 					{
-						var infoBtn = $('<img class="iaBtns" src="public/img/tourApp/infoBtn.png" alt="Info button">');
+						// var infoBtn = $('<img class="iaBtns" src="public/img/tourApp/infoBtn.png" alt="Info button">');
+						var infoBtn = $('<i class="iaBtns fa fa-info">');
 						
 						infoBtn.click(function() { Interactive.info(iaObj.data); });
 						positionBtn(infoBtn, iaObj.xPct, iaObj.yPct);
 					}
 					else if(iaObj.type === 'pic') // Pop up interactive picture
 					{
-						var picBtn = $('<img class="iaBtns" src="public/img/tourApp/picBtn.png" alt="Interactive picture button">');
+						//var picBtn = $('<img class="iaBtns" src="public/img/tourApp/picBtn.png" alt="Interactive picture button">');
+						var picBtn = $('<i class="iaBtns fa fa-search">');
 						
 						picBtn.click(function() { Interactive.iaPic(iaObj.uId); });
 						positionBtn(picBtn, iaObj.xPct, iaObj.yPct);
@@ -2166,7 +2168,9 @@ $(function()
 						{
 							if(slide.uId === iaObj.data)
 							{
-								var navBtn = $('<img class="iaBtns" src="public/img/tourApp/navBtn.png" alt="Navigate button">');
+								//var navBtn = $('<img class="iaBtns" src="public/img/tourApp/navBtn.png" alt="Navigate button">');
+								var navBtn = $('<i class="iaBtns fa fa-arrows">');
+
 					
 								navBtn.click(function() { Interactive.navigate(slide); });
 								positionBtn(navBtn, iaObj.xPct, iaObj.yPct);
@@ -2199,7 +2203,6 @@ $(function()
 	});
 });
 
-// better image scaling on agent info page
 // *** Font awesome and CSS for ia icons???
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...

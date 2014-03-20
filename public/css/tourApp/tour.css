@@ -178,7 +178,7 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 }
 #agentLogo {
   display:inline-block;
-  width:15.625em;
+  width:12.625em;
 }
 #agentPic {
   display:inline-block;
@@ -362,10 +362,18 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 .amorRow {
   padding:1px 0;
 }
-.iaBtns {
+/*.iaBtns {
   cursor:pointer;
   position:absolute;
+}*/
+
+.iaBtns {
+  color: #0000ff;
+  cursor:pointer;
+  font-size: 2em;
+  position:absolute;
 }
+
 .iaPicWrapper {
   cursor:pointer;
   height:34.375em; /* This needs to match the height of the imgDisplay */

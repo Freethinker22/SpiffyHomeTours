@@ -14,6 +14,7 @@ This is a special view that doesn't use the framework's regular header or footer
 		<meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
 		<meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
 		<link rel="icon" href="public/img/favicon.ico" />
+		<!-- <link rel="stylesheet" href="public/css/font-awesome/font-awesome.css" media="screen" /> -->
 		<link rel="stylesheet" href="public/css/tourApp/tour.css" media="screen" />
 		<title>Spiffy Home Tours</title>
 		<!--[if lt IE 9]>
@@ -262,8 +263,7 @@ This is a special view that doesn't use the framework's regular header or footer
 			</section>
 		</script>
 
-
-<!-- *** Amortization chart *** -->
+		<!-- *** Amortization chart *** -->
 		<script id="amortizeTemp" type="text/template">
 			<section class="tabContentBox">
 				<h1 class="tabHeader">
@@ -283,10 +283,6 @@ This is a special view that doesn't use the framework's regular header or footer
 			</section>
 		</script>
 
-
-
-
-		
 		<!-- *** Address information box *** -->
 		<script id="addressBoxTemp" type="text/template">
 			<div class="infoText">
