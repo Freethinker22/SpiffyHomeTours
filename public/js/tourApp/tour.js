@@ -2145,15 +2145,13 @@ $(function()
 				{
 					if(iaObj.type === 'txt') // Pop up text box interactivity
 					{
-						// var infoBtn = $('<img class="iaBtns" src="public/img/tourApp/infoBtn.png" alt="Info button">');
-						var infoBtn = $('<i class="iaBtns fa fa-info">');
+						var infoBtn = $('<i class="iaBtns fa fa-info"></i>');
 						
 						infoBtn.click(function() { Interactive.info(iaObj.data); });
 						positionBtn(infoBtn, iaObj.xPct, iaObj.yPct);
 					}
 					else if(iaObj.type === 'pic') // Pop up interactive picture
 					{
-						//var picBtn = $('<img class="iaBtns" src="public/img/tourApp/picBtn.png" alt="Interactive picture button">');
 						var picBtn = $('<i class="iaBtns fa fa-search">');
 						
 						picBtn.click(function() { Interactive.iaPic(iaObj.uId); });
@@ -2168,9 +2166,7 @@ $(function()
 						{
 							if(slide.uId === iaObj.data)
 							{
-								//var navBtn = $('<img class="iaBtns" src="public/img/tourApp/navBtn.png" alt="Navigate button">');
 								var navBtn = $('<i class="iaBtns fa fa-arrows">');
-
 					
 								navBtn.click(function() { Interactive.navigate(slide); });
 								positionBtn(navBtn, iaObj.xPct, iaObj.yPct);
@@ -2203,7 +2199,7 @@ $(function()
 	});
 });
 
-// *** Font awesome and CSS for ia icons???
+// *** Font awesome and CSS for ia icons???  Jittery issue, need hard heights and width but those don't scale
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
