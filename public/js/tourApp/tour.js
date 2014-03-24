@@ -2199,7 +2199,7 @@ $(function()
 	});
 });
 
-// *** Font awesome and CSS for ia icons???  need to fix padding on 3 last sm sizes, maybe using line height with vertical centering?
+// pie.htc for round corners on ie8
 // tab page is not fully overlapping on iPad?
 // Look into using sprites for all of the small jpegs and pngs...
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
