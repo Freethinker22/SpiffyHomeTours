@@ -106,6 +106,10 @@ body {
   box-shadow:3px 3px 2px #111;
 }
 .iaBtns {
+  cursor:pointer;
+  position:absolute;
+}
+/*.iaBtns {
   background:#0000ff;
   border:2px solid #ffffff;
   -moz-border-radius:50%;
@@ -118,7 +122,7 @@ body {
   position:absolute;
   text-align:center;
   width:39px;
-}
+}*/
 .fluid {
   max-width:100%; /* For fluid imgs */
 }
@@ -274,16 +278,31 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   #imgDisplay > div {
     position:absolute;
   }
+
+/*#imgName {
+  height:1.625em;
+  position:absolute;
+  right:18.75em;  This is set from the right because the ImgName obj's changing width would mess up positioning it from the left 
+  line-height:1.625em; Centers text vertically, needs to be the same as height
+  top:8.625em;
+}
+ #imgName p {
+    margin:0 0.3125em;
+  }
+*/
+
 #imgName {
   height:1.625em;
   position:absolute;
-  right:18.75em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
+  right:19.625em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
   line-height:1.625em; /* Centers text vertically, needs to be the same as height */
-  top:8.625em;
+  top:5.0625em;
 }
   #imgName p {
-    margin:0 0.3125em;
+    padding:0 0.3125em;
   }
+
+
 #infoBox {
   cursor:pointer;
   height:0; /* The height of the box has to initially be 0. This is because the text appended into the p element pops open the div and spoils the opening tween if not set to 0 */
@@ -586,9 +605,6 @@ only screen and (min-height:725px) and (max-height:770px) {
   body {
     font-size:15.1px; /* 15.1 is used because using 15 even causes an img artifact in Chrome on the bottom of the imgDisplay? */
   }
-  .iaBtns {
-    width:37px;
-  }
   .tabCalc li input {
     font-size:15px;
     height:24px;
@@ -605,9 +621,6 @@ only screen and (min-height:675px) and (max-height:724px) {
   body {
     font-size:14px;
   }
-  .iaBtns {
-    width:35px;
-  }
   .tabCalc li input {
     font-size:14px;
     height:23px;
@@ -623,9 +636,6 @@ only screen and (min-width:1001px) and (max-width:1080px),
 only screen and (min-height:635px) and (max-height:674px) {
   body {
     font-size:13.1px; /* 13.1 is used because using 13 even causes an img artifact in Chrome on the bottom of the imgDisplay? */
-  }
-  .iaBtns {
-    width:33px;
   }
   .tabCalc li input {
     font-size:13px;
@@ -647,12 +657,6 @@ only screen and (min-height:580px) and (max-height:634px) {
     left:3.25em;
     top:36.8125em;
   }
-  #imgName {
-    right:18.6875em;
-  }
-  .iaBtns {
-    width:31px;
-  }
   .tabCalc li input {
     font-size:12px;
     height:20px;
@@ -670,7 +674,7 @@ only screen and (min-height:535px) and (max-height:579px) {
     font-size:11px;
   }
   .iaBtns {
-    width:28px;
+    width:22px;
   }
   .tabCalc li input {
     font-size:11px;
@@ -692,7 +696,7 @@ only screen and (min-height:490px) and (max-height:534px) {
     top:36.8125em;
   }
   .iaBtns {
-    width:26px;
+    width:22px;
   }
   .tabCalc li input {
     font-size:10px;
@@ -711,7 +715,7 @@ only screen and (min-height:445px) and (max-height:489px) {
     font-size:9px;
   }
   .iaBtns {
-    width:24px;
+    width:20px;
   }
   .tabCalc li input {
     font-size:9px;
@@ -730,7 +734,7 @@ only screen and (max-height:444px){
     font-size:8px;
   }
   .iaBtns {
-    width:22px;
+    width:20px;
   }
   .tabCalc li input {
     font-size:8px;

@@ -920,8 +920,15 @@ $(function()
 			resetPos:function()
 			{
 				// *** Note: The css() method has to be used here b/c jQuery's width() method returns the computed width which subtracts the border width due to the box-sizing being set to border-box
-				var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width'))); // Calculate the reset position
+				//var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width'))); // Calculate the reset position
 				
+
+
+				// *** how to subtract 0.875em off of this??? *** var is in px and 14px is a magic number???
+				var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width')) - 14);
+
+
+
 				this.el.css({ 'right':reset }); // This is set from the right because the ImgName obj's changing width would mess up positioning it from the left
 				this.alteredPos = false;
 			}
@@ -2145,14 +2152,15 @@ $(function()
 				{
 					if(iaObj.type === 'txt') // Pop up text box interactivity
 					{
-						var infoBtn = $('<i class="iaBtns fa fa-info"></i>');
+						// *** Revise later: Might switch over to using font awesome for the interactive icons
+						var infoBtn = $('<img class="iaBtns" src="public/img/tourApp/infoBtn.png" alt="Info button">');
 						
 						infoBtn.click(function() { Interactive.info(iaObj.data); });
 						positionBtn(infoBtn, iaObj.xPct, iaObj.yPct);
 					}
 					else if(iaObj.type === 'pic') // Pop up interactive picture
 					{
-						var picBtn = $('<i class="iaBtns fa fa-search">');
+						var picBtn = $('<img class="iaBtns" src="public/img/tourApp/picBtn.png" alt="Interactive picture button">');
 						
 						picBtn.click(function() { Interactive.iaPic(iaObj.uId); });
 						positionBtn(picBtn, iaObj.xPct, iaObj.yPct);
@@ -2166,7 +2174,7 @@ $(function()
 						{
 							if(slide.uId === iaObj.data)
 							{
-								var navBtn = $('<i class="iaBtns fa fa-arrows">');
+								var navBtn = $('<img class="iaBtns" src="public/img/tourApp/navBtn.png" alt="Navigate button">');
 					
 								navBtn.click(function() { Interactive.navigate(slide); });
 								positionBtn(navBtn, iaObj.xPct, iaObj.yPct);
@@ -2199,9 +2207,7 @@ $(function()
 	});
 });
 
-// pie.htc for round corners on ie8
 // tab page is not fully overlapping on iPad?
-// Look into using sprites for all of the small jpegs and pngs...
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
 // IDEA: float the img name in the upper right corner with no attachment?? also make a little bigger? gets rid of needing to be perfect issues and extra lines in media queries
 // Test Windows 8 touch screens at Best Buy when tab menu is done
