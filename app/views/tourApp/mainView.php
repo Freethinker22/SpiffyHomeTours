@@ -14,7 +14,6 @@ This is a special view that doesn't use the framework's regular header or footer
 		<meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
 		<meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
 		<link rel="icon" href="public/img/favicon.ico" />
-		<link rel="stylesheet" href="public/css/font-awesome/font-awesome.css" media="screen" />
 		<link rel="stylesheet" href="public/css/tourApp/tour.css" media="screen" />
 		<title>Spiffy Home Tours</title>
 		<!--[if lt IE 9]>
@@ -74,7 +73,7 @@ This is a special view that doesn't use the framework's regular header or footer
 				<div id="alertMsg" class="bg85Pct borderTL displayNone"><p class="pt85em"></p></div>
 			</section>
 			
-			<section id="imgName" class="bg60Pct borderTL">
+			<section id="imgName" class="imgNamePos bg60Pct borderTL">
 				<p id="imgNameText">Image Label</p>
 			</section>
 			

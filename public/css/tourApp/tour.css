@@ -294,13 +294,15 @@ Base structure: 16:10 aspect ratio for the tour wrapper
 #imgName {
   height:1.625em;
   position:absolute;
-  right:19.625em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
   line-height:1.625em; /* Centers text vertically, needs to be the same as height */
-  top:5.0625em;
 }
   #imgName p {
     padding:0 0.3125em;
   }
+.imgNamePos {
+  right:19.625em; /* This is set from the right because the ImgName obj's changing width would mess up positioning it from the left */
+  top:5.0625em;
+}
 
 
 #infoBox {

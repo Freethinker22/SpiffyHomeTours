@@ -40,6 +40,9 @@ $(function()
 			fadeDelay: 1.25, // The amount of time it takes a tour img to fade in or out during a transition
 			maxTweenTime: 17, // Max number of seconds that a tour img will take to tween in one direction
 			minTweenTime: 10, // Min number of seconds that a tour img will be tweening in one direction
+
+			// ImgName obj
+			positionRight: '19.625em', // Default right value of the ImgName obj
 			
 			// Scrollbar obj
 			pixelsPerClick: 14, // Amount of pixels the scroll handle is moved each time the up/down arrow is clicked
@@ -745,6 +748,9 @@ $(function()
 					this.tourPauseBtn[0].className = 'underline';
 				}
 			},
+
+
+
 			// Setup the listeners for the panning feature when the tour is put in pause mode
 			panningOn:function()
 			{
@@ -754,6 +760,13 @@ $(function()
 				var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
 				var topOffset = this.el.offset().top
 				var xPos, yPos = 0;
+
+
+
+				// *** revamp this code to prevent imaging jumping, maybe refactor entire object?  save version first...
+				// *** instead of using if type === touchmove, seperate the listeners using isTouchCapable but call the same move code.  I think having multiple listeners might cause issues...?
+
+
 								
 				// *** Note: Listeners for the panning have to be attached to the tour img element and not the TourImg obj, otherwise these listeners interfere with the interactive btn listeners 
 				tourImg.on('mouseover touchstart', function(e)
@@ -804,11 +817,18 @@ $(function()
 					if(!parent.panned) { parent.panned = true; } // Set the flag to notify this.playTour() to advance to the next img when the tour is restarted
 				});
 			},
+
+
 			// Turn off the listeners for the panning feature when the tour returns to play mode
 			panningOff:function()
 			{
 				this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
 			},
+
+
+
+
+
 			// The tour img mask is put on top of the tour img and serves as a container for the tab menu pages and iaPics
 			// *** Note: If a tab is already open, currContentObj is a reference to that open tab obj
 			tourImgMaskOn:function(content, currContentObj)
@@ -919,17 +939,8 @@ $(function()
 			// Reset the ImgName to its origanal position if it was altered
 			resetPos:function()
 			{
-				// *** Note: The css() method has to be used here b/c jQuery's width() method returns the computed width which subtracts the border width due to the box-sizing being set to border-box
-				//var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width'))); // Calculate the reset position
-				
-
-
-				// *** how to subtract 0.875em off of this??? *** var is in px and 14px is a magic number???
-				var reset = $('#tourWrapper').width() - (parseFloat(ImgDisplay.el.css('left')) + parseFloat(ImgDisplay.el.css('width')) - 14);
-
-
-
-				this.el.css({ 'right':reset }); // This is set from the right because the ImgName obj's changing width would mess up positioning it from the left
+				this.el.css({ 'right':Param.positionRight }); // This is set from the right because the ImgName obj's changing width would mess up positioning it from the left
+				this.el.addClass('imgNamePos'); 
 				this.alteredPos = false;
 			}
 		};
@@ -1122,13 +1133,6 @@ $(function()
 				el.html(template);
 			}
 		};
-				
-
-
-
-
-
-
 
 
 		// =============================================================================================
@@ -2207,8 +2211,7 @@ $(function()
 	});
 });
 
-// tab page is not fully overlapping on iPad?
+// tab page is not fully overlapping on iPad and mac book when size is decreased?
 // IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
-// IDEA: float the img name in the upper right corner with no attachment?? also make a little bigger? gets rid of needing to be perfect issues and extra lines in media queries
-// Test Windows 8 touch screens at Best Buy when tab menu is done
+// Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour
