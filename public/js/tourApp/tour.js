@@ -751,94 +751,245 @@ $(function()
 
 
 
-			// *** revamp this code to prevent imaging jumping, maybe refactor entire object?  save version first...
-			// *** download xCode to laptop to test
 
 
 
-			// Setup the listeners for the panning feature when the tour is put in pause mode
+
+			// *** change to panningOn to test ***
 			panningOn:function()
 			{
 				var parent = this;
 				var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
 				var tourImg = this.currImg.img; // Reference to the img element that is the tour img itself
 				var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
-				var topOffset = this.el.offset().top
+				var topOffset = this.el.offset().top;
+				var doc = $(document);
 				var xPos, yPos = 0;
+
+				var mouseDownXOffset = 0;
+				var mouseDownYOffset = 0;
 
 				if(!Param.isTouchCapable)
 				{
 					// *** Note: Listeners for the panning have to be attached to the tour img element and not the TourImg obj, otherwise these listeners interfere with the interactive btn listeners 
-					tourImg.on('mouseover', function(e)
-					{   
+					tourImg.on('mouseover', function()
+					{  
 						if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
 					});
 
-					tourImg.on('mousemove', function(e)
+					tourImg.on('mousedown', function(e)
 					{
-						pan(e);
+						mouseDownXOffset = e.pageX - leftOffset;
+						mouseDownYOffset = e.pageY - topOffset;
+
+						if(e.which === 1)
+						{
+							doc.on('mousemove', function(e)
+							{
+								//xPos = e.pageX - currImg.css('left') - mouseDownXOffset;
+								//yPos = e.pageY - currImg.css('top') - mouseDownYOffset;
+
+								xPos = e.pageX - mouseDownXOffset; // *** need to subtract the distance between mouseX and the left edge of the tour img? ***
+								yPos = e.pageY - mouseDownYOffset;
+
+								setImgPos(e, xPos, yPos);
+								return false;
+							});
+
+							doc.on('mouseup', function()
+							{
+								doc.off('mousemove mouseup');
+							});
+						}
 					});
 				}
-				else
-				{
-					tourImg.on('touchstart', function(e)
-					{   
-						e.preventDefault();
-						if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
-					});
+				// else
+				// {
+				// 	tourImg.on('touchstart', function(e)
+				// 	{   
+				// 		e.preventDefault();
+				// 		if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
+				// 	});
 
-					tourImg.on('touchmove', function(e) // *** Note: Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
-					{
-						var evt = e;
+				// 	tourImg.on('touchmove', function(e) // *** Note: Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
+				// 	{
+				// 		var evt = e;
 					
-						e.preventDefault();
-						evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-						pan(evt);
-					});
-				}
+				// 		e.preventDefault();
+				// 		evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+				// 		drag(evt);
+				// 	});
+				// }
 
-				// Calculate new X and Y positions based on where the mouse or touch is at and apply those to the TourImg obj's position
-				function pan(evt)
+				function setImgPos(e, xPos, yPos)
 				{
-					xPos = ((evt.pageX - leftOffset) / parent.elWidth) * (parent.currImgWidth - parent.elWidth) * -1;
-					yPos = ((evt.pageY - topOffset) / parent.elHeight) * (parent.currImgHeight - parent.elHeight) * -1;
-
 					if(parent.slide.type === 'stdImg')
 					{
-						if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
+						if(e.pageX > leftOffset && e.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
 						{
-							if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
+							if(e.pageY > topOffset && e.pageY < (topOffset + parent.elHeight))
 							{
 								currImg.css({ 'left':xPos, 'top':yPos });
 							}
 						}
 					}
-					else if(parent.slide.type === 'horiImg')
-					{
-						if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth))
-						{
-							currImg.css({ 'left':xPos });
-						}
-					}
-					else if(parent.slide.type === 'vertImg')
-					{
-						if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
-						{
-							currImg.css({ 'top':yPos });
-						}
-					}
-
-					if(!parent.panned) { parent.panned = true; } // Set the flag to notify this.playTour() to advance to the next img when the tour is restarted
 				}
 			},
-			// Turn off the listeners for the panning feature when the tour returns to play mode
 			panningOff:function()
 			{
 				this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
 			},
 
 
+				// this.dragHandle = function(e, yPos)
+				// {
+				// 	var parent = this;
+				// 	var handleOffset = this.upArrow.offset().top - scrollbarOffset; // Used in calculating the yPos for the scrollhandle
 
+				// 	if(e.which === 1)
+				// 	{
+				// 		parent.isDragging = true;
+				// 		parent.doc.on('mousemove', function(e)
+				// 		{
+				// 			yPos = e.pageY - handleOffset - (parent.handleSize / 2); // Location of the handle based on the location of the mouse pointer
+				// 			parent.setHandlePos(yPos);        
+
+				// 			return false; // Only needed in IE8 otherwise the scrollbar doesn't drag?
+				// 		});
+				// 		parent.doc.on('mouseup', function()
+				// 		{
+				// 			parent.doc.off('mousemove mouseup');
+				// 			parent.isDragging = false;
+				// 		});
+				// 	}
+				// }
+
+
+
+				// this.touchScroll = function() 
+				// {
+				// 	var evt;
+					
+				// 	content.css({ 'top':0 }); // Changes the top value from 'auto' to a numeric value, otherwise Nan is returned in touchmove handler
+
+				// 	content.on('touchstart', function(e)
+				// 	{
+				// 		e.preventDefault();
+				// 		evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+						
+				// 		var scrollAmt = contentHeight - contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
+				// 		var touchPoint = evt.pageY; // Initial point of contact
+				// 		var moveAmt, contentYPos = 0;
+		 	
+				// 		content.on('touchmove', function(e)
+				// 		{
+				// 			e.preventDefault();
+				// 			evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+				// 			moveAmt = evt.pageY - touchPoint; // moveAmt is the distance to move the content based on where the initial contact point was
+				// 			contentYPos = parseInt(content.css('top')) + moveAmt; // contentYPos is the current y position of the content
+
+				// 			if(contentYPos <= 0 && contentYPos > - (scrollAmt * 2)) // *** scrollAmt * 2 is needed only for the iPad? ***
+				// 			{
+				// 				content.css({ 'top':moveAmt });
+				// 			}
+				// 		});
+				// 	});
+				// 	content.on('touchend', function()
+				// 	{
+				// 		content.off('touchmove');
+				// 	});
+				// }            
+
+
+
+
+
+
+			// *** code with revamped listeners ***
+
+			// Setup the listeners for the panning feature when the tour is put in pause mode
+			// panningOn:function()
+			// {
+			// 	var parent = this;
+			// 	var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
+			// 	var tourImg = this.currImg.img; // Reference to the img element that is the tour img itself
+			// 	var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
+			// 	var topOffset = this.el.offset().top;
+			// 	var xPos, yPos = 0;
+
+			// 	if(!Param.isTouchCapable)
+			// 	{
+			// 		// *** Note: Listeners for the panning have to be attached to the tour img element and not the TourImg obj, otherwise these listeners interfere with the interactive btn listeners 
+			// 		tourImg.on('mouseover', function(e)
+			// 		{   
+			// 			if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
+			// 		});
+
+			// 		tourImg.on('mousemove', function(e)
+			// 		{
+			// 			pan(e);
+			// 		});
+			// 	}
+			// 	else
+			// 	{
+			// 		tourImg.on('touchstart', function(e)
+			// 		{   
+			// 			e.preventDefault();
+			// 			if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
+			// 		});
+
+			// 		tourImg.on('touchmove', function(e) // *** Note: Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
+			// 		{
+			// 			var evt = e;
+					
+			// 			e.preventDefault();
+			// 			evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+			// 			pan(evt);
+			// 		});
+			// 	}
+
+			// 	// Calculate new X and Y positions based on where the mouse or touch is at and apply those to the TourImg obj's position
+			// 	function pan(evt)
+			// 	{
+			// 		xPos = ((evt.pageX - leftOffset) / parent.elWidth) * (parent.currImgWidth - parent.elWidth) * -1;
+			// 		yPos = ((evt.pageY - topOffset) / parent.elHeight) * (parent.currImgHeight - parent.elHeight) * -1;
+
+			// 		if(parent.slide.type === 'stdImg')
+			// 		{
+			// 			if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
+			// 			{
+			// 				if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
+			// 				{
+			// 					currImg.css({ 'left':xPos, 'top':yPos });
+			// 				}
+			// 			}
+			// 		}
+			// 		else if(parent.slide.type === 'horiImg')
+			// 		{
+			// 			if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth))
+			// 			{
+			// 				currImg.css({ 'left':xPos });
+			// 			}
+			// 		}
+			// 		else if(parent.slide.type === 'vertImg')
+			// 		{
+			// 			if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
+			// 			{
+			// 				currImg.css({ 'top':yPos });
+			// 			}
+			// 		}
+
+			// 		if(!parent.panned) { parent.panned = true; } // Set the flag to notify this.playTour() to advance to the next img when the tour is restarted
+			// 	}
+			// },
+			// Turn off the listeners for the panning feature when the tour returns to play mode
+			// panningOff:function()
+			// {
+			// 	this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
+			// },
+
+
+			// *** original code ***
 
 			// Setup the listeners for the panning feature when the tour is put in pause mode
 			//  panningOn:function()
