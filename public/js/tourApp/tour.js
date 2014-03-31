@@ -766,8 +766,17 @@ $(function()
 				var doc = $(document);
 				var xPos, yPos = 0;
 
-				var mouseDownXOffset = 0;
-				var mouseDownYOffset = 0;
+				var mouseDownX = 0;
+				var mouseDownY = 0;
+				var leftLimit = currImg.width() - this.elWidth;
+				var rightLimit = 0;
+				var topLimit = currImg.height() - this.elHeight;
+				var botLimit = 0;
+
+				var imgX = 0;
+				var imgY = 0;
+				var xOffset = 0;
+				var yOffset = 0;
 
 				if(!Param.isTouchCapable)
 				{
@@ -779,20 +788,19 @@ $(function()
 
 					tourImg.on('mousedown', function(e)
 					{
-						mouseDownXOffset = e.pageX - leftOffset;
-						mouseDownYOffset = e.pageY - topOffset;
+						imgX = parseFloat(parent.bg.css('left'));
+						imgY = parseFloat(parent.bg.css('top'));
+						mouseDownX = e.pageX;
+						mouseDownY = e.pageY;
 
 						if(e.which === 1)
 						{
 							doc.on('mousemove', function(e)
 							{
-								//xPos = e.pageX - currImg.css('left') - mouseDownXOffset;
-								//yPos = e.pageY - currImg.css('top') - mouseDownYOffset;
+								xOffset = e.pageX - mouseDownX;
+								yOffset = e.pageY - mouseDownY;
 
-								xPos = e.pageX - mouseDownXOffset; // *** need to subtract the distance between mouseX and the left edge of the tour img? ***
-								yPos = e.pageY - mouseDownYOffset;
-
-								setImgPos(e, xPos, yPos);
+								setImgPos(e, xOffset, yOffset);
 								return false;
 							});
 
@@ -801,6 +809,7 @@ $(function()
 								doc.off('mousemove mouseup');
 							});
 						}
+						return false; // Prevent mousedown event from bubbling
 					});
 				}
 				// else
@@ -821,18 +830,26 @@ $(function()
 				// 	});
 				// }
 
-				function setImgPos(e, xPos, yPos)
+				function setImgPos(e, xOffset, yOffset)
 				{
 					if(parent.slide.type === 'stdImg')
 					{
-						if(e.pageX > leftOffset && e.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
-						{
-							if(e.pageY > topOffset && e.pageY < (topOffset + parent.elHeight))
-							{
-								currImg.css({ 'left':xPos, 'top':yPos });
-							}
-						}
+						currImg.css({ 'left':imgX + xOffset, 'top':imgY + yOffset }); // *** add distance moved to current left and top
+						// not sure why this isn't working?  Debug it step by step
 					}
+
+
+
+					// if(parent.slide.type === 'stdImg')
+					// {
+					// 	if(e.pageX > leftOffset && e.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
+					// 	{
+					// 		if(e.pageY > topOffset && e.pageY < (topOffset + parent.elHeight))
+					// 		{
+					// 			currImg.css({ 'left':xPos, 'top':yPos });
+					// 		}
+					// 	}
+					// }
 				}
 			},
 			panningOff:function()
