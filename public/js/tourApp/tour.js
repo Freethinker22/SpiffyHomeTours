@@ -763,24 +763,22 @@ $(function()
 				var tourImg = this.currImg.img; // Reference to the img element that is the tour img itself
 				var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
 				var topOffset = this.el.offset().top;
-				var doc = $(document);
-				var xPos, yPos = 0;
-
-				var mouseDownX = 0;
-				var mouseDownY = 0;
-				var leftLimit = currImg.width() - this.elWidth;
-				var rightLimit = 0;
-				var topLimit = currImg.height() - this.elHeight;
-				var botLimit = 0;
-
-				var imgX = 0;
-				var imgY = 0;
-				var xOffset = 0;
-				var yOffset = 0;
+				var doc = $(document); // Reference to the global document var, used to cut down on scope chain transversal
+				var leftLimit = this.elWidth - currImg.width(); // Farthest most positions of the currImg
+				var topLimit = this.elHeight - currImg.height();
+				var rightLimit, botLimit = 0;
+				var currX = 0, // Current left position of the currImg
+						currY = 0, // Current top position of the currImg
+						newX = 0, // New left position of the currImg
+						newY = 0, // New top position of the currImg
+						mouseDownX = 0, // Current X position of the mouse on mouse down
+						mouseDownY = 0, // Current Y position of the mouse on mouse down
+						mouseMoveX = 0, // Distance moved left or right
+						mouseMoveY = 0 // Distance moved up or down
 
 				if(!Param.isTouchCapable)
 				{
-					// *** Note: Listeners for the panning have to be attached to the tour img element and not the TourImg obj, otherwise these listeners interfere with the interactive btn listeners 
+					// *** Note: Listeners for the panning have to be attached to tourImg and not currImg, otherwise these listeners interfere with the interactive btn listeners 
 					tourImg.on('mouseover', function()
 					{  
 						if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
@@ -788,8 +786,9 @@ $(function()
 
 					tourImg.on('mousedown', function(e)
 					{
-						imgX = parseFloat(parent.bg.css('left'));
-						imgY = parseFloat(parent.bg.css('top'));
+						// Get the location of the mouse down event and current location of the image
+						currX = parseFloat(currImg.css('left'));
+						currY = parseFloat(currImg.css('top'));
 						mouseDownX = e.pageX;
 						mouseDownY = e.pageY;
 
@@ -797,11 +796,15 @@ $(function()
 						{
 							doc.on('mousemove', function(e)
 							{
-								xOffset = e.pageX - mouseDownX;
-								yOffset = e.pageY - mouseDownY;
+								// When the mouse moves, calculate the distance moved by subtracting the current mouse location from the mouse down location
+								mouseMoveX = e.pageX - mouseDownX;
+								mouseMoveY = e.pageY - mouseDownY;
+								// Add the distance moved to the current image's position
+								newX = currX + mouseMoveX;
+								newY = currY + mouseMoveY;
 
-								setImgPos(e, xOffset, yOffset);
-								return false;
+								checkLimits();
+								return false; // Prevent mousedown event from bubbling
 							});
 
 							doc.on('mouseup', function()
@@ -809,7 +812,7 @@ $(function()
 								doc.off('mousemove mouseup');
 							});
 						}
-						return false; // Prevent mousedown event from bubbling
+						return false;
 					});
 				}
 				// else
@@ -830,26 +833,22 @@ $(function()
 				// 	});
 				// }
 
-				function setImgPos(e, xOffset, yOffset)
+				// Check to make sure the new X and Y values don't move the image too far, set to limit value if they do
+				function checkLimits()
 				{
-					if(parent.slide.type === 'stdImg')
-					{
-						currImg.css({ 'left':imgX + xOffset, 'top':imgY + yOffset }); // *** add distance moved to current left and top
-						// not sure why this isn't working?  Debug it step by step
-					}
+					if(newX < leftLimit) { newX = leftLimit; }
+					if(newX > rightLimit) { newX = rightLimit; }
+					if(newY < topLimit) { newY = topLimit; }
+					if(newY > botLimit) { newY = botLimit; }
 
-
-
-					// if(parent.slide.type === 'stdImg')
-					// {
-					// 	if(e.pageX > leftOffset && e.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
-					// 	{
-					// 		if(e.pageY > topOffset && e.pageY < (topOffset + parent.elHeight))
-					// 		{
-					// 			currImg.css({ 'left':xPos, 'top':yPos });
-					// 		}
-					// 	}
-					// }
+					setImgPos();
+				}
+				// Depending on the type of image, move the currImg
+				function setImgPos()
+				{
+					if(parent.slide.type === 'stdImg') { currImg.css({ 'left':newX, 'top':newY }); }
+					else if(parent.slide.type === 'horiImg') { currImg.css({ 'left':newX }); }
+					else if(parent.slide.type === 'vertImg') { currImg.css({ 'top':newY }); }
 				}
 			},
 			panningOff:function()
@@ -857,29 +856,11 @@ $(function()
 				this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
 			},
 
-
-				// this.dragHandle = function(e, yPos)
-				// {
-				// 	var parent = this;
-				// 	var handleOffset = this.upArrow.offset().top - scrollbarOffset; // Used in calculating the yPos for the scrollhandle
-
-				// 	if(e.which === 1)
-				// 	{
-				// 		parent.isDragging = true;
-				// 		parent.doc.on('mousemove', function(e)
-				// 		{
-				// 			yPos = e.pageY - handleOffset - (parent.handleSize / 2); // Location of the handle based on the location of the mouse pointer
-				// 			parent.setHandlePos(yPos);        
-
-				// 			return false; // Only needed in IE8 otherwise the scrollbar doesn't drag?
-				// 		});
-				// 		parent.doc.on('mouseup', function()
-				// 		{
-				// 			parent.doc.off('mousemove mouseup');
-				// 			parent.isDragging = false;
-				// 		});
-				// 	}
-				// }
+			// *** setup touch dragging
+			// *** mouse hand when in dragging mode, paused or dragged
+			// *** alert about dragging
+			// *** still play tour when slide menu is clicked?
+			// *** need any flags?
 
 
 
