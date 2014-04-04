@@ -95,6 +95,9 @@ body {
 .displayNone {
   display:none
 }
+.draggable {
+  cursor:move;
+}
 .dropShadow {
   -moz-box-shadow:5px 5px 3px #111;
   -webkit-box-shadow:5px 5px 3px #111;

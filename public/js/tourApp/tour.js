@@ -505,7 +505,7 @@ $(function()
 				
 
 		// =============================================================================================
-		// The ImgDisplay obj handles the changing, sizing, playing, tweening, and panning of the current tour img
+		// The ImgDisplay obj handles the changing, sizing, playing, tweening, and dragging of the current tour img
 		// *** Note: Some instance vars set as empty objs and 0 at runtime and are set later after the tour imgs have downloaded
 		// *** Note: Methods that use, this.currImg.el multiple times, have a shorthand reference: var currImg = this.currImg.el, while other functions just use this.currImg.el once
 		// =============================================================================================
@@ -526,7 +526,7 @@ $(function()
 			tweenMode: false, // Flag to indicate if the tour img has finished tweening
 			firstTween: true, // Flag to indicate if the tween is the initial tween
 			prevImgTweenedOut: true, // Flag to indicate if the prev TourImg obj is done fading out
-			panned: false, // Flag to indicate if the tour img was panned
+			panned: false, // Flag to indicate if the tour img was panned, ie moved via dragging
 			maskInTrans: false, // Flag to indicate if the tourImgMask is in the middle of a tween
 			tween: new TimelineLite(), // Timeline obj that all tweens occur upon
 						
@@ -558,7 +558,7 @@ $(function()
 				this.resetTween();
 				this.tweenIn();
 				
-				if(!this.playMode) { this.pauseTour(); } // *** Note: This is needed because when tour imgs are reset on resize or the SlideScrollbar() is used, they default to play mode and tween in w/o the panning being enabled
+				if(!this.playMode) { this.pauseTour(); } // *** Note: This is needed because when tour imgs are reset on resize or the SlideScrollbar() is used, they default to play mode and tween in w/o the dragging being enabled
 			},
 			// Fade out the prev tour img
 			tweenOut:function()
@@ -715,8 +715,8 @@ $(function()
 				this.playMode = true;
 				this.togglePlayPause();
 				this.currImg.pointerOn();
-				this.panningOff();
-					
+				this.draggingOff();
+
 				if(this.panned) // If the tour img was panned, advance to the next img when the tour is restarted
 				{
 					this.panned = false;
@@ -732,7 +732,7 @@ $(function()
 				}
 				
 				this.currImg.pointerOff();
-				this.panningOn();
+				this.draggingOn();
 			},
 			// Add or remove underlining depending on the state of play/pause
 			togglePlayPause:function()
@@ -753,10 +753,7 @@ $(function()
 
 
 
-
-
-			// *** change to panningOn to test ***
-			panningOn:function()
+			draggingOn:function()
 			{
 				var parent = this;
 				var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
@@ -766,22 +763,23 @@ $(function()
 				var doc = $(document); // Reference to the global document var, used to cut down on scope chain transversal
 				var leftLimit = this.elWidth - currImg.width(); // Farthest most positions of the currImg
 				var topLimit = this.elHeight - currImg.height();
-				var rightLimit, botLimit = 0;
+				var rightLimit = 0;
+				var botLimit = 0;
 				var currX = 0, // Current left position of the currImg
 						currY = 0, // Current top position of the currImg
 						newX = 0, // New left position of the currImg
 						newY = 0, // New top position of the currImg
-						mouseDownX = 0, // Current X position of the mouse on mouse down
-						mouseDownY = 0, // Current Y position of the mouse on mouse down
-						mouseMoveX = 0, // Distance moved left or right
-						mouseMoveY = 0 // Distance moved up or down
+						downX = 0, // Current X position of the mouse or touch on mouse down or touch start
+						downY = 0, // Current Y position of the mouse or touch on mouse down or touch start
+						moveX = 0, // Distance moved left or right
+						moveY = 0 // Distance moved up or down
 
 				if(!Param.isTouchCapable)
 				{
-					// *** Note: Listeners for the panning have to be attached to tourImg and not currImg, otherwise these listeners interfere with the interactive btn listeners 
+					// *** Note: Listeners for the dragging have to be attached to tourImg and not currImg, otherwise these listeners interfere with the interactive btn listeners 
 					tourImg.on('mouseover', function()
-					{  
-						if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
+					{
+						if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of dragging
 					});
 
 					tourImg.on('mousedown', function(e)
@@ -789,24 +787,23 @@ $(function()
 						// Get the location of the mouse down event and current location of the image
 						currX = parseFloat(currImg.css('left'));
 						currY = parseFloat(currImg.css('top'));
-						mouseDownX = e.pageX;
-						mouseDownY = e.pageY;
+						downX = e.pageX;
+						downY = e.pageY;
 
 						if(e.which === 1)
 						{
 							doc.on('mousemove', function(e)
 							{
 								// When the mouse moves, calculate the distance moved by subtracting the current mouse location from the mouse down location
-								mouseMoveX = e.pageX - mouseDownX;
-								mouseMoveY = e.pageY - mouseDownY;
+								moveX = e.pageX - downX;
+								moveY = e.pageY - downY;
 								// Add the distance moved to the current image's position
-								newX = currX + mouseMoveX;
-								newY = currY + mouseMoveY;
+								newX = currX + moveX;
+								newY = currY + moveY;
 
 								checkLimits();
-								return false; // Prevent mousedown event from bubbling
+								return false; // Prevent event from bubbling
 							});
-
 							doc.on('mouseup', function()
 							{
 								doc.off('mousemove mouseup');
@@ -815,23 +812,42 @@ $(function()
 						return false;
 					});
 				}
-				// else
-				// {
-				// 	tourImg.on('touchstart', function(e)
-				// 	{   
-				// 		e.preventDefault();
-				// 		if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
-				// 	});
 
-				// 	tourImg.on('touchmove', function(e) // *** Note: Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
-				// 	{
-				// 		var evt = e;
-					
-				// 		e.preventDefault();
-				// 		evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-				// 		drag(evt);
-				// 	});
-				// }
+				// ************************ touch code needs to be QAed ************************************
+
+				else
+				{
+					tourImg.on('touchstart', function(e)
+					{
+						e.preventDefault();
+						if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of dragging
+						
+						currX = parseFloat(currImg.css('left'));
+						currY = parseFloat(currImg.css('top'));
+						downX = evt.pageX;
+						downY = evt.pageY;
+
+						tourImg.on('touchmove', function(e) // *** Note: Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
+						{
+							var evt = e;
+
+							e.preventDefault();
+							evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+
+							moveX = evt.pageX - downX;
+							moveY = evt.pageY - downY;
+							// Add the distance moved to the current image's position
+							newX = currX + moveX;
+							newY = currY + moveY;
+
+							checkLimits();
+						});
+						doc.on('touchend', function()
+						{
+							doc.off('touchmove touchend');
+						});
+					});
+				}
 
 				// Check to make sure the new X and Y values don't move the image too far, set to limit value if they do
 				function checkLimits()
@@ -851,13 +867,15 @@ $(function()
 					else if(parent.slide.type === 'vertImg') { currImg.css({ 'top':newY }); }
 				}
 			},
-			panningOff:function()
+			draggingOff:function()
 			{
-				this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
+				this.currImg.img.off(); // *** Note: This turns off the dragging listeners on the tour img and not the TourImg obj
 			},
 
-			// *** setup touch dragging
-			// *** mouse hand when in dragging mode, paused or dragged
+			// *** QA touch dragging
+			// *** play,pause functions need debugging with new dragging code
+			// *** click and drag not click, click again to drag
+			// *** mouse move when in dragging mode, pointer in tweenmode
 			// *** alert about dragging
 			// *** still play tour when slide menu is clicked?
 			// *** need any flags?
@@ -1235,7 +1253,7 @@ $(function()
 			{ 
 				// *** Note: If the tour img has not fully downloaded yet, alert the user
 				slide.loaded ? SlideMenu.goToSlide(slide.slideNum) : Alert.alertOn('The image you\'re trying to navigate to has not fully downloaded yet.  Wait a sec and try again.', 5000);
-				if(!ImgDisplay.playMode) { ImgDisplay.pauseTour(); } // If the tour is not in play mode, set up the panning on the current tour img when its navigated to
+				if(!ImgDisplay.playMode) { ImgDisplay.pauseTour(); } // If the tour is not in play mode, set up the dragging on the current tour img when its navigated to
 			},
 			info:function(text)
 			{
