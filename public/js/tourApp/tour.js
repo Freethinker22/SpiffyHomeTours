@@ -515,6 +515,7 @@ $(function()
 			playMode: true, // Flag to indicate if the tour is in play mode or not
 			tweenMode: false, // Flag to indicate if the tour img has finished tweening
 			firstTween: true, // Flag to indicate if the tween is the initial tween
+			firstPause: true, // Flag to indicate if the tour was paused once before
 			prevImgTweenedOut: true, // Flag to indicate if the prev TourImg obj is done fading out
 			panned: false, // Flag to indicate if the tour img was panned, ie moved via dragging
 			maskInTrans: false, // Flag to indicate if the tourImgMask is in the middle of a tween
@@ -548,7 +549,8 @@ $(function()
 				this.resetTween();
 				this.tweenIn();
 				
-				if(!this.playMode) { this.pauseTour(); } // *** Note: This is needed because when tour imgs are reset on resize or the SlideScrollbar() is used, they default to play mode and tween in w/o the dragging being enabled
+				if(!this.playMode) { this.pause(); } // *** Note: This is needed because when tour imgs are reset on resize or the SlideScrollbar() is used, they default to play mode and tween in w/o the dragging being enabled
+				if(this.panned) { this.panned = false; } // If the prev tour img was panned, reset the flag so clicking play won't advance the SlideMenu
 			},
 			// Fade out the prev tour img
 			tweenOut:function()
@@ -673,55 +675,55 @@ $(function()
 			// Proceed to the next tour img after the previous one has finished tweening if tour is in play mode
 			tweenDone:function()
 			{
-				ImgDisplay.tweenMode = false; // *** Note: Not sure why, but obj properties in this func have to be accessed through the ImgDisplay obj and not 'this'. Maybe an issue with being a TimelineLite callback?
+				ImgDisplay.tweenMode = false; // *** Note: Obj properties in this func have to be accessed through the ImgDisplay obj and not 'this' due to the func being called from a TweenLite callback
 				
 				if(ImgDisplay.playMode) { SlideMenu.nextSlide(); } // If the tour is in play mode, advance to the next tour img
 			},
-			// These functions handle the stopping and playing of the tour and tweening of the tour imgs
-			// *** Note: The play/pauseTween and play/pauseTour funcs on separated out because they're used in different situations throughout the tour program
+			// *** Note: The play/pauseTween and play/pause funcs are separated out because they're used in different situations throughout the tour program
+			// *** Note: play() is only called from the play btn
 			play:function()
 			{
 				if(!this.playMode && !this.tweenMode && !this.panned) { SlideMenu.nextSlide(); } // If the tour is paused, the tour img is done tweening, the tour img hasn't been panned, and the play btn gets clicked, advance to the next tour img
 				
-				this.playTour();
-				this.playTween();
-			},
-			pause:function()
-			{
-				this.pauseTween();
-				this.pauseTour();
-			},
-			playTween:function()
-			{
-				if(this.playMode) { this.tween.play() } // Play the tween only if the tour is in play mode
-			},
-			pauseTween:function()
-			{
-				this.currImg.el.css({ 'opacity':1 }); // Make sure the tour img is at full opacity before stopping the tween
-				this.tween.stop();
-			},
-			playTour:function()
-			{
-				this.playMode = true;
-				this.togglePlayPause();
-				this.currImg.pointerCursorOn();
-
 				if(this.panned) // If the tour img was panned, advance to the next img when the tour is restarted
 				{
 					this.panned = false;
 					SlideMenu.nextSlide();
 				}
+
+				this.playMode = true;
+				this.togglePlayPause();
+				this.currImg.pointerCursorOn();
+				this.playTween();				
 			},
-			// *** Revise later: pauseTour() is called each time the slide menu is used, the logic here keeps excess funcs from being called when the tour is already in pause mode, see note in the Slide obj about refactoring this
-			pauseTour:function()
+			// *** Note: pause is called from the pause btn and clicks on TourImg objs
+			pause:function()
 			{
+				if(this.firstPause)
+				{ 
+					Alert.alertOn('Click and drag to move the image around.', 4000);
+					this.firstPause = false;
+				}
+
 				if(this.playMode)
 				{
 					this.playMode = false;
 					this.togglePlayPause();
 				}
-				
+
 				this.currImg.pointerCursorOff();
+				this.pauseTween();
+			},
+			// Starts or restarts img tweening
+			playTween:function()
+			{
+				if(this.playMode) { this.tween.play() } // Play the tween only if the tour is in play mode
+			},
+		  // Used to pause the tweening of the img on pause or when a tab or interactive feature is opened
+			pauseTween:function()
+			{
+				this.currImg.el.css({ 'opacity':1 }); // Make sure the tour img is at full opacity before stopping the tween
+				this.tween.stop();
 			},
 			// Add or remove underlining depending on the state of play/pause
 			togglePlayPause:function()
@@ -737,9 +739,7 @@ $(function()
 					this.tourPauseBtn[0].className = 'underline';
 				}
 			},
-
-
-
+			// Called fromt the TourImg objs to allow the user to drag the img around when the tour is paused
 			drag:function(e, touchDevice)
 			{
 				var parent = this;
@@ -833,16 +833,6 @@ $(function()
 
 				if(!this.panned) { this.panned = true; } // Set the flag to notify this.playTour() to advance to the next img when the tour is restarted
 			},
-
-
-			// *** QA dragging for both mouse and touch
-			// *** if tour img is panning in paused mode then play is clicked, tour img advances.  Keep this or change?
-			// *** step through play/pause code to see if any of it can be removed line 551 and 715 to start with...
-			// *** alert about dragging on start or first click of pause btn?
-
-
-
-
 
 
 
@@ -966,77 +956,6 @@ $(function()
 			// {
 			// 	this.currImg.img.off(); // *** Note: This turns off the dragging listeners on the tour img and not the TourImg obj
 			// },
-
-
-
-
-			// *** original code ***
-
-			// Setup the listeners for the panning feature when the tour is put in pause mode
-			//  panningOn:function()
-			//  {
-			// 	var parent = this;
-			// 	var currImg = this.currImg.el; // Reference to the div element that is the TourImg obj
-			// 	var tourImg = this.currImg.img; // Reference to the img element that is the tour img itself
-			// 	var leftOffset = this.el.offset().left; // Used to calculate the 0,0 position of the imgDisplay
-			// 	var topOffset = this.el.offset().top
-			// 	var xPos, yPos = 0;
-								
-			// 	// *** Note: Listeners for the panning have to be attached to the tour img element and not the TourImg obj, otherwise these listeners interfere with the interactive btn listeners 
-			// 	tourImg.on('mouseover touchstart', function(e)
-			// 	{   
-			// 		if(e.type === 'touchstart') { e.preventDefault(); }
-			// 		if(parent.tweenMode) { parent.pauseTween(); } // When a slide is clicked in the slide menu, the tour img tweens in as normal. When/if it's moused over or touched while the tour is in pause mode, the tween is stopped in favor of panning
-			// 	});
-								
-			// 	tourImg.on('mousemove touchmove', function(e) // *** Need to test touch events on Windows 8/IE10 machine, might need to add MSPointerMove *** 
-			// 	{
-			// 		var evt = e;
-					
-			// 		if(e.type === 'touchmove')
-			// 		{
-			// 			e.preventDefault();
-			// 			evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-			// 		}
-										
-			// 		// Calculate new X and Y positions based on where the mouse or touch is at and apply those to the TourImg obj's position
-			// 		xPos = ((evt.pageX - leftOffset) / parent.elWidth) * (parent.currImgWidth - parent.elWidth) * -1;
-			// 		yPos = ((evt.pageY - topOffset) / parent.elHeight) * (parent.currImgHeight - parent.elHeight) * -1;
-
-			// 		if(parent.slide.type === 'stdImg')
-			// 		{
-			// 			if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth)) // Keeps the TourImg obj from panning too far on touchmove, un-needed if just using mousemove 
-			// 			{
-			// 				if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
-			// 				{
-			// 					currImg.css({ 'left':xPos, 'top':yPos });
-			// 				}
-			// 			}
-			// 		}
-			// 		else if(parent.slide.type === 'horiImg')
-			// 		{
-			// 			if(evt.pageX > leftOffset && evt.pageX < (leftOffset + parent.elWidth))
-			// 			{
-			// 				currImg.css({ 'left':xPos });
-			// 			}
-			// 		}
-			// 		else if(parent.slide.type === 'vertImg')
-			// 		{
-			// 			if(evt.pageY > topOffset && evt.pageY < (topOffset + parent.elHeight))
-			// 			{
-			// 				currImg.css({ 'top':yPos });
-			// 			}
-			// 		}
-
-			// 		if(!parent.panned) { parent.panned = true; } // Set the flag to notify this.playTour() to advance to the next img when the tour is restarted
-			// 	});
-			// },
-			// // Turn off the listeners for the panning feature when the tour returns to play mode
-			// panningOff:function()
-			// {
-			// 	this.currImg.img.off(); // *** Note: This turns off the panning listeners on the tour img and not the TourImg obj
-			// },
-
 
 
 
@@ -2436,7 +2355,10 @@ $(function()
 	});
 });
 
+// QA dragging for both mouse and touch
+// If IA featue is open and play is clicked, the IA feature doesn't go away?
+// dismiss thing on the alerts??
+
 // tab page is not fully overlapping on iPad and mac book when size is decreased?
-// IDEA: could use new touch scrolling idea for panning to prevent the ugly picture jumping, basically get the current mouse point and subtract that from the current pageY, use that number to move the tour img
 // Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour
