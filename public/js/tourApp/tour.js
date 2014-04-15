@@ -683,13 +683,13 @@ $(function()
 			// *** Note: play() is only called from the play btn
 			play:function()
 			{
-				if(!this.playMode && !this.tweenMode && !this.panned) { SlideMenu.nextSlide(); } // If the tour is paused, the tour img is done tweening, the tour img hasn't been panned, and the play btn gets clicked, advance to the next tour img
-				
 				if(this.panned) // If the tour img was panned, advance to the next img when the tour is restarted
 				{
 					this.panned = false;
 					SlideMenu.nextSlide();
 				}
+
+				if(!this.playMode && !this.panned) { Interactive.resetIa(); } // If the tour is paused, the img is not panned, and there are interactive features open, close them. This is only needed here becasue calling nextSlide() calls resetIa()
 
 				this.playMode = true;
 				this.togglePlayPause();
@@ -701,7 +701,7 @@ $(function()
 			{
 				if(this.firstPause)
 				{ 
-					Alert.alertOn('Click and drag to move the image around.', 4000);
+					Alert.alertOn('Click and drag to move the image around.', 3000);
 					this.firstPause = false;
 				}
 
@@ -1099,6 +1099,11 @@ $(function()
 					this.timer = setTimeout(function(){ parent.alertOff(); }, duration); // Remove the msgBox after a set time if the user doesn't remove it by clicking on it
 					this.alertShowing = true;
 				}
+
+
+				// *** If another alert is already on, swap out old msg for new??? ***
+
+
 			},
 			alertOff:function()
 			{
@@ -1206,8 +1211,13 @@ $(function()
 					}
 					
 					iaPicWrapper.html(this.iaPicArray[uId].el); // Add the iaPic img element from the iaPicArray that matches the uId parameter
-					iaPicWrapper.one('click', function() { parent.removePic(); });
-					ImgDisplay.tourImgMaskOn(iaPicWrapper);
+					iaPicWrapper.one('click', function() // Add a listener to close the iaPic when clicked on
+					{
+						if(Alert.alertShowing) { Alert.alertOff(); } // Incase the iaPic is turned off before the timer on the alert removes it
+						parent.removePic(); 
+					});
+
+					ImgDisplay.tourImgMaskOn(iaPicWrapper); // Display the iaPic
 					this.iaPicShowing = true;
 				}
 				else
@@ -2356,9 +2366,7 @@ $(function()
 });
 
 // QA dragging for both mouse and touch
-// If IA featue is open and play is clicked, the IA feature doesn't go away?
-// dismiss thing on the alerts??
-
+// new alerts need to override old one? line 1104
 // tab page is not fully overlapping on iPad and mac book when size is decreased?
 // Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour
