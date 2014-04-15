@@ -2367,6 +2367,7 @@ $(function()
 
 // QA dragging for both mouse and touch
 // new alerts need to override old one? line 1104
+// try changing constructor object methods over to object.prototype methods to save memory?
 // tab page is not fully overlapping on iPad and mac book when size is decreased?
 // Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour
