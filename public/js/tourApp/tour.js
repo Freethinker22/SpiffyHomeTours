@@ -1096,14 +1096,15 @@ $(function()
 					this.alertMsgText.text(msg); // Add the msg to the p element in the DOM
 					this.alertMsg.removeClass('displayNone'); // Make the msg box visible
 					this.alertMsg.on('click', function() { parent.alertOff(); }); // Allow the user to clear the msg by clicking it
-					this.timer = setTimeout(function(){ parent.alertOff(); }, duration); // Remove the msgBox after a set time if the user doesn't remove it by clicking on it
+					this.timer = setTimeout(function() { parent.alertOff(); }, duration); // Remove the msgBox after a set time if the user doesn't remove it by clicking on it
 					this.alertShowing = true;
 				}
-
-
-				// *** If another alert is already on, swap out old msg for new??? ***
-
-
+				else
+				{
+					clearTimeout(parent.timer); // Clear the old timer
+					this.alertMsgText.text(msg); // Swap current alert for the new one
+					this.timer = setTimeout(function() { parent.alertOff(); }, duration); // Reset a new timer
+				}
 			},
 			alertOff:function()
 			{
@@ -1200,7 +1201,7 @@ $(function()
 				var parent = this;
 				var iaPicWrapper = $('<div class="iaPicWrapper">'); // Used to center iaPics if they're dimensions are smaller than the ImgDisplay obj dimensions
 				
-				this.resetIa();
+				if(this.infoBoxShowing) { this.removeInfo(); } // Don't allow info boxes and iaPics to be on at the same time
 				
 				if(this.iaPicArray[uId].loaded)
 				{
@@ -2365,9 +2366,8 @@ $(function()
 	});
 });
 
-// QA dragging for both mouse and touch
-// new alerts need to override old one? line 1104
-// try changing constructor object methods over to object.prototype methods to save memory?
+// debug touch dragging code
+// try changing constructor object methods over to object.prototype methods to save memory? use Alert obj as it is the simplest
 // tab page is not fully overlapping on iPad and mac book when size is decreased?
 // Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour
