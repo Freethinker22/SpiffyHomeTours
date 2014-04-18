@@ -2010,15 +2010,18 @@ $(function()
 		// =============================================================================================
 		function IaPic()
 		{
-			var parent = this;
-			
 			this.el = new Image();
 			this.height = 0;
 			this.width = 0;
 			this.loaded = false;
+		}
+
+		IaPic.prototype =
+		{
 			// Start the download of the iaPics and check every 1/4 second to see if its finished
-			this.preloadIaPic = function(iaPicUrl)
+			preloadIaPic:function(iaPicUrl)
 			{
+				var parent = this;
 				var loadTimer = setInterval(function()
 				{
 					if(parent.el.width > 0)
@@ -2031,9 +2034,9 @@ $(function()
 				
 				parent.el.src = iaPicUrl;
 				parent.el.alt = 'Interactive picture';
-			}
+			},
 			// Set the size of the iaPic using CSS classes that have style rules based on the dimensions of the imgDisplay
-			this.setSize = function()
+			setSize:function()
 			{
 				if(this.el.height >= this.el.width) // Interactive picture is a vertical panorama
 				{
@@ -2229,24 +2232,24 @@ $(function()
 			this.interactive = false; // Flag used to indicate if the Slide's corresponding tour img has interactivity
 			this.loaded = false; // Allow the slide to be viewable and clickable after the img is downloaded
 			
+			// When a slide is clicked on, pass its slideNum to SlideMenu.goToSlide() so it can advance the slide menu to the chosen slide
+			this.el.click(function()
+			{
+				if(parent.loaded) { SlideMenu.goToSlide(parent.slideNum); }
+			});
+		}
+
+		Slide.prototype =
+		{
 			// Create the Slide's corresponding tour img and swap out the loading gif
 			// *** Note: Called from SlideMenu.setContent() once the Slide's tour img has finished downloading
-			this.addImg = function()
+			addImg:function()
 			{
 				var slideImg = $('<img class="' + this.slideClass + '" src="' + this.src + '" alt="' + this.alt + '">');
 				
 				this.el.html(slideImg);
 				this.loaded = true;
-			};
-
-			// When a slide is clicked on, pass its slideNum to SlideMenu.goToSlide() so it can advance the slide menu to the chosen slide, also pause the tour
-			this.el.click(function()
-			{
-				if(parent.loaded)
-				{
-					SlideMenu.goToSlide(parent.slideNum);
-				}
-			});
+			}
 		}
 				
 
@@ -2255,18 +2258,41 @@ $(function()
 		// *** Note: All of the properties of a TourImg obj are based off of the accompanying Slide obj's properties passed in on init
 		// =============================================================================================
 		function TourImg(slide)
-		{
-			var parent = this;
-						
+		{		
 			this.el = $('<div class="clickable">');
+			this.slide = slide;
 			this.img = $('<img src="' + slide.src + '" alt="' + slide.alt + '">');
 			this.el.html(this.img);
-									
-			// Instance methods for the TourImg obj
-			this.pointerCursorOn = function() { this.el.addClass('clickable').removeClass('draggable'); } // *** Revise later: Use specific left, right, up, down move cursors for horizontal and vertical panos
-			this.pointerCursorOff = function() { this.el.removeClass('clickable').addClass('draggable'); }
-			this.setImgSize = function() // Called from ImgDisplay.setNewImg() to correct the size of the tour imgs *if* they're too large
+						
+			// Add event listeners for the TourImg obj
+			if(Param.isTouchCapable)
 			{
+				this.img.on('touchstart', function(e)
+				{
+					ImgDisplay.pause();
+					ImgDisplay.drag(e, true);
+				});
+			}
+			else
+			{
+				this.img.on('mousedown', function(e)
+				{
+					ImgDisplay.pause();
+					ImgDisplay.drag(e, false);
+				});
+			}
+		}
+
+		TourImg.prototype =
+		{
+			// *** Revise later: Use specific left, right, up, down move cursors for horizontal and vertical panos
+			pointerCursorOn:function() { this.el.addClass('clickable').removeClass('draggable'); },
+			pointerCursorOff:function() { this.el.removeClass('clickable').addClass('draggable'); },
+
+			// Called from ImgDisplay.setNewImg() to correct the size of the tour imgs *if* they're too large
+			setImgSize:function()
+			{
+				var slide = this.slide;
 				// *** Note: The property slide.type is a CSS class that sets the correct height or width of the img
 				// *** The dimensions set in the classes are equal to the dimensions of the imgDisplay for panoramas, dimensions for standard imgs are 20% larger than the imgDisplay so standard imgs have room to tween
 				if(slide.type === 'stdImg')
@@ -2288,9 +2314,14 @@ $(function()
 						ImgName.changePos(ImgDisplay.elWidth, slide.width); // If the img is a vertical pano and thiner than the imgDisplay, move the ImgName obj to keep it lined up on the right side of the img
 					}
 				}
-			}
-			this.setupInteractivity = function(imgWidth, imgHeight) // Called from ImgDisplay.setNewImg() *only* if the TourImg obj has interactivity that needs to be setup
+			},
+
+			// Called from ImgDisplay.setNewImg() *only* if the TourImg obj has interactivity that needs to be setup
+			setupInteractivity:function(imgWidth, imgHeight)
 			{
+				var parent = this;
+				var slide = this.slide;
+
 				// Each tour img in the config file can have an array called 'interactive.' This array is made of iaObjs that contain the values needed to setup each interactive btn, iaType, iaData, etc
 				$.each(slide.interactive, function(index, iaObj)
 				{
@@ -2335,24 +2366,6 @@ $(function()
 					parent.el.append(btn); // Add the btn to the TourImg obj
 				}
 			}
-						
-			// Add event listeners for the TourImg obj
-			if(Param.isTouchCapable)
-			{
-				this.img.on('touchstart', function(e)
-				{
-					ImgDisplay.pause();
-					ImgDisplay.drag(e, true);
-				});
-			}
-			else
-			{
-				this.img.on('mousedown', function(e)
-				{
-					ImgDisplay.pause();
-					ImgDisplay.drag(e, false);
-				});
-			}
 		}
 							 
 		Param.init();
@@ -2367,7 +2380,7 @@ $(function()
 });
 
 // debug touch dragging code
-// try changing constructor object methods over to object.prototype methods to save memory? use Alert obj as it is the simplest
+// convert scrollbar obj over to using prototype code
 // tab page is not fully overlapping on iPad and mac book when size is decreased?
 // Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour

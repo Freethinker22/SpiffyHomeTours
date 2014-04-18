@@ -34,8 +34,8 @@ This is a special view that doesn't use the framework's regular header or footer
 		</noscript>
 				
 		<section id="tourWrapper" class="tourBg dropShadow">
-			<section id="loading" class="displayNone">
-			  <!--<section id="loading">-->
+			<!-- <section id="loading" class="displayNone"> -->
+			<section id="loading">
 				<img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
 				<div class="loadingMask"></div>
 				<div class="loadingMask"></div>
