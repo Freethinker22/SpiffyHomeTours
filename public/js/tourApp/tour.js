@@ -2002,6 +2002,7 @@ $(function()
 		// =============================================================================================
 		// Constructor objects (In alphabetical order)
 		// These objects are used multiple times throughout the tour application
+		// Each constructor has it's prototype set to an object literal to reduce code replication in memory
 		// =============================================================================================
 			 
 	  // =============================================================================================
@@ -2061,9 +2062,16 @@ $(function()
 		function Scrollbar(content, contentHeight, contentParentHeight, scrollbarOffset)
 		{
 			this.el = _.template($('#scrollbarTemp').html());
-						
+			this.content = content;
+			this.contentHeight = contentHeight;
+			this.contentParentHeight = contentParentHeight;
+			this.scrollbarOffset = scrollbarOffset;
+		}
+
+		Scrollbar.prototype =
+		{				
 			// Scrollbar instance vars are created here *after* this.el is added to the DOM, otherwise all CSS values return undefined
-			this.init = function()
+			init:function()
 			{
 				this.track = $('#scrollTrack'); 
 				this.handle = $('#scrollHandle');
@@ -2071,28 +2079,28 @@ $(function()
 				this.downArrow = $('#scrollDownArrow');
 				this.handleSize = this.handle.height(); // Diameter of the scroll handle
 				this.upArrowHeight = this.upArrow.height(); // Height of the up and down arrow btns, *assuming* both btns are the same size
-				this.trackHeight = contentParentHeight - (this.upArrowHeight * 2); // Height of the scroll track
-				this.topLimit = scrollbarOffset + this.upArrowHeight; // Top most point the handle can be moved to
+				this.trackHeight = this.contentParentHeight - (this.upArrowHeight * 2); // Height of the scroll track
+				this.topLimit = this.scrollbarOffset + this.upArrowHeight; // Top most point the handle can be moved to
 				this.botLimit = (this.topLimit + this.trackHeight) - this.handleSize; // Bottom most point the handle can be moved to
-				this.scrollAmt = contentHeight - contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // The height differance between the content and its parent container, accounts for top padding
+				this.scrollAmt = this.contentHeight - this.contentParentHeight + (parseInt(this.content.css('paddingTop')) * 2); // The height differance between the content and its parent container, accounts for top padding
 				this.doc = $(document); // Reference to the global document var, used to cut down on scope chain transversal
 				this.isDragging = false; // Flag to indicate if the scrollbar handle is being dragged  
 				this.setParams();
 				this.setListeners();
-			}
+			},
 			// Set the initial positions of the scrollbar elements
-			this.setParams = function()
+			setParams:function()
 			{
-				var trackY = scrollbarOffset + this.upArrowHeight;
-				var handleY = scrollbarOffset + this.upArrowHeight;
-				var downArrowY = scrollbarOffset + this.trackHeight + this.upArrowHeight;
+				var trackY = this.scrollbarOffset + this.upArrowHeight;
+				var handleY = this.scrollbarOffset + this.upArrowHeight;
+				var downArrowY = this.scrollbarOffset + this.trackHeight + this.upArrowHeight;
 						
 				this.track.css({ 'height':this.trackHeight, 'top':trackY });
 				this.handle.css({ 'top':handleY });
 				this.downArrow.css({ 'top':downArrowY });                
-			}
+			},
 			// Assign event listeners to the scrollbar elements         
-			this.setListeners = function()
+			setListeners:function()
 			{
 				var parent = this;
 				var yPos = 0;
@@ -2102,13 +2110,13 @@ $(function()
 				this.handle.on('mousedown', function(e) { parent.dragHandle(e, yPos); return false; }); // Return, prevents mousedown event from bubbling. Needed for FF and Safari
 
 				// *** Note: This listener uses mousewheel.js for its functionality
-				content.on('mousewheel', function(e) { parent.scrollWheel(e, yPos); });
-			}
+				this.content.on('mousewheel', function(e) { parent.scrollWheel(e, yPos); });
+			},
 			// Move the handle when dragged
-			this.dragHandle = function(e, yPos)
+			dragHandle:function(e, yPos)
 			{
 				var parent = this;
-				var handleOffset = this.upArrow.offset().top - scrollbarOffset; // Used in calculating the yPos for the scrollhandle
+				var handleOffset = this.upArrow.offset().top - this.scrollbarOffset; // Used in calculating the yPos for the scrollhandle
 
 				if(e.which === 1)
 				{
@@ -2126,9 +2134,9 @@ $(function()
 						parent.isDragging = false;
 					});
 				}
-			}
+			},
 			// Move the handle either up or down depending on which arrow was clicked
-			this.arrowBtns = function(upDown, e, yPos)
+			arrowBtns:function(upDown, e, yPos)
 			{
 				if(e.which === 1)
 				{
@@ -2136,16 +2144,16 @@ $(function()
 					upDown === 'up' ? yPos = yPos -= Param.pixelsPerClick : yPos = yPos += Param.pixelsPerClick; // Add to the current top position depending on which arrow was clicked
 					this.setHandlePos(yPos);
 				}
-			}
+			},
 			// Get the current top position of the handle and add or subtract the set amount of pixels
-			this.scrollWheel = function(e, yPos)
+			scrollWheel:function(e, yPos)
 			{
 				e.deltaY > 0 ? yPos = parseInt(this.handle.css('top')) - Param.pixelsPerClick : yPos = parseInt(this.handle.css('top')) + Param.pixelsPerClick;
 				this.setHandlePos(yPos);
-			}
+			},
 			// Update the top position of the handle and update the position of the content
 			// *** Note: This function is the interface for the scrollbar handle, arrows, and mouse wheel scrolling
-			this.setHandlePos = function(yPos)
+			setHandlePos:function(yPos)
 			{
 				if(yPos > this.topLimit && yPos < this.botLimit) // Prevent the handle from moving off the scrollbar track
 				{
@@ -2162,23 +2170,24 @@ $(function()
 					this.handle.css({ 'top':this.botLimit });
 					this.setContentPos(yPos, 'bot');
 				}
-			}
+			},
 			// Update the position of the content
 			// *** Note: When the scroll handle is told to go past the limits, set the content to its top or bottom most position
-			this.setContentPos = function(handleY, hitLimit)
+			setContentPos:function(handleY, hitLimit)
 			{
 				var percent = (handleY - this.topLimit) / this.trackHeight; // The percentage amount of how far the handle is down the track
 				var yPos = -(this.scrollAmt * percent); // The content yPos is moved the same percentage as the handle yPos
-				
-				if(!hitLimit) { content.css({ 'top':yPos }); }
-				else { hitLimit === 'top' ? content.css({ 'top':0 }) : content.css({ 'top':-(this.scrollAmt) }); }
-			}	
+
+				if(!hitLimit) { this.content.css({ 'top':yPos }); }
+				else { hitLimit === 'top' ? this.content.css({ 'top':0 }) : this.content.css({ 'top':-(this.scrollAmt) }); }
+			},
 			// If the device has a touch screen, use touch scrolling instead of a scrollbar
 			// *** Revise later: A second touchmove after content is scrolled once returns the content to the top position, this is due to the recalculation of moveAmt
 			// *** Revise later: Touch scrolling is kinda buggy on smart phones and Nook tablet. Content scrolls too far down, but only sometimes, and is not very responsive
-			this.touchScroll = function() 
+			touchScroll:function() 
 			{
 				var evt;
+				var content = this.content; // Var to cut down on this.content
 				
 				content.css({ 'top':0 }); // Changes the top value from 'auto' to a numeric value, otherwise Nan is returned in touchmove handler
 
@@ -2187,7 +2196,7 @@ $(function()
 					e.preventDefault();
 					evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 					
-					var scrollAmt = contentHeight - contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
+					var scrollAmt = this.contentHeight - this.contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
 					var touchPoint = evt.pageY; // Initial point of contact
 					var moveAmt, contentYPos = 0;
 	 	
@@ -2380,7 +2389,4 @@ $(function()
 });
 
 // debug touch dragging code
-// convert scrollbar obj over to using prototype code
-// tab page is not fully overlapping on iPad and mac book when size is decreased?
-// Test Windows 8 touch screens at Best Buy when tab menu is done, might need special code to handle MS pointer events?
 // Detect if device is a phone and build out a phone version of the tour

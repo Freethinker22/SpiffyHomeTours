@@ -1,22 +1,29 @@
 /* Black theme for the tour application */
-
+/* line 3, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\blackTheme.scss */
 #tabMenu li {
-	background:#3E3E3E url("../../img/tourApp/blackTabBg.jpg");
-}
-.bg60Pct { /* The button bar and img name background */
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2F2F2F,endColorstr=#8F2F2F2F); /* For old IE */
-  background-color:rgba(47, 47, 47, 0.60);
-}
-.bg85Pct { /* The alert and info msg background */
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52F2F2F,endColorstr=#E52F2F2F); /* For old IE */
-  background-color:rgba(47, 47, 47, 0.85);
-}
+  background: #3e3e3e url("../../img/tourApp/blackTabBg.jpg"); }
+
+/* line 6, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\blackTheme.scss */
+.bg60Pct {
+  /* The button bar and img name background */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2F2F2F,endColorstr=#8F2F2F2F);
+  /* For old IE */
+  background-color: rgba(47, 47, 47, 0.6); }
+
+/* line 10, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\blackTheme.scss */
+.bg85Pct {
+  /* The alert and info msg background */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52F2F2F,endColorstr=#E52F2F2F);
+  /* For old IE */
+  background-color: rgba(47, 47, 47, 0.85); }
+
+/* line 14, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\blackTheme.scss */
 .tourBg {
-  background:#444 url("../../img/tourApp/blackTextureBg.jpg");
-}
+  background: #444444 url("../../img/tourApp/blackTextureBg.jpg"); }
+
+/* line 17, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\blackTheme.scss */
 .tabCalcBtn {
-	background:#444 url("../../img/tourApp/blackTabBg.jpg");
-}
+  background: #444444 url("../../img/tourApp/blackTabBg.jpg"); }
 
 /* Tab colors from Theme class in AS3
 Black bg active: #202020  non-active: #3E3E3E  hover: #484848

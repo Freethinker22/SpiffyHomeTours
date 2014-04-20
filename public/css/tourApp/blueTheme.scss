@@ -1,0 +1,19 @@
+/* Blue theme for the tour application */
+
+#tabMenu li {
+  background:#4B5994 url("../../img/tourApp/blueTabBg.jpg");
+}
+.bg60Pct { /* The button bar and img name background */
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F3C4A85,endColorstr=#8F3C4A85); /* For old IE */
+  background-color:rgba(60, 74, 133, 0.60);
+}
+.bg85Pct { /* The alert and info msg background */
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E53C4A85,endColorstr=#E53C4A85); /* For old IE */
+  background-color:rgba(60, 74, 133, 0.85);
+}
+.tourBg {
+  background:#0000FF url("../../img/tourApp/blueTextureBg.jpg");
+}
+.tabCalcBtn {
+	background:#0000FF url("../../img/tourApp/blueTabBg.jpg");
+}

@@ -1,19 +1,26 @@
 /* Green theme for the tour application */
-
+/* line 3, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\greenTheme.scss */
 #tabMenu li {
-  background:#3D5E2A url("../../img/tourApp/greenTabBg.jpg");
-}
-.bg60Pct { /* The button bar and img name background */
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2E4F1B,endColorstr=#8F2E4F1B); /* For old IE */
-  background-color:rgba(46, 79, 27, 0.60);
-}
-.bg85Pct { /* The alert and info msg background */
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52E4F1B,endColorstr=#E52E4F1B); /* For old IE */
-  background-color:rgba(46, 79, 27, 0.85);
-}
+  background: #3d5e2a url("../../img/tourApp/greenTabBg.jpg"); }
+
+/* line 6, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\greenTheme.scss */
+.bg60Pct {
+  /* The button bar and img name background */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#8F2E4F1B,endColorstr=#8F2E4F1B);
+  /* For old IE */
+  background-color: rgba(46, 79, 27, 0.6); }
+
+/* line 10, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\greenTheme.scss */
+.bg85Pct {
+  /* The alert and info msg background */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E52E4F1B,endColorstr=#E52E4F1B);
+  /* For old IE */
+  background-color: rgba(46, 79, 27, 0.85); }
+
+/* line 14, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\greenTheme.scss */
 .tourBg {
-  background:#00FF00 url("../../img/tourApp/greenTextureBg.jpg");
-}
+  background: lime url("../../img/tourApp/greenTextureBg.jpg"); }
+
+/* line 17, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\greenTheme.scss */
 .tabCalcBtn {
-	background:#00FF00 url("../../img/tourApp/greenTabBg.jpg");
-}
+  background: lime url("../../img/tourApp/greenTabBg.jpg"); }

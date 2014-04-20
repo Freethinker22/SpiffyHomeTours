@@ -1,11 +1,15 @@
-/**** Tour application CSS addendum for IE 7 and 8. ****/
-
+/**** Tour application CSS addendum for IE 8. ****/
+/* line 3, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\ieAddendum.scss */
 #tooOld {
-    text-align:center; /* Aligns the too old browser message in old IE */
-}
-*+html #tabMenu { /* Fixes menu from being too far down on the page in IE7 */
-    top:50px;
-}
-*+html #tabMenu li { /* Fixes tabs from not being the right height in IE7 */
-    zoom:1;
-}
+  text-align: center;
+  /* Aligns the too old browser message in old IE */ }
+
+/* line 6, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\ieAddendum.scss */
+* + html #tabMenu {
+  /* Fixes menu from being too far down on the page in IE7 */
+  top: 50px; }
+
+/* line 9, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\ieAddendum.scss */
+* + html #tabMenu li {
+  /* Fixes tabs from not being the right height in IE7 */
+  zoom: 1; }
