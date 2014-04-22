@@ -1,11 +1,104 @@
-/* line 24, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
-body {
-  background-color: #444;
-  color: white;
-  /* All text in the tour is white unless otherwise specified */
-  font-family: 'open_sansregular', Verdana, Arial, sans;
-  font-size: 100%; }
+/* line 18, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
+ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
+thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
+  border: 0;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline; }
+
+/* line 27, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block; }
 
 /* line 30, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
-#test {
-  font-size: 20px; }
+ol, ul {
+  list-style: none; }
+
+/* line 33, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* Keep parent containers from collapsing when they only contain floated elements */
+/* line 38, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  visibility: hidden; }
+
+/* line 46, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.clearfix {
+  zoom: 1; }
+
+/* line 49, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/* Webfont: Open Sans Regular */
+@font-face {
+  font-family: 'open_sansregular';
+  src: url("../../fonts/OpenSans-Regular-webfont.eot");
+  src: url("../../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/OpenSans-Regular-webfont.woff") format("woff"), url("../../fonts/OpenSans-Regular-webfont.ttf") format("truetype"), url("../../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+/* line 103, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+a {
+  border: none;
+  color: white;
+  outline: none;
+  text-decoration: none; }
+
+/* line 109, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+audio {
+  /* Because custom controls are used for the music and the audio element has a default height and width, audio's dimensions have to be set to 0 or it causes a layout bug on the iPad */
+  width: 0;
+  height: 0; }
+
+/* line 113, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+body {
+  background-color: #444444;
+  color: white;
+  font-family: "open_sansregular", Verdana, Arial, sans;
+  font-size: 100%; }
+
+/* line 123, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.borderTL {
+  border-top: 1px solid white;
+  border-left: 1px solid white; }
+
+/* line 127, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.borderTLBlk {
+  border-top: 1px solid black;
+  border-left: 1px solid black; }
+
+/* line 131, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.borderTopBlk {
+  border-top: 1px solid black; }
+
+/* line 134, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.clickable {
+  cursor: pointer;
+  /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */ }
+
+/* line 137, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.displayNone {
+  display: none; }
+
+/* line 140, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.draggable {
+  cursor: move; }
+
+/* line 147, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+#jsWarning {
+  background-color: red;
+  font-size: 1.25em;
+  font-weight: bold;
+  line-height: 1.5em;
+  text-align: center; }

@@ -1,8 +1,6 @@
-// This needs to have the code from tour.css brought over chunk by chuck and turned into scss
-
+// ======================== Main stylesheet for the virtual tour application =======================
 
 // === Table of contents ===========================================================================
-
 // Imports
 // Reset
 // Mixins
@@ -11,24 +9,147 @@
 // Base theme
 // Shared styles
 // Tour application
+// =================================================================================================
 
 // === Imports =====================================================================================
+
+
 // === Reset =======================================================================================
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
+ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
+thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
+  border:0;
+  font:inherit;
+  margin:0;
+  padding:0;
+  vertical-align:baseline;
+}
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display:block;
+}
+ol, ul {
+  list-style:none;
+}
+table {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+/* Keep parent containers from collapsing when they only contain floated elements */
+.clearfix:after {
+  clear:both;
+  content:".";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.clearfix { 
+  zoom:1; 
+}
+* {
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+}
+
+
 // === Mixins ======================================================================================
-// === Variables ===================================================================================
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+@mixin gradient($color: #F5F5F5, $start: #EEE, $stop: #FFF) {
+  background: $color;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, $start), color-stop(1, $stop));
+  background: -ms-linear-gradient(bottom, $start, $stop);
+  background: -moz-linear-gradient(center bottom, $start 0%, $stop 100%);
+  background: -o-linear-gradient($stop, $start);
+}
+
+
 // === Fonts =======================================================================================
+/* Webfont: Open Sans Regular */
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../../fonts/OpenSans-Regular-webfont.eot');
+    src: url('../../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../../fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../../fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+// === Variables ===================================================================================
+$white: #ffffff;
+$black: #000000;
+$red: #ff0000;
+$body-bg-color: #444444;
+
+$open-sans-reg: 'open_sansregular', Verdana, Arial, sans;
+
+
 // === Base theme ==================================================================================
+
+// === Tag styles ===
+a {
+  border: none;
+  color: $white;
+  outline: none;
+  text-decoration: none;
+}
+audio { /* Because custom controls are used for the music and the audio element has a default height and width, audio's dimensions have to be set to 0 or it causes a layout bug on the iPad */
+  width: 0;
+  height: 0;
+}
+body {
+  background-color: $body-bg-color;
+  color: $white;
+  font-family: $open-sans-reg;
+  font-size: 100%;
+}
+
 // === Shared styles ===============================================================================
+
+// === Class styles ===
+.borderTL {
+  border-top: 1px solid $white;
+  border-left: 1px solid $white;
+}
+.borderTLBlk {
+  border-top: 1px solid $black;
+  border-left: 1px solid $black;
+}
+.borderTopBlk {
+  border-top: 1px solid $black;
+}
+.clickable {
+  cursor: pointer; /* Some elements turn the cursor pointer on and off in the JS, hence the need for this class */
+}
+.displayNone {
+  display: none
+}
+.draggable {
+  cursor: move;
+}
+
 // === Tour application ============================================================================
 
-body {
-  background-color:#444;
-  color:white; /* All text in the tour is white unless otherwise specified */
-  font-family:'open_sansregular', Verdana, Arial, sans;
-  font-size:100%;
-}
-#test {
-	font-size: 20px;
+// === ID styles ===
+#jsWarning {
+  background-color: $red;
+  font-size: 1.25em;
+  font-weight: bold;
+  line-height: 1.5em;
+  text-align: center;
 }
 
 
