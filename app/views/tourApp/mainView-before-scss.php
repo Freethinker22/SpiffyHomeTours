@@ -42,7 +42,7 @@ This is a special view that doesn't use the framework's regular header or footer
 			</section>
 			
 			<section id="tabMenu">
-				<ul>
+				<ul class="pt85em">
 					<li id="photoGal" class="tabBorder dropShadowSm">Photo Gallery</li>
 					<li id="propInfo" class="dropShadowSm">Property Information</li>
 					<li id="propMap" class="dropShadowSm">Property Map</li>
@@ -53,38 +53,38 @@ This is a special view that doesn't use the framework's regular header or footer
 			
 			<section id="slideMenu"></section>
 							
-			<section id="slideScrollbar">
+			<section id="slideScrollbar" class="scrollTrack">
 				<div id="slideScrollHandle" class="scrollHandle">
 					<img class="fluid" src="public/img/tourApp/scrollbarHandle.png" alt="Scrollbar handle" />
 				</div>
 			</section>
 			
 			<section id="prevBtn">
-				<img class="fluid" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
+				<img class="fluid opacity80" src="public/img/tourApp/slideMenuPrevBtn.png" alt="Previous" />
 			</section>
 			
 			<section id="nextBtn">
-				<img class="fluid" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
+				<img class="fluid opacity80" src="public/img/tourApp/slideMenuNextBtn.png" alt="Next" />
 			</section>
 			
-			<section id="imgDisplay">
-				<div id="tourImgMask" class="tourBg displayNone"></div>
-				<div id="infoBox" class="bg85Pct displayNone"><p class="hidden"></p></div>
-				<div id="alertMsg" class="bg85Pct displayNone"><p></p></div>
+			<section id="imgDisplay" class="borderTL">
+				<div id="tourImgMask" class="tourBg opacity0 displayNone"></div>
+				<div id="infoBox" class="bg85Pct displayNone"><p class="pt85em hidden"></p></div>
+				<div id="alertMsg" class="bg85Pct borderTL displayNone"><p class="pt85em"></p></div>
 			</section>
 			
-			<section id="imgName" class="imgNamePos bg60Pct">
+			<section id="imgName" class="imgNamePos bg60Pct borderTL">
 				<p id="imgNameText">Image Label</p>
 			</section>
 			
 			<section id="btnBar" class="bg60Pct">
-				<div id="musicBtns">
+				<div id="musicBtns" class="pt85em">
 					<p>Music:</p>
 					<p id="musicPlayBtn">Play</p>
 					<p>/</p>
 					<p id="musicPauseBtn">Pause</p>
 				</div>
-				<div id="tourBtns">
+				<div id="tourBtns" class="pt85em">
 					<p>Slideshow:</p>
 					<p id="tourPlayBtn">Play</p>
 					<p>/</p>
@@ -92,15 +92,12 @@ This is a special view that doesn't use the framework's regular header or footer
 				</div>
 			</section>
 			
-			<section id="addressBox"></section>
+			<section id="addressBox" class="dropShadow borderTL"></section>
 			
-			<section id="contactBox"></section>
+			<section id="contactBox" class="dropShadow borderTL"></section>
 			
-			<section id="shtLogo">
-				<a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank">
-					<p>Powered By:</p>
-					<img class="fluid" src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" />
-				</a>
+			<section id="shtLogo" class="opacity66">
+				<a href="https://spiffyhometours.com" title="Spiffy Home Tours" target="_blank"><p class="pt85em">Powered By:</p><img class="fluid" src="public/img/tourApp/logo.png" alt="Spiffy Home Tours" /></a>
 			</section>
 		</section> <!-- End tourWrapper section -->
 		
@@ -111,7 +108,7 @@ This is a special view that doesn't use the framework's regular header or footer
 		<!-- *** Scrollbar *** -->
 		<script id="scrollbarTemp" type="text/template">
 			<section id="scrollbar">
-				<div id="scrollTrack"></div>
+				<div id="scrollTrack" class="scrollTrack"></div>
 				<div id="scrollUpArrow" class="scrollArrows">
 					<img class="fluid" src="public/img/tourApp/scrollbarUpArrow.png" alt="Up arrow" />
 				</div>

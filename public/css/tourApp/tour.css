@@ -329,12 +329,12 @@ Base structure: 16:10 aspect ratio for the tour wrapper
   top:3.5625em;
   width:9.375em;
 }
-#propInfoDownArrow {
+/*#propInfoDownArrow {
   top:27.25em;
 }
 #propInfoUpArrow {
   top:3.5em;
-}
+}*/
 #scrollbar {
   float:left;
 }
