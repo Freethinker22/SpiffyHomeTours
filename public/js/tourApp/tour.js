@@ -2075,7 +2075,18 @@ $(function()
 			{
 				var evt;
 				var content = this.content; // Var to cut down on this.content
+				var parent = this;
+				var moveAmt = 0,
+					contentYPos = 0;
+
+
+
+					// *** need to remember where the content has been moved to
+					// *** content resets on new touch scroll
+					// *** use dragging from img display to help
 				
+
+
 				content.css({ 'top':0 }); // Changes the top value from 'auto' to a numeric value, otherwise Nan is returned in touchmove handler
 
 				content.on('touchstart', function(e)
@@ -2083,16 +2094,16 @@ $(function()
 					e.preventDefault();
 					evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 					
-					var scrollAmt = this.contentHeight - this.contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
+					var scrollAmt = parent.contentHeight - parent.contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
 					var touchPoint = evt.pageY; // Initial point of contact
-					var moveAmt, contentYPos = 0;
-	 	
+					
+	 				
 					content.on('touchmove', function(e)
 					{
 						e.preventDefault();
 						evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-						moveAmt = evt.pageY - touchPoint; // moveAmt is the distance to move the content based on where the initial contact point was
-						contentYPos = parseInt(content.css('top')) + moveAmt; // contentYPos is the current y position of the content
+						moveAmt = evt.pageY - touchPoint; // MoveAmt is the distance to move the content based on where the initial contact point was
+						contentYPos = parseInt(content.css('top')) + moveAmt; // ContentYPos is the current y position of the content
 
 						if(contentYPos <= 0 && contentYPos > - (scrollAmt * 2)) // *** scrollAmt * 2 is needed only for the iPad? ***
 						{
@@ -2275,5 +2286,5 @@ $(function()
 	});
 });
 
-// debug touch scrollbar
+// debug touch scrollbar 2083
 // Detect if device is a phone and build out a phone version of the tour
