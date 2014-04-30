@@ -1460,7 +1460,7 @@ $(function()
 			{
 				var parent = this;
 
-				this.inputsArr = $('.tabCalc input');
+				this.inputsArr = $('#tabCalc input');
 				this.inputsArrLen = this.inputsArr.length;
 				this.inputsArr[0].focus();
 

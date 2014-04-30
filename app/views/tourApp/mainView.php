@@ -33,7 +33,7 @@ This is a special view that doesn't use the framework's regular header or footer
 				<p id="jsWarning">It seems you have JavaScript disabled.  Please enable JavaScript for this page to function properly.</p>
 		</noscript>
 				
-		<section id="tourWrapper" class="tourBg dropShadow">
+		<section id="tourWrapper" class="tourBg">
 			<!-- <section id="loading" class="displayNone"> -->
 			<section id="loading">
 				<img src="public/img/tourApp/tourLoading.gif" alt="Loading..." />
@@ -43,11 +43,11 @@ This is a special view that doesn't use the framework's regular header or footer
 			
 			<section id="tabMenu">
 				<ul>
-					<li id="photoGal" class="tabBorder dropShadowSm">Photo Gallery</li>
-					<li id="propInfo" class="dropShadowSm">Property Information</li>
-					<li id="propMap" class="dropShadowSm">Property Map</li>
-					<li id="agentInfo" class="dropShadowSm">Agent Information</li>
-					<li id="calc" class="dropShadowSm">Mortgage Calculator</li>
+					<li id="photoGal" class="tabBorder">Photo Gallery</li>
+					<li id="propInfo">Property Information</li>
+					<li id="propMap">Property Map</li>
+					<li id="agentInfo">Agent Information</li>
+					<li id="calc">Mortgage Calculator</li>
 				</ul>
 			</section>
 			
@@ -115,7 +115,7 @@ This is a special view that doesn't use the framework's regular header or footer
 				<div id="scrollUpArrow" class="scrollArrows">
 					<img class="fluid" src="public/img/tourApp/scrollbarUpArrow.png" alt="Up arrow" />
 				</div>
-				<div id="scrollDownArrow"class="scrollArrows">
+				<div id="scrollDownArrow" class="scrollArrows">
 					<img class="fluid" src="public/img/tourApp/scrollbarDownArrow.png" alt="Down arrow" />
 				</div>
 				<div id="scrollHandle"class="scrollHandle">
@@ -207,7 +207,7 @@ This is a special view that doesn't use the framework's regular header or footer
 				<h1 class="tabHeader">
 					Mortgage Calculator
 				</h1>
-				<ul class="tabCalc">
+				<ul id="tabCalc">
 					<li class="tabBotBorder">
 						<label for="price">Purchase Price</label>
 						<input id="price" class="tabCalcRightCol" type="text" />
@@ -248,18 +248,18 @@ This is a special view that doesn't use the framework's regular header or footer
 					<li class="tabBotBorder">
 						<p>Loan Amount</p>
 						<span id="loanAmt" class="tabCalcRightCol">$0.00</span>
-						<div id="calculateBtn" class="tabCalcRightCol tabCalcBtn dropShadowSm">Calculate</div>
+						<div id="calculateBtn" class="tabCalcRightCol tabCalcBtn">Calculate</div>
 					</li>
 					<li class="tabBotBorder">
 						<p>Loan Payment</p>
 						<span id="loanPmt" class="tabCalcRightCol">$0.00</span>
-						<div id="amortizeBtn" class="tabCalcRightCol tabCalcBtn dropShadowSm">Amortize</div>
+						<div id="amortizeBtn" class="tabCalcRightCol tabCalcBtn">Amortize</div>
 					</li>
 
 					<li class="tabBotBorder">
 						<p>Mortgage Payment</p>
 						<span id="mortgagePmt" class="tabCalcRightCol">$0.00</span>
-						<div id="clearBtn" class="tabCalcRightCol tabCalcBtn dropShadowSm">Clear</div>
+						<div id="clearBtn" class="tabCalcRightCol tabCalcBtn">Clear</div>
 					</li>
 				</ul>
 			</section>
