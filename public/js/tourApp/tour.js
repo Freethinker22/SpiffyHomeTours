@@ -1722,7 +1722,7 @@ $(function()
 			},
 			// Use vars passed in from Calculator to create an amortization chart
 			// *** Revise later: Sometimes the last one or two rows have some calculation issues
-			// *** Probably a more preformant way to generate the html than using jQuery?
+			// *** Probably a more preformant way to generate the html than using jQuery... createElement()?
 			setUpChart:function() 
 			{
 				var loanPmt = Calc.numFormat(this.loanPayment, 2);// Formatted version of the loanPayment
@@ -2069,55 +2069,54 @@ $(function()
 				else { hitLimit === 'top' ? this.content.css({ 'top':0 }) : this.content.css({ 'top':-(this.scrollAmt) }); }
 			},
 			// If the device has a touch screen, use touch scrolling instead of a scrollbar
-			// *** Revise later: A second touchmove after content is scrolled once returns the content to the top position, this is due to the recalculation of moveAmt
-			// *** Revise later: Touch scrolling is kinda buggy on smart phones and Nook tablet. Content scrolls too far down, but only sometimes, and is not very responsive
 			touchScroll:function() 
 			{
 				var evt;
-				var content = this.content; // Var to cut down on this.content
 				var parent = this;
-				var moveAmt = 0,
-					contentYPos = 0;
+				var content = this.content; // Var to cut down on this.content
+				var topLimit = this.contentParentHeight - this.contentHeight;
+				var	botLimit = 0,
+					currY = 0, // Current top position of the content
+					newY = 0, // New top position of the content
+					downY = 0, // Current Y position of the touch on touch start
+					moveY = 0 // Distance moved up or down
 
-
-
-					// *** need to remember where the content has been moved to
-					// *** content resets on new touch scroll
-					// *** use dragging from img display to help
-				
-
-
-				content.css({ 'top':0 }); // Changes the top value from 'auto' to a numeric value, otherwise Nan is returned in touchmove handler
+				content.css({ 'top':0 }); // Changes the top value from 'auto' to a numeric value, otherwise Nan is returned when setting currY
 
 				content.on('touchstart', function(e)
 				{
+					evt = e;
 					e.preventDefault();
 					evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-					
-					var scrollAmt = parent.contentHeight - parent.contentParentHeight + (parseInt(content.css('paddingTop')) * 2); // Amount of pixels to scroll
-					var touchPoint = evt.pageY; // Initial point of contact
-					
+					currY = parseFloat(content.css('top'));
+					downY = evt.pageY;					
 	 				
 					content.on('touchmove', function(e)
 					{
+						evt = e;
 						e.preventDefault();
 						evt = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-						moveAmt = evt.pageY - touchPoint; // MoveAmt is the distance to move the content based on where the initial contact point was
-						contentYPos = parseInt(content.css('top')) + moveAmt; // ContentYPos is the current y position of the content
+						moveY = evt.pageY - downY;
+						newY = currY + moveY; // Add the distance moved to the content's position
 
-						if(contentYPos <= 0 && contentYPos > - (scrollAmt * 2)) // *** scrollAmt * 2 is needed only for the iPad? ***
-						{
-							content.css({ 'top':moveAmt });
-						}
+						parent.checkLimits(content, newY, topLimit, botLimit);
 					});
 				});
 				content.on('touchend', function()
 				{
 					content.off('touchmove');
 				});
-			}            
+			},
+			// Check to make sure the new Y value doesn't move the content too far and set the new top position of the content
+			checkLimits:function(content, newY, topLimit, botLimit)
+			{
+				if(newY < topLimit) { newY = topLimit; }
+				if(newY > botLimit) { newY = botLimit; }
+
+				content.css({ 'top':newY });
+			}
 		}
-				
+		
 
 		// =============================================================================================
 		// Builds a new Slide obj, instantiated in SlideMenu.createSlides()
@@ -2286,5 +2285,4 @@ $(function()
 	});
 });
 
-// debug touch scrollbar 2083
 // Detect if device is a phone and build out a phone version of the tour
