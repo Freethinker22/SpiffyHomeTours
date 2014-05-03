@@ -129,7 +129,7 @@ This is a special view that doesn't use the framework's regular header or footer
 			<section class="tabContentBox">
 				<div id="leftCol" class="tabLeftCol">
 					<h1 class="tabHeaderAlt">About</h1>
-					<article class="borderTLBlk">
+					<article>
 						<p id="aboutText">
 						<%- prop.data.about %>
 						</p>
@@ -138,15 +138,15 @@ This is a special view that doesn't use the framework's regular header or footer
 		    
 				<div class="tabRightCol">
 					<h1 class="tabHeaderAlt">Details</h1>
-					<ul class="borderTopBlk">
+					<ul>
 						<% _.each(prop.data.inputs, function(input) { %>
-							<li class="tabBotBorder tabInfoLines">
+							<li>
 								<%= input %>
 								<% /* Any JSON data that is a string of HTML needs to use <%= instead of <%- because the second one escapes HTML special chars and will mess up any HTML with double quotes in the data */ %>
 							</li>
 						<% }); %>
 					</ul>
-					<div class="borderTLBlk">
+					<div>
 						<% /* Test to make sure the two info links are in the data */ %>
 						<% if(prop.data.neighborhoodInfoUrl) { %>
 						<p>
@@ -192,7 +192,7 @@ This is a special view that doesn't use the framework's regular header or footer
 				<div class="tabInfo">
 					<ul>
 						<% _.each(agent.data.inputs, function(input) { %>
-							<li class="tabBotBorder tabInfoLines">
+							<li>
 								<%= input %>
 							</li>
 						<% }); %>
@@ -208,55 +208,55 @@ This is a special view that doesn't use the framework's regular header or footer
 					Mortgage Calculator
 				</h1>
 				<ul id="tabCalc">
-					<li class="tabBotBorder">
+					<li>
 						<label for="price">Purchase Price</label>
 						<input id="price" class="tabCalcRightCol" type="text" />
 					</li>
 					
-					<li class="tabBotBorder">
+					<li>
 						<label for="downPmt">Down Payment</label>
 						<input id="downPmt" class="tabCalcRightCol" type="text" />
 					</li>
 					
-					<li class="tabBotBorder">
+					<li>
 						<label for="interestRate">Interest Rate</label>
 						<input id="interestRate" class="short tabCalcRightCol" type="text" />
 						<span class="tabCalcRightCol">%</span>
 					</li>
 
-					<li class="tabBotBorder">
+					<li>
 						<label for="loanTerm">Loan Term</label>
 						<input id="loanTerm" class="short tabCalcRightCol" type="text" />
 						<span class="tabCalcRightCol">Years</span>
 					</li>
 					
-					<li class="tabBotBorder">
+					<li>
 						<label for="propTax">Property Taxes (1Yr)</label>
 						<input id="propTax" class="tabCalcRightCol" type="text" />
 					</li>
 					
-					<li class="tabBotBorder">
+					<li>
 						<label for="propInsur">Property Insurance (1Yr)</label>
 						<input id="propInsur" class="tabCalcRightCol" type="text" />
 					</li>
 
-					<li class="tabBotBorder">
+					<li>
 						<label for="pmi">PMI (1Yr)</label>
 						<input id="pmi" class="tabCalcRightCol" type="text" />
 					</li>
 					
-					<li class="tabBotBorder">
+					<li>
 						<p>Loan Amount</p>
 						<span id="loanAmt" class="tabCalcRightCol">$0.00</span>
 						<div id="calculateBtn" class="tabCalcRightCol tabCalcBtn">Calculate</div>
 					</li>
-					<li class="tabBotBorder">
+					<li>
 						<p>Loan Payment</p>
 						<span id="loanPmt" class="tabCalcRightCol">$0.00</span>
 						<div id="amortizeBtn" class="tabCalcRightCol tabCalcBtn">Amortize</div>
 					</li>
 
-					<li class="tabBotBorder">
+					<li>
 						<p>Mortgage Payment</p>
 						<span id="mortgagePmt" class="tabCalcRightCol">$0.00</span>
 						<div id="clearBtn" class="tabCalcRightCol tabCalcBtn">Clear</div>

@@ -9,6 +9,7 @@
 // Base theme
 // Shared styles
 // Tour application
+// Media queries
 // =================================================================================================
 
 // === Imports =====================================================================================
@@ -273,6 +274,25 @@ body {
   text-align: center;
 }
 
+#loading {
+  div~div {
+    right: 0; // Move the second mask div to the right side
+  }
+  img {
+    left: 50%;
+    margin: -0.4375em 0 0 -4em;
+    position: absolute;
+    top: 50%;
+    z-index: 301;
+  }
+  .loadingMask {
+    height: 46.875em; // Same as tourWrapper height
+    position: absolute;
+    width: 37.75em; // 1/2 of tourWrapper width plus a 1/4 em to prevent any gap from appearing
+    z-index: 300; // Has to be on top of all other elements
+  }
+}
+
 #nextBtn {
   cursor: pointer;
   left: 63em;
@@ -364,19 +384,41 @@ body {
   @include box-shadow(5px, 5px, 3px, $drop-shadow);
 }
 
-  
-
 
 // === Class styles ===
+.horiIaPic {
+  height: auto;
+  width: 53.125em; // This needs to match the width of the imgDisplay
+  vertical-align: middle;
+}
+
+.horiImg {
+  height: 34.375em; // This needs to match the height of the imgDisplay
+  width: auto;
+}
+
+.horiSlide {
+  height: auto;
+  vertical-align: middle;
+  width: 9.125em;
+}
+
 .iaBtns {
   cursor: pointer;
   position: absolute;
 }
+
 .infoText {
   line-height: 1.25em; // this goes in the tab section
 }
+
 .loadingMask {
   background-color: black;
+}
+
+.loadingSlide {
+  text-align: center;
+  vertical-align: middle;
 }
 
 .scrollHandle {
@@ -385,6 +427,32 @@ body {
   margin-left: -0.5625em; // Equals half the width of the handle, centers the handle on the scrollbar track
   position: absolute;
   width: 1.125em;
+}
+
+.slide {
+  background-color: #333;
+  border: 0.125em solid $white;
+  height: 6em;
+  line-height: 5.75em; // Slide height minus the borders
+  position: absolute;
+  text-align: center;
+  width: 9.375em;
+}
+
+.stdIaPic {
+  height: auto;
+  width: 53.125em; // This needs to match the width of the imgDisplay
+  vertical-align: bottom;
+}
+
+.stdImg {
+  height: auto;
+  width: 63.75em; // This needs to be 20% larger than the imgDisplay width so the img has room to tween
+}
+
+.stdSlide { // Height and width of the slide imgs equals the h&w of the slide minus the slide's borders
+  height: 5.75em;
+  width: 9.125em;
 }
 
 // All tab menu pages are children of this class
@@ -451,6 +519,7 @@ body {
     margin: 0 auto;
     width: 46.125em;
     li {
+      border-bottom: 1px solid $black;
       line-height: 2.25em;
       input { // Note: Have to use px for the input elements because of some inherit font-size issue?
         display: inline;
@@ -486,9 +555,6 @@ body {
       @include box-shadow(3px, 3px, 2px, $drop-shadow);
     }
   }
-  .tabBotBorder {
-    border-bottom:1px solid black;
-  }
   .tabImgs {
     float: left;
     margin-top: 1.25em;
@@ -502,13 +568,16 @@ body {
     float: left;
     margin-top: 1.25em;
     width: 30em;
-  }
-  .tabInfoLines {
-    line-height: 1.75em;
-    word-wrap: break-word;
+    ul {
+      li {
+        border-bottom: 1px solid $black;
+        line-height: 1.75em;
+        word-wrap: break-word;
+      }
+    }
   }
   .tabHeader {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid $black;
     font-size: 1.75em;
     line-height: 1.5em; // em cascade
   }
@@ -521,6 +590,8 @@ body {
     margin-right: 2em;
     width: 24em;
     article {
+      border-left: 1px solid $black;
+      border-top: 1px solid $black;
       height: 25.75em;
       overflow: hidden;
       width: 24em;
@@ -537,11 +608,58 @@ body {
     float: left;
     width: 22em;
     div {
+      border-left: 1px solid $black;
+      border-top: 1px solid $black;
       margin-top: 1.75em;
       padding: 0.5em 0 0 0.5em;
       p {
         line-height: 1.75em;
       }
+    }
+    ul {
+       border-top: 1px solid $black;
+       li {
+        border-bottom: 1px solid $black;
+        line-height: 1.75em;
+        word-wrap: break-word;
+       }
+    }
+  }
+}
+
+.vertIaPic {
+  height: 34.375em; // This needs to match the height of the imgDisplay
+  width: auto;
+  vertical-align: bottom;
+}
+
+.vertImg {
+  height: auto;
+  width: 53.125em; // This needs to match the width of the imgDisplay
+}
+
+.vertSlide {
+  height: 5.75em;
+  width: auto;
+}
+
+
+// === Media queries ===============================================================================
+// Note: Height queries are used to keep the tour from needing to be scrolled vertically
+// Note: Some elements at certain break points need minor positioning tweaks to align correctly
+@media 
+only screen and (min-width:1151px) and (max-width:1220px),
+only screen and (min-height:725px) and (max-height:770px) {
+  body {
+    font-size: 15.1px; // 15.1 is used because using 15 even causes an img artifact in Chrome on the bottom of the imgDisplay?
+  }
+  #tabCalc li input {
+    font-size: 15px;
+    height: 24px;
+    margin-top: 5px;
+    width: 135px;
+    &.short {
+      width: 65px;
     }
   }
 }

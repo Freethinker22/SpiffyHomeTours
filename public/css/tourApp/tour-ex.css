@@ -1,4 +1,4 @@
-/* line 20, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 21, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img,
 ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
 thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, hr {
@@ -8,15 +8,15 @@ thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, f
   padding: 0;
   vertical-align: baseline; }
 
-/* line 29, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 30, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 article, aside, details, figcaption, figure, footer, header, menu, nav, section {
   display: block; }
 
-/* line 32, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 33, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 ol, ul {
   list-style: none; }
 
-/* line 35, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 36, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .clearfix:after {
   clear: both;
   content: ".";
@@ -25,11 +25,11 @@ ol, ul {
   height: 0;
   visibility: hidden; }
 
-/* line 43, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 44, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .clearfix {
   zoom: 1; }
 
-/* line 46, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 47, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -41,50 +41,50 @@ ol, ul {
   src: url("../../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("../../fonts/OpenSans-Regular-webfont.woff") format("woff"), url("../../fonts/OpenSans-Regular-webfont.ttf") format("truetype"), url("../../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
   font-weight: normal;
   font-style: normal; }
-/* line 105, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 106, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 a {
   border: none;
   color: white;
   outline: none;
   text-decoration: none; }
 
-/* line 111, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 112, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 audio {
   width: 0;
   height: 0; }
 
-/* line 115, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 116, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 body {
   background-color: #444444;
   color: white;
   font-family: "open_sansregular", Verdana, Arial, sans;
   font-size: 100%; }
 
-/* line 125, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 126, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .clickable {
   cursor: pointer; }
 
-/* line 128, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 129, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .displayNone {
   display: none; }
 
-/* line 131, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 132, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .draggable {
   cursor: move; }
 
-/* line 134, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 135, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .fluid {
   max-width: 100%; }
 
-/* line 137, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 138, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .hidden {
   visibility: hidden; }
 
-/* line 140, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 141, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .underline {
   text-decoration: underline; }
 
-/* line 147, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 148, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #addressBox {
   background: url("../../img/tourApp/addressBoxBg.png");
   border-left: 1px solid white;
@@ -99,7 +99,7 @@ body {
   -moz-box-shadow: 5px 5px 3px #111111;
   box-shadow: 5px 5px 3px #111111; }
 
-/* line 160, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 161, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #btnBar {
   height: 1.625em;
   left: 3.1875em;
@@ -108,20 +108,20 @@ body {
   top: 36.75em;
   width: 53.0625em;
   z-index: 2; }
-  /* line 168, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 169, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #btnBar div {
     font-size: 0.85em; }
-  /* line 171, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 172, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #btnBar div, #btnBar p {
     display: inline; }
-  /* line 174, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 175, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #btnBar div p:first-child {
     margin-left: 0.625em; }
-  /* line 177, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 178, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #btnBar #musicPauseBtn, #btnBar #musicPlayBtn, #btnBar #tourPauseBtn, #btnBar #tourPlayBtn {
     cursor: pointer; }
 
-/* line 182, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 183, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #contactBox {
   background: url("../../img/tourApp/contactBoxBg.png");
   border-left: 1px solid white;
@@ -136,13 +136,13 @@ body {
   -webkit-box-shadow: 5px 5px 3px #111111;
   -moz-box-shadow: 5px 5px 3px #111111;
   box-shadow: 5px 5px 3px #111111; }
-  /* line 194, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 195, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #contactBox img {
     float: left;
     height: 5.75em;
     margin: -0.1875em 0 0 0.25em; }
 
-/* line 201, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 202, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #imgDisplay {
   border-left: 1px solid white;
   border-top: 1px solid white;
@@ -152,10 +152,10 @@ body {
   position: absolute;
   top: 4em;
   width: 53.125em; }
-  /* line 210, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 211, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #imgDisplay > div {
     position: absolute; }
-  /* line 213, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 214, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #imgDisplay #alertMsg {
     border-left: 1px solid white;
     border-top: 1px solid white;
@@ -166,17 +166,17 @@ body {
     top: 50%;
     width: 12.5em;
     z-index: 2; }
-    /* line 223, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 224, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     #imgDisplay #alertMsg p {
       font-size: 0.85em; }
-  /* line 227, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 228, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #imgDisplay #tourImgMask {
     height: 34.375em;
     width: 53.125em;
     z-index: 2;
     filter: alpha(opacity=0);
     opacity: 0; }
-    /* line 232, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 233, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     #imgDisplay #tourImgMask .iaPicWrapper {
       cursor: pointer;
       height: 34.375em;
@@ -184,33 +184,33 @@ body {
       text-align: center;
       width: 53.125em; }
 
-/* line 242, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 243, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #imgName {
   border-left: 1px solid white;
   border-top: 1px solid white;
   height: 1.625em;
   position: absolute;
   line-height: 1.625em; }
-  /* line 248, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 249, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #imgName p {
     padding: 0 0.3125em; }
-  /* line 251, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 252, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #imgName .imgNamePos {
     right: 19.625em;
     top: 5.0625em; }
 
-/* line 257, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 258, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #infoBox {
   cursor: pointer;
   height: 0;
   padding: 0.5em;
   width: 15.625em;
   z-index: 2; }
-  /* line 263, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 264, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #infoBox p {
     font-size: 0.85em; }
 
-/* line 268, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 269, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #jsWarning {
   background-color: red;
   font-size: 1.25em;
@@ -218,37 +218,54 @@ body {
   line-height: 1.5em;
   text-align: center; }
 
-/* line 276, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 278, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+#loading div ~ div {
+  right: 0; }
+/* line 281, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+#loading img {
+  left: 50%;
+  margin: -0.4375em 0 0 -4em;
+  position: absolute;
+  top: 50%;
+  z-index: 301; }
+/* line 288, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+#loading .loadingMask {
+  height: 46.875em;
+  position: absolute;
+  width: 37.75em;
+  z-index: 300; }
+
+/* line 296, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #nextBtn {
   cursor: pointer;
   left: 63em;
   position: absolute;
   top: 36.75em;
   width: 9.375em; }
-  /* line 282, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 302, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #nextBtn img {
     filter: alpha(opacity=80);
     opacity: 0.8; }
 
-/* line 287, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 307, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #prevBtn {
   cursor: pointer;
   left: 63em;
   position: absolute;
   top: 3.5625em;
   width: 9.375em; }
-  /* line 293, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 313, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #prevBtn img {
     filter: alpha(opacity=80);
     opacity: 0.8; }
 
-/* line 298, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 318, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #scrollTrack {
   background-color: black;
   position: absolute;
   width: 1px; }
 
-/* line 304, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 324, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #shtLogo {
   left: 64em;
   position: absolute;
@@ -256,12 +273,12 @@ body {
   width: 7.8125em;
   filter: alpha(opacity=66);
   opacity: 0.66; }
-  /* line 310, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 330, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #shtLogo p {
     font-size: 0.85em;
     margin-bottom: 0.25em; }
 
-/* line 316, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 336, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #slideMenu {
   height: 31.25em;
   left: 60.5em;
@@ -270,7 +287,7 @@ body {
   top: 5.5em;
   width: 14.375em; }
 
-/* line 325, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 345, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #slideScrollbar {
   background-color: black;
   height: 34.375em;
@@ -279,16 +296,16 @@ body {
   top: 4em;
   width: 1px; }
 
-/* line 334, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 354, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #tabMenu {
   left: 3.125em;
   position: absolute;
   top: 2em;
   z-index: 2; }
-  /* line 339, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 359, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   #tabMenu ul {
     font-size: 0.85em; }
-    /* line 341, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 361, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     #tabMenu ul li {
       cursor: pointer;
       display: inline;
@@ -297,13 +314,13 @@ body {
       -webkit-box-shadow: 3px 3px 2px #111111;
       -moz-box-shadow: 3px 3px 2px #111111;
       box-shadow: 3px 3px 2px #111111; }
-    /* line 348, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 368, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     #tabMenu ul .tabBorder {
       border-top: 1px solid white;
       border-left: 1px solid white;
       margin: -1px; }
 
-/* line 356, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 376, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 #tourWrapper {
   height: 46.875em;
   left: 50%;
@@ -316,20 +333,42 @@ body {
   -moz-box-shadow: 5px 5px 3px #111111;
   box-shadow: 5px 5px 3px #111111; }
 
-/* line 371, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 389, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.horiIaPic {
+  height: auto;
+  width: 53.125em;
+  vertical-align: middle; }
+
+/* line 395, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.horiImg {
+  height: 34.375em;
+  width: auto; }
+
+/* line 400, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.horiSlide {
+  height: auto;
+  vertical-align: middle;
+  width: 9.125em; }
+
+/* line 406, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .iaBtns {
   cursor: pointer;
   position: absolute; }
 
-/* line 375, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 411, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .infoText {
   line-height: 1.25em; }
 
-/* line 378, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 415, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .loadingMask {
   background-color: black; }
 
-/* line 382, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 419, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.loadingSlide {
+  text-align: center;
+  vertical-align: middle; }
+
+/* line 424, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .scrollHandle {
   cursor: pointer;
   height: 1.125em;
@@ -337,7 +376,33 @@ body {
   position: absolute;
   width: 1.125em; }
 
-/* line 391, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+/* line 432, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.slide {
+  background-color: #333;
+  border: 0.125em solid white;
+  height: 6em;
+  line-height: 5.75em;
+  position: absolute;
+  text-align: center;
+  width: 9.375em; }
+
+/* line 442, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.stdIaPic {
+  height: auto;
+  width: 53.125em;
+  vertical-align: bottom; }
+
+/* line 448, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.stdImg {
+  height: auto;
+  width: 63.75em; }
+
+/* line 453, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.stdSlide {
+  height: 5.75em;
+  width: 9.125em; }
+
+/* line 459, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
 .tabContentBox {
   height: 29.375em;
   left: 50%;
@@ -346,25 +411,25 @@ body {
   position: absolute;
   top: 50%;
   width: 48.125em; }
-  /* line 399, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 467, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox #agentLogo {
     display: inline-block;
     width: 12.625em; }
-  /* line 403, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 471, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox #agentPic {
     display: inline-block;
     width: 9.375em; }
-  /* line 407, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 475, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox #amorLabels {
     padding: 0.3125em 0.625em; }
-    /* line 409, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 477, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox #amorLabels li {
       display: inline-block;
       font-size: 0.875em;
       padding: 0 1em;
       text-align: center;
       width: 7.8125em; }
-  /* line 417, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 485, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox #amorWrapper {
     border-bottom: 1px solid black;
     border-top: 1px solid black;
@@ -372,60 +437,61 @@ body {
     overflow: hidden;
     padding: 0 2.5em 0 0.625em;
     width: 100%; }
-    /* line 424, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 492, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox #amorWrapper #amorChart {
       position: relative; }
-      /* line 426, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 494, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox #amorWrapper #amorChart .amorRow {
         padding: 1px 0; }
-        /* line 428, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+        /* line 496, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
         .tabContentBox #amorWrapper #amorChart .amorRow .amorColumn {
           display: inline-block;
           font-size: 0.875em;
           text-align: center;
           width: 7.8125em; }
-    /* line 436, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 504, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox #amorWrapper #scrollbar {
       float: left;
       left: 100%;
       position: relative;
       z-index: 2; }
-      /* line 441, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 509, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox #amorWrapper #scrollbar .scrollArrows {
         cursor: pointer;
         height: 1.25em;
         margin-left: -0.6875em;
         position: absolute;
         width: 1.375em; }
-  /* line 450, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 518, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox #tabCalc {
     margin: 0 auto;
     width: 46.125em; }
-    /* line 453, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 521, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox #tabCalc li {
+      border-bottom: 1px solid black;
       line-height: 2.25em; }
-      /* line 455, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 524, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox #tabCalc li input {
         display: inline;
         font-size: 16px;
         height: 26px;
         margin-top: 5px;
         width: 150px; }
-        /* line 461, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+        /* line 530, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
         .tabContentBox #tabCalc li input.short {
           width: 70px; }
-      /* line 465, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 534, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox #tabCalc li input + span {
         left: 23.5em; }
-      /* line 468, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 537, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox #tabCalc li label, .tabContentBox #tabCalc li p {
         display: inline;
         margin-left: 0.5em; }
-    /* line 473, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 542, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox #tabCalc .tabCalcRightCol {
       left: 18.75em;
       position: absolute; }
-    /* line 477, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 546, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox #tabCalc .tabCalcBtn {
       cursor: pointer;
       display: inline;
@@ -438,61 +504,102 @@ body {
       -webkit-box-shadow: 3px 3px 2px #111111;
       -moz-box-shadow: 3px 3px 2px #111111;
       box-shadow: 3px 3px 2px #111111; }
-  /* line 489, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
-  .tabContentBox .tabBotBorder {
-    border-bottom: 1px solid black; }
-  /* line 492, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 558, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox .tabImgs {
     float: left;
     margin-top: 1.25em;
     text-align: center;
     width: 17em; }
-    /* line 497, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 563, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox .tabImgs img {
       margin-bottom: 0.5em; }
-  /* line 501, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 567, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox .tabInfo {
     float: left;
     margin-top: 1.25em;
     width: 30em; }
-  /* line 506, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
-  .tabContentBox .tabInfoLines {
-    line-height: 1.75em;
-    word-wrap: break-word; }
-  /* line 510, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 572, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    .tabContentBox .tabInfo ul li {
+      border-bottom: 1px solid black;
+      line-height: 1.75em;
+      word-wrap: break-word; }
+  /* line 579, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox .tabHeader {
     border-bottom: 1px solid black;
     font-size: 1.75em;
     line-height: 1.5em; }
-  /* line 515, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 584, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox .tabHeaderAlt {
     font-size: 1.75em;
     line-height: 1.5em; }
-  /* line 519, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 588, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox .tabLeftCol {
     float: left;
     margin-right: 2em;
     width: 24em; }
-    /* line 523, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 592, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox .tabLeftCol article {
+      border-left: 1px solid black;
+      border-top: 1px solid black;
       height: 25.75em;
       overflow: hidden;
       width: 24em; }
-      /* line 527, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 598, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox .tabLeftCol article p {
         float: left;
         margin-right: 0.5em;
         padding: 1em 1em 0 1em;
         position: relative;
         width: 21em; }
-  /* line 536, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  /* line 607, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
   .tabContentBox .tabRightCol {
     float: left;
     width: 22em; }
-    /* line 539, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    /* line 610, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
     .tabContentBox .tabRightCol div {
+      border-left: 1px solid black;
+      border-top: 1px solid black;
       margin-top: 1.75em;
       padding: 0.5em 0 0 0.5em; }
-      /* line 542, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      /* line 615, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
       .tabContentBox .tabRightCol div p {
         line-height: 1.75em; }
+    /* line 619, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    .tabContentBox .tabRightCol ul {
+      border-top: 1px solid black; }
+      /* line 621, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+      .tabContentBox .tabRightCol ul li {
+        border-bottom: 1px solid black;
+        line-height: 1.75em;
+        word-wrap: break-word; }
+
+/* line 630, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.vertIaPic {
+  height: 34.375em;
+  width: auto;
+  vertical-align: bottom; }
+
+/* line 636, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.vertImg {
+  height: auto;
+  width: 53.125em; }
+
+/* line 641, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+.vertSlide {
+  height: 5.75em;
+  width: auto; }
+
+@media only screen and (min-width: 1151px) and (max-width: 1220px), only screen and (min-height: 725px) and (max-height: 770px) {
+  /* line 653, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  body {
+    font-size: 15.1px; }
+
+  /* line 656, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+  #tabCalc li input {
+    font-size: 15px;
+    height: 24px;
+    margin-top: 5px;
+    width: 135px; }
+    /* line 661, D:\Apache2\htdocs\spiffyHomeTours\public\css\tourApp\tour-ex.scss */
+    #tabCalc li input.short {
+      width: 65px; } }
