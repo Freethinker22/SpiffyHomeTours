@@ -1300,7 +1300,7 @@ $(function()
 			{
 				var aboutTextHeight = this.aboutText.height(); // How tall the about text paragraph is
 				var aboutTextParentHeight = this.aboutText.parent().height(); // Height of the about text's parent container, equal to the height of the scrollbar if it's needed
-				var scrollbarOffset = $('#leftCol .tabHeaderAlt').height(); // Distance from the top of the left column to the top of the scrollbar
+				var scrollbarOffset = $('#propInfoTab .leftCol .tabHeaderAlt').height(); // Distance from the top of the left column to the top of the scrollbar
 																												
 				if(aboutTextHeight > aboutTextParentHeight) // If the height of the about text paragraph is too tall for its container, add the scrollbar
 				{
@@ -1460,7 +1460,7 @@ $(function()
 			{
 				var parent = this;
 
-				this.inputsArr = $('#tabCalc input');
+				this.inputsArr = $('#calcForm input');
 				this.inputsArrLen = this.inputsArr.length;
 				this.inputsArr[0].focus();
 

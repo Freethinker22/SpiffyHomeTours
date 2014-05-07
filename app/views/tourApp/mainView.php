@@ -118,7 +118,7 @@ This is a special view that doesn't use the framework's regular header or footer
 				<div id="scrollDownArrow" class="scrollArrows">
 					<img class="fluid" src="public/img/tourApp/scrollbarDownArrow.png" alt="Down arrow" />
 				</div>
-				<div id="scrollHandle"class="scrollHandle">
+				<div id="scrollHandle">
 					<img class="fluid" src="public/img/tourApp/scrollbarHandle.png" alt="Scrollbar handle" />
 				</div>
 			</section>
@@ -126,8 +126,8 @@ This is a special view that doesn't use the framework's regular header or footer
 		
 		<!-- *** Property information tab page *** -->
 		<script id="propInfoTemp" type="text/template">
-			<section class="tabContentBox">
-				<div id="leftCol" class="tabLeftCol">
+			<section id="propInfoTab" class="tabContentBox">
+				<div class="leftCol">
 					<h1 class="tabHeaderAlt">About</h1>
 					<article>
 						<p id="aboutText">
@@ -136,7 +136,7 @@ This is a special view that doesn't use the framework's regular header or footer
 					</article>                    
 				</div>
 		    
-				<div class="tabRightCol">
+				<div class="rightCol">
 					<h1 class="tabHeaderAlt">Details</h1>
 					<ul>
 						<% _.each(prop.data.inputs, function(input) { %>
@@ -170,12 +170,12 @@ This is a special view that doesn't use the framework's regular header or footer
 		
 		<!-- *** Agent information tab page *** -->
 		<script id="agentInfoTemp" type="text/template">
-			<section class="tabContentBox">
+			<section id="agentInfoTab" class="tabContentBox">
 				<h1 class="tabHeader">
 					<%- agent.data.name %>
 				</h1>
 				
-				<div class="tabImgs">
+				<div class="leftCol">
 					<% if(agent.data.agentPic) { %>
 						<div id="agentPic">
 							<img class="fluid" src="<%- agent.data.agentPic %>" alt="Agent Pic" />
@@ -189,7 +189,7 @@ This is a special view that doesn't use the framework's regular header or footer
 					<% } %>
 				</div>
 				
-				<div class="tabInfo">
+				<div class="rightCol">
 					<ul>
 						<% _.each(agent.data.inputs, function(input) { %>
 							<li>
@@ -203,63 +203,64 @@ This is a special view that doesn't use the framework's regular header or footer
 		
 		<!-- *** Calculator tab page *** -->
 		<script id="calcTemp" type="text/template">
-			<section class="tabContentBox">
+			<section id="calcTab" class="tabContentBox">
 				<h1 class="tabHeader">
 					Mortgage Calculator
 				</h1>
-				<ul id="tabCalc">
+				<ul id="calcForm">
 					<li>
 						<label for="price">Purchase Price</label>
-						<input id="price" class="tabCalcRightCol" type="text" />
+						<input id="price" class="rightCol" type="text" />
 					</li>
 					
 					<li>
 						<label for="downPmt">Down Payment</label>
-						<input id="downPmt" class="tabCalcRightCol" type="text" />
+						<input id="downPmt" class="rightCol" type="text" />
 					</li>
 					
 					<li>
 						<label for="interestRate">Interest Rate</label>
-						<input id="interestRate" class="short tabCalcRightCol" type="text" />
-						<span class="tabCalcRightCol">%</span>
+						<input id="interestRate" class="short rightCol" type="text" />
+						<span class="rightCol">%</span>
 					</li>
 
 					<li>
 						<label for="loanTerm">Loan Term</label>
-						<input id="loanTerm" class="short tabCalcRightCol" type="text" />
-						<span class="tabCalcRightCol">Years</span>
+						<input id="loanTerm" class="short rightCol" type="text" />
+						<span class="rightCol">Years</span>
 					</li>
 					
 					<li>
 						<label for="propTax">Property Taxes (1Yr)</label>
-						<input id="propTax" class="tabCalcRightCol" type="text" />
+						<input id="propTax" class="rightCol" type="text" />
 					</li>
 					
 					<li>
 						<label for="propInsur">Property Insurance (1Yr)</label>
-						<input id="propInsur" class="tabCalcRightCol" type="text" />
+						<input id="propInsur" class="rightCol" type="text" />
 					</li>
 
 					<li>
 						<label for="pmi">PMI (1Yr)</label>
-						<input id="pmi" class="tabCalcRightCol" type="text" />
+						<input id="pmi" class="rightCol" type="text" />
 					</li>
 					
 					<li>
 						<p>Loan Amount</p>
-						<span id="loanAmt" class="tabCalcRightCol">$0.00</span>
-						<div id="calculateBtn" class="tabCalcRightCol tabCalcBtn">Calculate</div>
+						<span id="loanAmt" class="rightCol">$0.00</span>
+						<div id="calculateBtn" class="rightCol calcBtn">Calculate</div>
 					</li>
+
 					<li>
 						<p>Loan Payment</p>
-						<span id="loanPmt" class="tabCalcRightCol">$0.00</span>
-						<div id="amortizeBtn" class="tabCalcRightCol tabCalcBtn">Amortize</div>
+						<span id="loanPmt" class="rightCol">$0.00</span>
+						<div id="amortizeBtn" class="rightCol calcBtn">Amortize</div>
 					</li>
 
 					<li>
 						<p>Mortgage Payment</p>
-						<span id="mortgagePmt" class="tabCalcRightCol">$0.00</span>
-						<div id="clearBtn" class="tabCalcRightCol tabCalcBtn">Clear</div>
+						<span id="mortgagePmt" class="rightCol">$0.00</span>
+						<div id="clearBtn" class="rightCol calcBtn">Clear</div>
 					</li>
 				</ul>
 			</section>
@@ -267,7 +268,7 @@ This is a special view that doesn't use the framework's regular header or footer
 
 		<!-- *** Amortization chart *** -->
 		<script id="amortizeTemp" type="text/template">
-			<section class="tabContentBox">
+			<section id="amorTab" class="tabContentBox">
 				<h1 class="tabHeader">
 					Amortization Chart
 				</h1>

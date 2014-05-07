@@ -96,6 +96,7 @@ $white: #ffffff;
 $black: #000000;
 $red: #ff0000;
 $body-bg: #444444;
+$slide-bg: #333333;
 $drop-shadow: #111111;
 $open-sans-reg: 'open_sansregular', Verdana, Arial, sans;
 
@@ -158,6 +159,76 @@ body {
   @include box-shadow(5px, 5px, 3px, $drop-shadow);
 }
 
+#agentInfoTab {
+  #agentLogo {
+    display: inline-block;
+    width: 12.625em;
+  }
+  #agentPic {
+    display: inline-block;
+    width: 9.375em;
+  }
+  .leftCol {
+    float: left;
+    margin-top: 1.25em;
+    text-align: center;
+    width: 17em;
+    img {
+      margin-bottom: 0.5em;
+    }
+  }
+  .rightCol {
+    float: left;
+    margin-top: 1.25em;
+    width: 30em;
+    ul {
+      li {
+        border-bottom: 1px solid $black;
+        line-height: 1.75em;
+        word-wrap: break-word;
+      }
+    }
+  }
+}
+
+#amorTab {
+  #amorLabels {
+    padding: 0.3125em 0.625em;
+    li {
+      display: inline-block;
+      font-size: 0.875em;
+      padding: 0 1em;
+      text-align: center;
+      width: 7.8125em;
+    }
+  }
+  #amorWrapper {
+    border-bottom: 1px solid $black;
+    border-top: 1px solid $black;
+    height: 23.5em;
+    overflow: hidden;
+    padding: 0 2.5em 0 0.625em;
+    width: 100%;
+    #amorChart {
+      position: relative;
+      .amorRow {
+        padding: 1px 0;
+        .amorColumn {
+          display: inline-block;
+          font-size: 0.875em;
+          text-align: center;
+          width: 7.8125em;
+        }
+      }
+    }
+    #scrollbar {
+      float: none; // Note: Augments default #scrollbar rule
+      left: 100%;
+      position: relative;
+    }
+  }
+}
+
 #btnBar {
   height: 1.625em;
   left: 3.1875em;
@@ -179,6 +250,50 @@ body {
     cursor:pointer;
   }
 }
+
+#calcTab {
+  #calcForm {
+    margin: 0 auto;
+    width: 46.125em;
+    li {
+      border-bottom: 1px solid $black;
+      line-height: 2.25em;
+      input { // Note: Have to use px for the input elements because of some inherit font-size issue?
+        display: inline;
+        font-size: 16px;
+        height: 26px;
+        margin-top: 5px;
+        width: 150px;
+        &.short {
+          width: 70px;
+        }
+        +span {
+          left: 23.5em !important;
+        }
+      }
+      label, p {
+        display: inline;
+        margin-left: 0.5em;
+      }
+    }
+    .rightCol {
+      left: 18.75em;
+      position: absolute;
+    }
+    .calcBtn {
+      cursor: pointer;
+      display: inline;
+      height: 1.75em;
+      left: 30em;
+      line-height: 1.75em;
+      margin-top: 0.25em;
+      text-align: center;
+      width: 7.8125em;
+      @include box-shadow(3px, 3px, 2px, $drop-shadow);
+    }
+  }
+}
+
 
 #contactBox {
   background: url("../../img/tourApp/contactBoxBg.png");
@@ -230,7 +345,7 @@ body {
     width: 53.125em; // This needs to match the width of the imgDisplay
     z-index: 2;
     @include opacity(0);
-    .iaPicWrapper {// *********************** used in the JS, does this being nested affect that? ****************************
+    .iaPicWrapper {
       cursor:pointer;
       height:34.375em; // This needs to match the height of the imgDisplay
       line-height:34.375em; // This needs to match the height of the imgDisplay
@@ -315,10 +430,71 @@ body {
   }
 }
 
-#scrollTrack {
-  background-color: $black;
-  position: absolute;
-  width: 1px;
+#propInfoTab {
+  .leftCol {
+    float: left;
+    margin-right: 2em;
+    width: 24em;
+    article {
+      border-left: 1px solid $black;
+      border-top: 1px solid $black;
+      height: 25.75em;
+      overflow: hidden;
+      width: 24em;
+      p { // About text for the property info tab
+        float: left;
+        margin-right: 0.5em;
+        padding: 1em 1em 0 1em;
+        position: relative;
+        width: 21em;
+      }
+    }
+  }
+  .rightCol {
+    float: left;
+    width: 22em;
+    div {
+      border-left: 1px solid $black;
+      border-top: 1px solid $black;
+      margin-top: 1.75em;
+      padding: 0.5em 0 0 0.5em;
+      p {
+        line-height: 1.75em;
+      }
+    }
+    ul {
+       border-top: 1px solid $black;
+       li {
+        border-bottom: 1px solid $black;
+        line-height: 1.75em;
+        word-wrap: break-word;
+       }
+    }
+  }
+}
+
+#scrollbar {
+  float: left;
+  z-index: 2;
+  #scrollHandle {
+    cursor: pointer;
+    height: 1.125em; // Same as the scrollhandle img dimensions
+    margin-left: -0.5625em; // Equals half the width of the handle, centers the handle on the scrollbar track
+    position: absolute;
+    width: 1.125em;
+  }
+  #scrollTrack {
+    background-color: $black;
+    position: absolute;
+    width: 1px;
+  }
+  .scrollArrows {
+    cursor: pointer;
+    height: 1.25em; // Same as the up/down scrollbar arrow img dimensions
+    margin-left: -0.6875em; // Equals half the width of the handle, centers the handle on the scrollbar track
+    position: absolute;
+    width: 1.375em;
+  }
 }
 
 #shtLogo {
@@ -349,6 +525,13 @@ body {
   position: absolute;
   top: 4em;
   width: 1px;
+  .scrollHandle {
+    cursor: pointer;
+    height: 1.125em; // Same as the scrollhandle img dimensions
+    margin-left: -0.5625em; // Equals half the width of the handle, centers the handle on the scrollbar track
+    position: absolute;
+    width: 1.125em;
+  }
 }
 
 #tabMenu {
@@ -366,8 +549,8 @@ body {
       @include box-shadow(3px, 3px, 2px, $drop-shadow);
     }
     .tabBorder {
-      border-top: 1px solid white;
-      border-left: 1px solid white;
+      border-top: 1px solid $white;
+      border-left: 1px solid $white;
       margin: -1px; // Keeps the border from changing the layout when added/removed
     }
   }
@@ -413,7 +596,7 @@ body {
 }
 
 .loadingMask {
-  background-color: black;
+  background-color: $black;
 }
 
 .loadingSlide {
@@ -421,16 +604,8 @@ body {
   vertical-align: middle;
 }
 
-.scrollHandle {
-  cursor: pointer;
-  height: 1.125em; // Same as the scrollhandle img dimensions
-  margin-left: -0.5625em; // Equals half the width of the handle, centers the handle on the scrollbar track
-  position: absolute;
-  width: 1.125em;
-}
-
 .slide {
-  background-color: #333;
+  background-color: $slide-bg;
   border: 0.125em solid $white;
   height: 6em;
   line-height: 5.75em; // Slide height minus the borders
@@ -455,8 +630,7 @@ body {
   width: 9.125em;
 }
 
-// All tab menu pages are children of this class
-.tabContentBox {
+.tabContentBox { // All tab menu pages are children of this class
   height: 29.375em;
   left: 50%;
   margin: -14.6875em 0 0 -24.0625em;
@@ -464,167 +638,17 @@ body {
   position: absolute;
   top: 50%;
   width: 48.125em;
-  #agentLogo {
-    display: inline-block;
-    width: 12.625em;
-  }
-  #agentPic {
-    display: inline-block;
-    width: 9.375em;
-  }
-  #amorLabels {
-    padding: 0.3125em 0.625em;
-    li {
-      display: inline-block;
-      font-size: 0.875em;
-      padding: 0 1em;
-      text-align: center;
-      width: 7.8125em;
-    }
-  }
-  #amorWrapper {
-    border-bottom: 1px solid black;
-    border-top: 1px solid black;
-    height: 23.5em;
-    overflow: hidden;
-    padding: 0 2.5em 0 0.625em;
-    width: 100%;
-    #amorChart {
-      position: relative;
-      .amorRow {
-        padding: 1px 0;
-        .amorColumn {
-          display: inline-block;
-          font-size: 0.875em;
-          text-align: center;
-          width: 7.8125em;
-        }
-      }
-    }
-    #scrollbar {
-      float: left;
-      left: 100%;
-      position: relative;
-      z-index: 2;
-      .scrollArrows {
-        cursor: pointer;
-        height: 1.25em; // Same as the up/down scrollbar arrow img dimensions
-        margin-left: -0.6875em; // Equals half the width of the handle, centers the handle on the scrollbar track
-        position: absolute;
-        width: 1.375em;
-      }
-    }
-  }
-  #tabCalc {
-    margin: 0 auto;
-    width: 46.125em;
-    li {
-      border-bottom: 1px solid $black;
-      line-height: 2.25em;
-      input { // Note: Have to use px for the input elements because of some inherit font-size issue?
-        display: inline;
-        font-size: 16px;
-        height: 26px;
-        margin-top: 5px;
-        width: 150px;
-        &.short {
-          width: 70px;
-        }
-      }
-      input + span {
-        left: 23.5em;
-      }
-      label, p {
-        display: inline;
-        margin-left: 0.5em;
-      }
-    }
-    .tabCalcRightCol {
-      left: 18.75em;
-      position: absolute;
-    }
-    .tabCalcBtn {
-      cursor: pointer;
-      display: inline;
-      height: 1.75em;
-      left: 30em;
-      line-height: 1.75em;
-      margin-top: 0.25em;
-      text-align: center;
-      width: 7.8125em;
-      @include box-shadow(3px, 3px, 2px, $drop-shadow);
-    }
-  }
-  .tabImgs {
-    float: left;
-    margin-top: 1.25em;
-    text-align: center;
-    width: 17em;
-    img {
-      margin-bottom: 0.5em;
-    }
-  }
-  .tabInfo {
-    float: left;
-    margin-top: 1.25em;
-    width: 30em;
-    ul {
-      li {
-        border-bottom: 1px solid $black;
-        line-height: 1.75em;
-        word-wrap: break-word;
-      }
-    }
-  }
-  .tabHeader {
-    border-bottom: 1px solid $black;
-    font-size: 1.75em;
-    line-height: 1.5em; // em cascade
-  }
-  .tabHeaderAlt {
-    font-size: 1.75em;
-    line-height: 1.5em; // em cascade
-  }
-  .tabLeftCol {
-    float: left;
-    margin-right: 2em;
-    width: 24em;
-    article {
-      border-left: 1px solid $black;
-      border-top: 1px solid $black;
-      height: 25.75em;
-      overflow: hidden;
-      width: 24em;
-      p { // About text for the property info tab
-        float: left;
-        margin-right: 0.5em;
-        padding: 1em 1em 0 1em;
-        position: relative;
-        width: 21em;
-      }
-    }
-  }
-  .tabRightCol {
-    float: left;
-    width: 22em;
-    div {
-      border-left: 1px solid $black;
-      border-top: 1px solid $black;
-      margin-top: 1.75em;
-      padding: 0.5em 0 0 0.5em;
-      p {
-        line-height: 1.75em;
-      }
-    }
-    ul {
-       border-top: 1px solid $black;
-       li {
-        border-bottom: 1px solid $black;
-        line-height: 1.75em;
-        word-wrap: break-word;
-       }
-    }
-  }
+}
+
+.tabHeader {
+  border-bottom: 1px solid $black;
+  font-size: 1.75em;
+  line-height: 1.5em; // em cascade
+}
+
+.tabHeaderAlt {
+  font-size: 1.75em;
+  line-height: 1.5em; // em cascade
 }
 
 .vertIaPic {
@@ -653,7 +677,7 @@ only screen and (min-height:725px) and (max-height:770px) {
   body {
     font-size: 15.1px; // 15.1 is used because using 15 even causes an img artifact in Chrome on the bottom of the imgDisplay?
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 15px;
     height: 24px;
     margin-top: 5px;
@@ -670,7 +694,7 @@ only screen and (min-height:675px) and (max-height:724px) {
   body {
     font-size: 14px;
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 14px;
     height: 23px;
     margin-top: 4px;
@@ -687,7 +711,7 @@ only screen and (min-height:635px) and (max-height:674px) {
   body {
     font-size: 13.1px; // 13.1 is used because using 13 even causes an img artifact in Chrome on the bottom of the imgDisplay?
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 13px;
     height: 21px;
     margin-top: 4px;
@@ -709,7 +733,7 @@ only screen and (min-height:580px) and (max-height:634px) {
     left: 3.25em;
     top: 36.8125em;
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 12px;
     height: 20px;
     margin-top: 3px;
@@ -726,7 +750,7 @@ only screen and (min-height:535px) and (max-height:579px) {
   body {
     font-size:11px;
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 11px;
     height: 18px;
     margin-top: 3px;
@@ -749,7 +773,7 @@ only screen and (min-height:490px) and (max-height:534px) {
   #btnBar {
     top: 36.8125em;
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 10px;
     height: 16px;
     margin-top: 3px;
@@ -769,7 +793,7 @@ only screen and (min-height:445px) and (max-height:489px) {
   body {
     font-size: 9px;
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 9px;
     height: 15px;
     margin-top: 2px;
@@ -789,7 +813,7 @@ only screen and (max-height:444px){
   body {
     font-size: 8px;
   }
-  #tabCalc li input {
+  #calcTab li input {
     font-size: 8px;
     height: 13px;
     margin-top: 2px;
@@ -803,6 +827,5 @@ only screen and (max-height:444px){
   }
 }
 
-// *** prop info scroll bar is missing #scrollbar rules
-// *** issue with short text inputs on calc, percent sign and "years" are not moved to the right of the input field
 // *** tabs are moving when tabBorder is applied?
+// *** IE support import, add ltie9 class?
