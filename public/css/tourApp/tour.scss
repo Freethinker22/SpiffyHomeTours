@@ -1,7 +1,6 @@
 // ======================== Main stylesheet for the virtual tour application =======================
 
 // === Table of contents ===========================================================================
-// Imports
 // Reset
 // Mixins
 // Variables
@@ -11,10 +10,6 @@
 // Tour application
 // Media queries
 // =================================================================================================
-
-// === Imports =====================================================================================
-
-// **** add IE 8? use lt-ie8 class on html element in php file ****
 
 
 // === Reset =======================================================================================
@@ -281,6 +276,8 @@ body {
       position: absolute;
     }
     .calcBtn {
+      border-left: 1px solid $white;
+      border-top: 1px solid $white;
       cursor: pointer;
       display: inline;
       height: 1.75em;
@@ -549,9 +546,9 @@ body {
       @include box-shadow(3px, 3px, 2px, $drop-shadow);
     }
     .tabBorder {
-      border-top: 1px solid $white;
       border-left: 1px solid $white;
-      margin: -1px; // Keeps the border from changing the layout when added/removed
+      border-top: 1px solid $white;
+      margin-left: -1px; // Keeps the border from changing the layout when added/removed
     }
   }
 }
@@ -826,6 +823,3 @@ only screen and (max-height:444px){
     width: 20px;
   }
 }
-
-// *** tabs are moving when tabBorder is applied?
-// *** IE support import, add ltie9 class?

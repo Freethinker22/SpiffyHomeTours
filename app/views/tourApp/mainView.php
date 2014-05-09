@@ -14,10 +14,10 @@ This is a special view that doesn't use the framework's regular header or footer
 		<meta name="description" content="Spiffy Home Tours provides interactive virtual tours to real estate agents to better market their properties.  With a simple straight forward tour building process and competitive prices, Spify Home Tours saves time and money!" />
 		<meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
 		<link rel="icon" href="public/img/favicon.ico" />
-		<link rel="stylesheet" href="public/css/tourApp/tour.css" media="screen" />
+		<link rel="stylesheet" href="public/css/tourApp/tour.css" media="screen" /> <!-- *** use .min version in production *** -->
 		<title>Spiffy Home Tours</title>
 		<!--[if lt IE 9]>
-			<link rel="stylesheet" href="public/css/tourApp/ieAddendum.css" media="screen" />
+			<link rel="stylesheet" href="public/css/tourApp/ieAddendum.min.css" media="screen" />
 			<script src="public/js/html5shim.js"></script>
 			<script src="public/js/css3-mediaqueries.js"></script>
 		<![endif]-->
@@ -30,7 +30,7 @@ This is a special view that doesn't use the framework's regular header or footer
 	</head>
 	<body>
 		<noscript>
-				<p id="jsWarning">It seems you have JavaScript disabled.  Please enable JavaScript for this page to function properly.</p>
+			<p id="jsWarning">It seems you have JavaScript disabled. Please enable JavaScript for this page to function properly.</p>
 		</noscript>
 				
 		<section id="tourWrapper" class="tourBg">
@@ -340,12 +340,13 @@ This is a special view that doesn't use the framework's regular header or footer
 		JavaScript
 		============================================================================================ -->
 		<script>var tourDirectory = '<?php echo rawurlencode($tourDirectory); ?>';</script>
-		<script src="public/js/jsLibraries/fullSize/jQuery-1.10.2.js"></script>
+		<!--[if IE 8]> <script src="public/js/jsLibraries/fullSize/jQuery-1.11.1.js"></script> <![endif]-->
+		<!--[if gt IE 8]><!--> <script src="public/js/jsLibraries/fullSize/jQuery-2.1.1.js"></script> <!--<![endif]-->
 		<script src="public/js/jsLibraries/fullSize/underscore-1.5.2.js"></script>
 		<script src="public/js/jsLibraries/fullSize/TweenMax-1.11.2.js"></script>
 		<script src="public/js/vendor/mousewheel.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkz_Wk9GyccNY42pGI3VH1kIIgcABz7uA&sensor=false"></script>
-		<script src="public/js/tourApp/tour.js"></script> <!-- *** Merge minified versions of the JS libraries into one file after dev is complete *** -->
+		<script src="public/js/tourApp/tour.js"></script> <!-- *** Create .mix file to concatenate js files for production *** -->
 	</body>
 </html>
 
@@ -356,4 +357,3 @@ This is a special view that doesn't use the framework's regular header or footer
 <!-- *** text input box length limits. agent email: Max 40 chars for the property info tab page details, including label *** limit of 11 total inputs ***
 <!-- *** size limits for agent pic and logo agent pic: height:250, width:150  logo: height:150, width:250 maybe do some kind of size check on the server side? *** -->
 <!-- *** HTML hyperlinks put into the tab pages from the JSON file will need to be created using PHP *** -->
-<!-- *** use conditional type loading for jquery 1 and 2 *** -->
