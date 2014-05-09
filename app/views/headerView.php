@@ -7,7 +7,7 @@
     <meta name="keywords" content="Virtual Tours, Home Tours, Real Estate, Interactive Tours, Real Estate Virtual Tour, Realtor, Internet Marketing, Online Marketing, Online Real Estate Marketing, Homes For Sale, Slideshow" />
     <link rel="icon" href="public/img/favicon.ico" />
     <title><?php echo $this->controller->title; ?></title>
-    <script src="public/js/jsLibraries/jQuery-1.10.2.min.js"></script> <!-- *** put scripts in footer and version number other scripts *** -->
+    <script src="public/js/jsLibraries/jQuery-1.11.1.min.js"></script> <!-- *** put scripts in footer and version number other scripts *** -->
     <script src="public/js/navMenu.js"></script>
     
     <?php
