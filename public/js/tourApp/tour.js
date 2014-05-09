@@ -2285,4 +2285,4 @@ $(function()
 	});
 });
 
-// Detect if device is a phone and build out a phone version of the tour
+// Detect if device is a phone and build out a phone version of the tour, find updated version of detectmobilebrowser.js
